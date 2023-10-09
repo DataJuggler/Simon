@@ -8,12 +8,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageIcon>Lips.png</PackageIcon>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    <ApplicationIcon>Images\Lips.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Data\**" />
     <EmbeddedResource Remove="Data\**" />
     <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Lips.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,8 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="Data\ApplicationLogicComponent\ApplicationLogicComponent.csproj" />
-    <ProjectReference Include="Data\DataGateway\DataGateway.csproj" />
     <ProjectReference Include="Data\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 

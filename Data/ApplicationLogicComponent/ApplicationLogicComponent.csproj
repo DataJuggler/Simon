@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessComponent\DataAccessComponent.csproj" />
     <ProjectReference Include="..\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 

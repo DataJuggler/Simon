@@ -2,7 +2,6 @@
 
 #region using statements
 
-using DataGateway;
 using DataJuggler.UltimateHelper;
 using DataJuggler.UltimateHelper.Objects;
 using Microsoft.CognitiveServices.Speech;
@@ -65,7 +64,7 @@ namespace Simon
                 List<VoiceInfo> voices = result.Voices.Where(x => x.Locale.StartsWith("en")).ToList();
 
                 // Create a new instance of a 'Gateway' object.
-                Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
+                // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
 
                 // Iterate the collection of VoiceInfo objects
                 foreach (VoiceInfo voiceInfo in voices)
@@ -79,12 +78,12 @@ namespace Simon
                     voice.Country = GetCountry(voiceInfo.Locale);
 
                     // Save this voice
-                    bool saved = gateway.SaveVoice(ref voice);
+                    // bool saved = gateway.SaveVoice(ref voice);
 
-                    if (!saved)
-                    {
-                        Exception error = gateway.GetLastException();
-                    }
+                    // if (!saved)
+                    // {
+                    // Exception error = gateway.GetLastException();
+                    // }
                 }
 
                 // Set the text
@@ -99,6 +98,13 @@ namespace Simon
         /// </summary>
         private async void SpeakButton_Click(object sender, EventArgs e)
         {
+            // Set Focus to the HiddenButton
+            HiddenButton.Focus();
+
+            // Make sure the UI updates with the SpeakButton lost focus
+            Refresh();
+            Application.DoEvents();
+
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 

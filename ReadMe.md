@@ -1,4 +1,6 @@
-﻿Simon is a WinForms (desktop) application to create audio files using
+﻿<img src =https://github.com/DataJuggler/SharedRepo/blob/master/Shared/Images/Lips.png" width=256 height=256>
+
+Simon is a WinForms (desktop) application to create audio files using
 Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million 
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.

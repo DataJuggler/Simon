@@ -61,6 +61,7 @@ namespace Simon
             WriteVoicesButton = new DataJuggler.Win.Controls.Button();
             OutputFileControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
             OutputFolderControl = new DataJuggler.Win.Controls.LabelTextBoxBrowserControl();
+            HiddenButton = new DataJuggler.Win.Controls.Button();
             SuspendLayout();
             // 
             // TextToSpeakTextBox
@@ -165,7 +166,7 @@ namespace Simon
             WriteVoicesButton.ButtonText = "Write Voices";
             WriteVoicesButton.FlatStyle = FlatStyle.Flat;
             WriteVoicesButton.ForeColor = Color.LemonChiffon;
-            WriteVoicesButton.Location = new Point(274, 551);
+            WriteVoicesButton.Location = new Point(286, 551);
             WriteVoicesButton.Margin = new Padding(5);
             WriteVoicesButton.Name = "WriteVoicesButton";
             WriteVoicesButton.Size = new Size(175, 55);
@@ -239,12 +240,26 @@ namespace Simon
             OutputFolderControl.TextBoxTopMargin = 0;
             OutputFolderControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
+            // HiddenButton
+            // 
+            HiddenButton.BackColor = Color.Transparent;
+            HiddenButton.ButtonText = "Hidden";
+            HiddenButton.FlatStyle = FlatStyle.Flat;
+            HiddenButton.ForeColor = Color.LemonChiffon;
+            HiddenButton.Location = new Point(-2000, 551);
+            HiddenButton.Margin = new Padding(5);
+            HiddenButton.Name = "HiddenButton";
+            HiddenButton.Size = new Size(175, 55);
+            HiddenButton.TabIndex = 8;
+            HiddenButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 657);
+            Controls.Add(HiddenButton);
             Controls.Add(OutputFolderControl);
             Controls.Add(OutputFileControl);
             Controls.Add(WriteVoicesButton);
@@ -258,13 +273,14 @@ namespace Simon
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon";
+            Text = "Simon 1.0.1";
             ResumeLayout(false);
         }
         #endregion
 
         #endregion
 
+        private DataJuggler.Win.Controls.Button HiddenButton;
     }
     #endregion
 

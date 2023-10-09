@@ -8,6 +8,8 @@ English, so this is all I imported. When I first wrote this app, I saved the voi
 SQL Server, however I figured most people are not SQL Server developers, so I switched
 to a text file in the Voices folder called Voices.txt. This file is loaded at startup.
 
+# Installation Instructions
+
 To use this app you will need to follow these setup instructions.
 
 1. If you don't already have one, create a free Microsoft Azure account at
@@ -30,7 +32,28 @@ To use this app you will need to follow these setup instructions.
 8. Create a second Environment Variable in the same System variables.
     Name: SpeechRegion and paste or type in the region you selected in step 5, then Hit 'OK'.
 
-Download and install Simon from 
+Download and install Simon from https://github.com/DataJuggler/Simon
+Scroll down until you see Releases on the right. The latest release will be shown first.
+
+Download SimonSetup.msi, and run it, or save it somewhere on your PC and run it.
+Once installed, you should see an icon on your desktop that looks like a setup of lips.
+
+# Running Simon
+Double click on the icon on your desktop to start Simon.
+
+Once Simon loads, you will need to select a voice. I pre-select Tony, as this voice sounds
+pretty natural to me. In a future version I may save your last voice, but I have not created
+that feature yet.
+
+Enter the text you want to Simon to speak, and select an output folder and output file name.
+When the app loads, I preselect Temp as the Output folder and Audio.wav as the Output File Name.
+
+Click the Speak button, and you should hear the result. You will also be shown a message of the current file name.
+
+If you have any problems, create an issue on GitHub here:
+https://github.com/DataJuggler/Simon/issues
+
+
 
     
  

@@ -52,6 +52,7 @@ namespace Simon
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             TextToSpeakTextBox = new DataJuggler.Win.Controls.LabelTextBoxControl();
             GetVoicesButton = new DataJuggler.Win.Controls.Button();
@@ -62,6 +63,17 @@ namespace Simon
             OutputFileControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
             OutputFolderControl = new DataJuggler.Win.Controls.LabelTextBoxBrowserControl();
             HiddenButton = new DataJuggler.Win.Controls.Button();
+            VoicesTimer = new System.Windows.Forms.Timer(components);
+            TryVoicesButton = new DataJuggler.Win.Controls.Button();
+            AppendVoiceNameCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            FullNameControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
+            GenderComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            CountryComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            FilterPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            FilterCountryComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            FilterGenderComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            FilterLabel = new Label();
+            FilterPanel.SuspendLayout();
             SuspendLayout();
             // 
             // TextToSpeakTextBox
@@ -78,13 +90,13 @@ namespace Simon
             TextToSpeakTextBox.LabelText = "Text To Speak:";
             TextToSpeakTextBox.LabelTopMargin = 0;
             TextToSpeakTextBox.LabelWidth = 160;
-            TextToSpeakTextBox.Location = new Point(31, 86);
+            TextToSpeakTextBox.Location = new Point(31, 185);
             TextToSpeakTextBox.MultiLine = true;
             TextToSpeakTextBox.Name = "TextToSpeakTextBox";
             TextToSpeakTextBox.OnTextChangedListener = null;
             TextToSpeakTextBox.PasswordMode = false;
             TextToSpeakTextBox.ScrollBars = ScrollBars.None;
-            TextToSpeakTextBox.Size = new Size(686, 264);
+            TextToSpeakTextBox.Size = new Size(821, 264);
             TextToSpeakTextBox.TabIndex = 0;
             TextToSpeakTextBox.TextBoxBottomMargin = 0;
             TextToSpeakTextBox.TextBoxDisabledColor = Color.LightGray;
@@ -100,7 +112,7 @@ namespace Simon
             GetVoicesButton.Enabled = false;
             GetVoicesButton.FlatStyle = FlatStyle.Flat;
             GetVoicesButton.ForeColor = Color.LemonChiffon;
-            GetVoicesButton.Location = new Point(31, 551);
+            GetVoicesButton.Location = new Point(-600, 607);
             GetVoicesButton.Margin = new Padding(5);
             GetVoicesButton.Name = "GetVoicesButton";
             GetVoicesButton.Size = new Size(175, 55);
@@ -115,7 +127,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(542, 465);
+            SpeakButton.Location = new Point(542, 601);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(175, 55);
@@ -128,9 +140,9 @@ namespace Simon
             StatusLabel.BackColor = Color.Transparent;
             StatusLabel.Dock = DockStyle.Bottom;
             StatusLabel.ForeColor = Color.LemonChiffon;
-            StatusLabel.Location = new Point(0, 624);
+            StatusLabel.Location = new Point(0, 676);
             StatusLabel.Name = "StatusLabel";
-            StatusLabel.Size = new Size(800, 33);
+            StatusLabel.Size = new Size(893, 33);
             StatusLabel.TabIndex = 3;
             StatusLabel.Text = "Status:";
             // 
@@ -150,11 +162,11 @@ namespace Simon
             VoiceComboBox.LabelTopMargin = 0;
             VoiceComboBox.LabelWidth = 160;
             VoiceComboBox.List = null;
-            VoiceComboBox.Location = new Point(31, 41);
+            VoiceComboBox.Location = new Point(31, 91);
             VoiceComboBox.Name = "VoiceComboBox";
             VoiceComboBox.SelectedIndex = -1;
             VoiceComboBox.SelectedIndexListener = null;
-            VoiceComboBox.Size = new Size(686, 28);
+            VoiceComboBox.Size = new Size(483, 28);
             VoiceComboBox.Sorted = true;
             VoiceComboBox.Source = null;
             VoiceComboBox.TabIndex = 4;
@@ -166,7 +178,7 @@ namespace Simon
             WriteVoicesButton.ButtonText = "Write Voices";
             WriteVoicesButton.FlatStyle = FlatStyle.Flat;
             WriteVoicesButton.ForeColor = Color.LemonChiffon;
-            WriteVoicesButton.Location = new Point(286, 551);
+            WriteVoicesButton.Location = new Point(-800, 607);
             WriteVoicesButton.Margin = new Padding(5);
             WriteVoicesButton.Name = "WriteVoicesButton";
             WriteVoicesButton.Size = new Size(175, 55);
@@ -189,13 +201,13 @@ namespace Simon
             OutputFileControl.LabelText = "File Name:";
             OutputFileControl.LabelTopMargin = 0;
             OutputFileControl.LabelWidth = 160;
-            OutputFileControl.Location = new Point(31, 416);
+            OutputFileControl.Location = new Point(31, 519);
             OutputFileControl.MultiLine = false;
             OutputFileControl.Name = "OutputFileControl";
             OutputFileControl.OnTextChangedListener = null;
             OutputFileControl.PasswordMode = false;
             OutputFileControl.ScrollBars = ScrollBars.None;
-            OutputFileControl.Size = new Size(686, 32);
+            OutputFileControl.Size = new Size(821, 32);
             OutputFileControl.TabIndex = 6;
             OutputFileControl.TextBoxBottomMargin = 0;
             OutputFileControl.TextBoxDisabledColor = Color.LightGray;
@@ -224,13 +236,13 @@ namespace Simon
             OutputFolderControl.LabelText = "Output Folder:";
             OutputFolderControl.LabelTopMargin = 0;
             OutputFolderControl.LabelWidth = 160;
-            OutputFolderControl.Location = new Point(31, 367);
+            OutputFolderControl.Location = new Point(31, 468);
             OutputFolderControl.Name = "OutputFolderControl";
             OutputFolderControl.OnTextChangedListener = null;
             OutputFolderControl.OpenCallback = null;
             OutputFolderControl.ScrollBars = ScrollBars.None;
             OutputFolderControl.SelectedPath = null;
-            OutputFolderControl.Size = new Size(686, 32);
+            OutputFolderControl.Size = new Size(821, 32);
             OutputFolderControl.StartPath = null;
             OutputFolderControl.TabIndex = 7;
             OutputFolderControl.TextBoxBottomMargin = 0;
@@ -253,12 +265,212 @@ namespace Simon
             HiddenButton.TabIndex = 8;
             HiddenButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
+            // VoicesTimer
+            // 
+            VoicesTimer.Interval = 10000;
+            VoicesTimer.Tick += VoicesTimer_Tick;
+            // 
+            // TryVoicesButton
+            // 
+            TryVoicesButton.BackColor = Color.Transparent;
+            TryVoicesButton.ButtonText = "Try Voices";
+            TryVoicesButton.FlatStyle = FlatStyle.Flat;
+            TryVoicesButton.ForeColor = Color.LemonChiffon;
+            TryVoicesButton.Location = new Point(190, 602);
+            TryVoicesButton.Margin = new Padding(5);
+            TryVoicesButton.Name = "TryVoicesButton";
+            TryVoicesButton.Size = new Size(175, 55);
+            TryVoicesButton.TabIndex = 9;
+            TryVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            TryVoicesButton.Click += TryVoicesButton_Click;
+            // 
+            // AppendVoiceNameCheckBox
+            // 
+            AppendVoiceNameCheckBox.BackColor = Color.Transparent;
+            AppendVoiceNameCheckBox.CheckBoxHorizontalOffSet = 0;
+            AppendVoiceNameCheckBox.CheckBoxVerticalOffSet = 3;
+            AppendVoiceNameCheckBox.CheckChangedListener = null;
+            AppendVoiceNameCheckBox.Checked = false;
+            AppendVoiceNameCheckBox.Editable = true;
+            AppendVoiceNameCheckBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            AppendVoiceNameCheckBox.LabelColor = Color.LemonChiffon;
+            AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            AppendVoiceNameCheckBox.LabelText = "Append Voice Name:";
+            AppendVoiceNameCheckBox.LabelWidth = 196;
+            AppendVoiceNameCheckBox.Location = new Point(642, 555);
+            AppendVoiceNameCheckBox.Name = "AppendVoiceNameCheckBox";
+            AppendVoiceNameCheckBox.Size = new Size(220, 28);
+            AppendVoiceNameCheckBox.TabIndex = 10;
+            AppendVoiceNameCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // FullNameControl
+            // 
+            FullNameControl.BackColor = Color.Transparent;
+            FullNameControl.BottomMargin = 0;
+            FullNameControl.Editable = true;
+            FullNameControl.Encrypted = false;
+            FullNameControl.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FullNameControl.Inititialized = true;
+            FullNameControl.LabelBottomMargin = 0;
+            FullNameControl.LabelColor = Color.LemonChiffon;
+            FullNameControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FullNameControl.LabelText = "Full Name:";
+            FullNameControl.LabelTopMargin = 0;
+            FullNameControl.LabelWidth = 160;
+            FullNameControl.Location = new Point(31, 135);
+            FullNameControl.MultiLine = false;
+            FullNameControl.Name = "FullNameControl";
+            FullNameControl.OnTextChangedListener = null;
+            FullNameControl.PasswordMode = false;
+            FullNameControl.ScrollBars = ScrollBars.None;
+            FullNameControl.Size = new Size(483, 32);
+            FullNameControl.TabIndex = 11;
+            FullNameControl.TextBoxBottomMargin = 0;
+            FullNameControl.TextBoxDisabledColor = Color.LightGray;
+            FullNameControl.TextBoxEditableColor = Color.White;
+            FullNameControl.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            FullNameControl.TextBoxTopMargin = 0;
+            FullNameControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // GenderComboBox
+            // 
+            GenderComboBox.BackColor = Color.Transparent;
+            GenderComboBox.ComboBoxLeftMargin = 1;
+            GenderComboBox.ComboBoxText = "";
+            GenderComboBox.ComoboBoxFont = null;
+            GenderComboBox.Editable = true;
+            GenderComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            GenderComboBox.HideLabel = false;
+            GenderComboBox.LabelBottomMargin = 0;
+            GenderComboBox.LabelColor = Color.LemonChiffon;
+            GenderComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            GenderComboBox.LabelText = "Gender:";
+            GenderComboBox.LabelTopMargin = 0;
+            GenderComboBox.LabelWidth = 100;
+            GenderComboBox.List = null;
+            GenderComboBox.Location = new Point(539, 91);
+            GenderComboBox.Name = "GenderComboBox";
+            GenderComboBox.SelectedIndex = -1;
+            GenderComboBox.SelectedIndexListener = null;
+            GenderComboBox.Size = new Size(313, 28);
+            GenderComboBox.Sorted = true;
+            GenderComboBox.Source = null;
+            GenderComboBox.TabIndex = 12;
+            GenderComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // CountryComboBox
+            // 
+            CountryComboBox.BackColor = Color.Transparent;
+            CountryComboBox.ComboBoxLeftMargin = 1;
+            CountryComboBox.ComboBoxText = "";
+            CountryComboBox.ComoboBoxFont = null;
+            CountryComboBox.Editable = true;
+            CountryComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            CountryComboBox.HideLabel = false;
+            CountryComboBox.LabelBottomMargin = 0;
+            CountryComboBox.LabelColor = Color.LemonChiffon;
+            CountryComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            CountryComboBox.LabelText = "Country:";
+            CountryComboBox.LabelTopMargin = 0;
+            CountryComboBox.LabelWidth = 100;
+            CountryComboBox.List = null;
+            CountryComboBox.Location = new Point(539, 138);
+            CountryComboBox.Name = "CountryComboBox";
+            CountryComboBox.SelectedIndex = -1;
+            CountryComboBox.SelectedIndexListener = null;
+            CountryComboBox.Size = new Size(313, 28);
+            CountryComboBox.Sorted = true;
+            CountryComboBox.Source = null;
+            CountryComboBox.TabIndex = 13;
+            CountryComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // FilterPanel
+            // 
+            FilterPanel.BackColor = Color.Transparent;
+            FilterPanel.BackgroundImage = Properties.Resources.Gray_40;
+            FilterPanel.BackgroundImageLayout = ImageLayout.Stretch;
+            FilterPanel.Controls.Add(FilterCountryComboBox);
+            FilterPanel.Controls.Add(FilterGenderComboBox);
+            FilterPanel.Controls.Add(FilterLabel);
+            FilterPanel.Dock = DockStyle.Top;
+            FilterPanel.Location = new Point(0, 0);
+            FilterPanel.Name = "FilterPanel";
+            FilterPanel.Size = new Size(893, 61);
+            FilterPanel.TabIndex = 14;
+            // 
+            // FilterCountryComboBox
+            // 
+            FilterCountryComboBox.BackColor = Color.Transparent;
+            FilterCountryComboBox.ComboBoxLeftMargin = 1;
+            FilterCountryComboBox.ComboBoxText = "";
+            FilterCountryComboBox.ComoboBoxFont = null;
+            FilterCountryComboBox.Editable = true;
+            FilterCountryComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterCountryComboBox.HideLabel = false;
+            FilterCountryComboBox.LabelBottomMargin = 0;
+            FilterCountryComboBox.LabelColor = Color.LemonChiffon;
+            FilterCountryComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FilterCountryComboBox.LabelText = "Country:";
+            FilterCountryComboBox.LabelTopMargin = 0;
+            FilterCountryComboBox.LabelWidth = 100;
+            FilterCountryComboBox.List = null;
+            FilterCountryComboBox.Location = new Point(539, 17);
+            FilterCountryComboBox.Name = "FilterCountryComboBox";
+            FilterCountryComboBox.SelectedIndex = -1;
+            FilterCountryComboBox.SelectedIndexListener = null;
+            FilterCountryComboBox.Size = new Size(313, 28);
+            FilterCountryComboBox.Sorted = true;
+            FilterCountryComboBox.Source = null;
+            FilterCountryComboBox.TabIndex = 14;
+            FilterCountryComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // FilterGenderComboBox
+            // 
+            FilterGenderComboBox.BackColor = Color.Transparent;
+            FilterGenderComboBox.ComboBoxLeftMargin = 1;
+            FilterGenderComboBox.ComboBoxText = "";
+            FilterGenderComboBox.ComoboBoxFont = null;
+            FilterGenderComboBox.Editable = true;
+            FilterGenderComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterGenderComboBox.HideLabel = false;
+            FilterGenderComboBox.LabelBottomMargin = 0;
+            FilterGenderComboBox.LabelColor = Color.LemonChiffon;
+            FilterGenderComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FilterGenderComboBox.LabelText = "Gender:";
+            FilterGenderComboBox.LabelTopMargin = 0;
+            FilterGenderComboBox.LabelWidth = 100;
+            FilterGenderComboBox.List = null;
+            FilterGenderComboBox.Location = new Point(89, 17);
+            FilterGenderComboBox.Name = "FilterGenderComboBox";
+            FilterGenderComboBox.SelectedIndex = -1;
+            FilterGenderComboBox.SelectedIndexListener = null;
+            FilterGenderComboBox.Size = new Size(276, 28);
+            FilterGenderComboBox.Sorted = true;
+            FilterGenderComboBox.Source = null;
+            FilterGenderComboBox.TabIndex = 13;
+            FilterGenderComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // FilterLabel
+            // 
+            FilterLabel.ForeColor = Color.LemonChiffon;
+            FilterLabel.Location = new Point(12, 8);
+            FilterLabel.Name = "FilterLabel";
+            FilterLabel.Size = new Size(56, 30);
+            FilterLabel.TabIndex = 0;
+            FilterLabel.Text = "Filter";
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 657);
+            ClientSize = new Size(893, 709);
+            Controls.Add(FilterPanel);
+            Controls.Add(CountryComboBox);
+            Controls.Add(GenderComboBox);
+            Controls.Add(FullNameControl);
+            Controls.Add(AppendVoiceNameCheckBox);
+            Controls.Add(TryVoicesButton);
             Controls.Add(HiddenButton);
             Controls.Add(OutputFolderControl);
             Controls.Add(OutputFileControl);
@@ -273,7 +485,8 @@ namespace Simon
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.0.1";
+            Text = "Simon 1.0.2";
+            FilterPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
         #endregion
@@ -281,6 +494,16 @@ namespace Simon
         #endregion
 
         private DataJuggler.Win.Controls.Button HiddenButton;
+        private System.Windows.Forms.Timer VoicesTimer;
+        private DataJuggler.Win.Controls.Button TryVoicesButton;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl AppendVoiceNameCheckBox;
+        private DataJuggler.Win.Controls.LabelTextBoxControl FullNameControl;
+        private DataJuggler.Win.Controls.LabelComboBoxControl GenderComboBox;
+        private DataJuggler.Win.Controls.LabelComboBoxControl CountryComboBox;
+        private DataJuggler.Win.Controls.Objects.PanelExtender FilterPanel;
+        private DataJuggler.Win.Controls.LabelComboBoxControl FilterCountryComboBox;
+        private DataJuggler.Win.Controls.LabelComboBoxControl FilterGenderComboBox;
+        private Label FilterLabel;
     }
     #endregion
 

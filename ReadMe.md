@@ -45,7 +45,7 @@ Double click on the icon on your desktop to start Simon.
 
 Once Simon loads, you will need to select a voice. I pre-select Tony, as this voice sounds
 pretty natural to me. In a future version I may save your last voice, but I have not created
-that feature yet.
+this feature yet.
 
 Enter the text you want to Simon to speak, and select an output folder and output file name.
 When the app loads, I preselect Temp as the Output folder and Audio.wav as the Output File Name.
@@ -54,6 +54,16 @@ Click the Speak button, and you should hear the result. You will also be shown a
 
 If you have any problems, create an issue on GitHub here:
 https://github.com/DataJuggler/Simon/issues
+
+# Update 10.10.2023
+I added 4 new features
+
+1. You can now filter the voices by Gender and / or Country.
+2. There is a new button called Try Voices, and all the voices will speak the text prompt based on the current filter.
+3. I added a feature where you can add [VoiceName] to the Text to Speak, and [VoiceName] will be replaced
+    with the name of the character speaking it.
+4. I added a checkbox for Append Voice Name, and the file will be saved with the voice name.
+    Example: File Name: 'Audio.wav', will be saved as 'Audio_Roger.wav', if Roger is the current speaker.
 
 
 

@@ -45,7 +45,8 @@ namespace ObjectLibrary.BusinessObjects
             /// </summary>
             public override string ToString()
             {
-                return FullName;
+                // Display the Name and Country
+                return Name + " - " + Country;
             }
             #endregion
             

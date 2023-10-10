@@ -7,12 +7,15 @@ using DataJuggler.UltimateHelper.Objects;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using ObjectLibrary.BusinessObjects;
+using ObjectLibrary.Enumerations;
+using DataJuggler.Win.Controls.Interfaces;
 using NAudio;
 using NAudio.Wave;
 using Simon.Util;
 using System.Collections;
 using System.Text;
 using System.Media;
+using DataJuggler.Win.Controls;
 
 #endregion
 
@@ -23,11 +26,13 @@ namespace Simon
     /// <summary>
     /// This class is the main form of this app.
     /// </summary>
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ISelectedIndexListener
     {
 
         #region Private Variables
         private List<Voice> voices;
+        private Voice selectedVoice;
+        private int index;
         #endregion
 
         #region Constructor
@@ -92,6 +97,52 @@ namespace Simon
         }
         #endregion
 
+        #region OnSelectedIndexChanged(LabelComboBoxControl control, int selectedIndex, object selectedItem)
+        /// <summary>
+        /// event is fired when a selection is made in the 'On'.
+        /// </summary>
+        public void OnSelectedIndexChanged(LabelComboBoxControl control, int selectedIndex, object selectedItem)
+        {
+            // if a Voice was selected
+            if (control.Name == "VoiceComboBox")
+            {
+                // Get the VoiceName
+                string comboBoxText = VoiceComboBox.ComboBoxText;
+                string voiceName = VoiceComboBox.ComboBoxText.Substring(0, VoiceComboBox.ComboBoxText.IndexOf(" - ")).Trim();
+
+                // Set the SelectedVoice
+                SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName);
+
+                // if the value for HasSelectedVoice is true
+                if (HasSelectedVoice)
+                {
+                    // Display the Selected Voice's Gender
+                    if (SelectedVoice.Gender == GenderEnum.Female)
+                    {
+                        // Select Female
+                        GenderComboBox.SelectedIndex = 1;
+                    }
+                    else if (SelectedVoice.Gender == GenderEnum.Male)
+                    {
+                        // Select Male
+                        GenderComboBox.SelectedIndex = 2;
+                    }
+
+                    // Display the Selected Voice's Country
+                    CountryComboBox.SelectedIndex = CountryComboBox.FindItemIndexByValue(SelectedVoice.Country);
+
+                    // Display the Full Name
+                    FullNameControl.Text = SelectedVoice.FullName;
+                }
+            }
+            else
+            {
+                // Filter by Gender and Country
+                FilterLists();
+            }
+        }
+        #endregion
+
         #region SpeakButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'SpeakButton' is clicked.
@@ -109,8 +160,14 @@ namespace Simon
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
             // get the text of the selected voice
-            string voice = VoiceComboBox.ComboBoxText;
+            string voice = FullNameControl.Text;
             string textToSpeak = TextToSpeakTextBox.Text;
+
+            if (HasSelectedVoice)
+            {
+                // replace out the VoiceName
+                textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
+            }
 
             var config = SpeechConfig.FromSubscription(key, region);
             config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
@@ -135,6 +192,15 @@ namespace Simon
 
                         // set the fileName and fileName2
                         string fileName = Path.Combine(OutputFolderControl.Text, OutputFileControl.Text);
+
+                        // if checked and the SelectedVoice exists
+                        if ((AppendVoiceNameCheckBox.Checked) && (HasSelectedVoice))
+                        {
+                            // Set the fileName
+                            fileName = fileName.Replace(".wav", "_" + SelectedVoice.Name + ".wav");
+                        }
+
+                        // Ensure unique in a folder
                         string fileName2 = FileHelper.CreateFileNameWithPartialGuid(fileName, 12);
 
                         // get the byte array
@@ -184,6 +250,48 @@ namespace Simon
 
                 // show the status
                 StatusLabel.Text = "You must select a voice and enter the Text to Speak";
+            }
+        }
+        #endregion
+
+        #region TryVoicesButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when the 'TryVoicesButton' is clicked.
+        /// </summary>
+        private void TryVoicesButton_Click(object sender, EventArgs e)
+        {
+            // Set Focus off this button
+            HiddenButton.Focus();
+
+            // reset
+            Index = -1;
+
+            // Start the timer
+            VoicesTimer.Start();
+        }
+        #endregion
+
+        #region VoicesTimer_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when Voices Timer _ Tick
+        /// </summary>
+        private void VoicesTimer_Tick(object sender, EventArgs e)
+        {
+            // Increment the value for Index
+            Index++;
+
+            if (Index >= VoiceComboBox.Items.Count)
+            {
+                // Stop the timer
+                VoicesTimer.Stop();
+            }
+            else
+            {
+                // Set the Index
+                VoiceComboBox.SelectedIndex = Index;
+
+                // Test this out
+                SpeakButton_Click(this, new EventArgs());
             }
         }
         #endregion
@@ -247,6 +355,86 @@ namespace Simon
         #endregion
 
         #region Methods
+
+        #region EraseSelections()
+        /// <summary>
+        /// Erase Selections
+        /// </summary>
+        public void EraseSelections()
+        {
+            try
+            {
+                CountryComboBox.SelectedIndex = -1;
+                GenderComboBox.SelectedIndex = -1;
+                VoiceComboBox.SelectedIndexListener = null;
+                FullNameControl.Text = "";
+                SelectedVoice = null;
+                VoiceComboBox.SelectedIndex = -1;
+                VoiceComboBox.SelectedIndexListener = this;
+            }
+            catch (Exception error)
+            {
+                // for debugging only
+                DebugHelper.WriteDebugError("EraseSelections", "MainForm", error);
+            }
+        }
+        #endregion
+
+        #region FilterLists()
+        /// <summary>
+        /// Filter Lists
+        /// </summary>
+        public void FilterLists()
+        {
+            // Erase everything currently selected
+            EraseSelections();
+
+            // set the country
+            string country = FilterCountryComboBox.ComboBoxText;
+
+            // If All is selected
+            if ((FilterCountryComboBox.SelectedIndex == 0) && (FilterGenderComboBox.SelectedIndex == 0))
+            {
+                // Load All Voices
+                VoiceComboBox.LoadItems(Voices);
+            }
+            else if (FilterGenderComboBox.SelectedIndex == 0)
+            {
+                // All Genders by Country
+                VoiceComboBox.LoadItems(Voices.Where(x => x.Country == country).ToList());
+            }
+            else if (FilterCountryComboBox.SelectedIndex == 0)
+            {
+                // This is all countries by Gender
+
+                if (FilterGenderComboBox.SelectedIndex == 1)
+                {
+                    // Load All Voices
+                    VoiceComboBox.LoadItems(FemaleVoices);
+                }
+                else if (FilterGenderComboBox.SelectedIndex == 2)
+                {
+                    // Load All Voices
+                    VoiceComboBox.LoadItems(MaleVoices);
+                }
+            }
+            else
+            {
+                // A Gender is selected and a Country is selected
+
+                if (FilterGenderComboBox.SelectedIndex == 1)
+                {
+                    // Load All Voices
+                    VoiceComboBox.LoadItems(FemaleVoices.Where(x => x.Country == country).ToList());
+                }
+                else if (FilterGenderComboBox.SelectedIndex == 2)
+                {
+                    // Load All Voices
+                    VoiceComboBox.LoadItems(MaleVoices.Where(x => x.Country == country).ToList());
+                }
+            }
+        }
+        #endregion
 
         #region GetCountry(string locale)
         /// <summary>
@@ -386,6 +574,21 @@ namespace Simon
             // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
             // Voices = gateway.LoadVoices();
 
+            // Load the Filter Combo Boxes
+            FilterGenderComboBox.LoadItems(typeof(GenderEnum));
+            FilterCountryComboBox.LoadItems(typeof(CountryEnum));
+            GenderComboBox.LoadItems(typeof(GenderEnum));
+            CountryComboBox.LoadItems(typeof(CountryEnum));
+
+            // Default value
+            FilterGenderComboBox.SelectedIndex = 0;
+            FilterCountryComboBox.SelectedIndex = 0;
+
+            // Setup the Listeners for the Filters
+            FilterGenderComboBox.SelectedIndexListener = this;
+            FilterCountryComboBox.SelectedIndexListener = this;
+            VoiceComboBox.SelectedIndexListener = this;
+
             // Set the OutputFolder
             OutputFolderControl.Text = @"c:\Temp";
             OutputFileControl.Text = @"Audio.wav";
@@ -462,6 +665,7 @@ namespace Simon
                                     voice.Locale = words[2].Text;
                                     voice.FullName = words[3].Text;
                                     voice.Country = words[4].Text;
+                                    voice.Gender = ParseGender(words[5].Text);
 
                                     // Add this voice
                                     voices.Add(voice);
@@ -474,9 +678,80 @@ namespace Simon
         }
         #endregion
 
+        #region ParseGender(string genderText)
+        /// <summary>
+        /// returns the Gender
+        /// </summary>
+        public GenderEnum ParseGender(string genderText)
+        {
+            // initial value
+            GenderEnum gender = GenderEnum.Both;
+
+            // If the genderText string exists
+            if (TextHelper.Exists(genderText))
+            {
+                if (TextHelper.IsEqual(genderText, "Female"))
+                {
+                    // set to Female
+                    gender = GenderEnum.Female;
+                }
+                else if (TextHelper.IsEqual(genderText, "Male"))
+                {
+                    // set to Male
+                    gender = GenderEnum.Male;
+                }
+            }
+
+            // return value
+            return gender;
+        }
+        #endregion
+
         #endregion
 
         #region Properties
+
+        #region FemaleVoices
+        /// <summary>
+        /// This read only property returns the value of MaleVoices from the object Voices.
+        /// </summary>
+        public List<Voice> FemaleVoices
+        {
+
+            get
+            {
+                // initial value
+                List<Voice> femaleVoices = null;
+
+                // if Voices exists
+                if (Voices != null)
+                {
+                    // set the return value
+                    femaleVoices = Voices.Where(x => x.Gender == GenderEnum.Female).ToList();
+                }
+
+                // return value
+                return femaleVoices;
+            }
+        }
+        #endregion
+
+        #region HasSelectedVoice
+        /// <summary>
+        /// This property returns true if this object has a 'SelectedVoice'.
+        /// </summary>
+        public bool HasSelectedVoice
+        {
+            get
+            {
+                // initial value
+                bool hasSelectedVoice = (this.SelectedVoice != null);
+
+                // return value
+                return hasSelectedVoice;
+            }
+        }
+        #endregion
 
         #region HasVoices
         /// <summary>
@@ -492,6 +767,53 @@ namespace Simon
                 // return value
                 return hasVoices;
             }
+        }
+        #endregion
+
+        #region Index
+        /// <summary>
+        /// This property gets or sets the value for 'Index'.
+        /// </summary>
+        public int Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
+        #endregion
+
+        #region MaleVoices
+        /// <summary>
+        /// This read only property returns the value of MaleVoices from the object Voices.
+        /// </summary>
+        public List<Voice> MaleVoices
+        {
+
+            get
+            {
+                // initial value
+                List<Voice> maleVoices = null;
+
+                // if Voices exists
+                if (Voices != null)
+                {
+                    // set the return value
+                    maleVoices = Voices.Where(x => x.Gender == GenderEnum.Male).ToList();
+                }
+
+                // return value
+                return maleVoices;
+            }
+        }
+        #endregion
+
+        #region SelectedVoice
+        /// <summary>
+        /// This property gets or sets the value for 'SelectedVoice'.
+        /// </summary>
+        public Voice SelectedVoice
+        {
+            get { return selectedVoice; }
+            set { selectedVoice = value; }
         }
         #endregion
 

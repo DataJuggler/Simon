@@ -16,6 +16,7 @@ using System.Collections;
 using System.Text;
 using System.Media;
 using DataJuggler.Win.Controls;
+using System.Diagnostics;
 
 #endregion
 
@@ -33,6 +34,8 @@ namespace Simon
         private List<Voice> voices;
         private Voice selectedVoice;
         private int index;
+        private const string YouTubePath = "https://www.youtube.com/datajuggler";
+        private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
         #endregion
 
         #region Constructor
@@ -94,6 +97,42 @@ namespace Simon
                 // Set the text
                 StatusLabel.Text = "Status: Finshed.";
             }
+        }
+        #endregion
+
+        #region GitHubButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when the 'GitHubButton' is clicked.
+        /// </summary>
+        private void GitHubButton_Click(object sender, EventArgs e)
+        {
+            // launch to YouTube
+            ProcessStartInfo info = new ProcessStartInfo { FileName = SimonOnGitHub, UseShellExecute = true };
+
+            // launch
+            System.Diagnostics.Process.Start(info);
+        }
+        #endregion
+
+        #region GitHubButton_MouseEnter(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when Git Hub Button _ Mouse Enter
+        /// </summary>
+        private void GitHubButton_MouseEnter(object sender, EventArgs e)
+        {
+            // Switch to a pointer
+            Cursor = Cursors.Hand;
+        }
+        #endregion
+
+        #region GitHubButton_MouseLeave(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when Git Hub Button _ Mouse Leave
+        /// </summary>
+        private void GitHubButton_MouseLeave(object sender, EventArgs e)
+        {
+            // Change the cursor back to the default pointer
+            Cursor = Cursors.Default;
         }
         #endregion
 
@@ -352,6 +391,20 @@ namespace Simon
         }
         #endregion
 
+        #region YouTubeButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when the 'YouTubeButton' is clicked.
+        /// </summary>
+        private void YouTubeButton_Click(object sender, EventArgs e)
+        {
+            // launch to YouTube
+            ProcessStartInfo info = new ProcessStartInfo { FileName = YouTubePath, UseShellExecute = true };
+
+            // launch
+            System.Diagnostics.Process.Start(info);
+        }
+        #endregion
+
         #endregion
 
         #region Methods
@@ -601,6 +654,9 @@ namespace Simon
 
             // Select Guy for now
             VoiceComboBox.SelectedIndex = VoiceComboBox.FindItemIndexByValue("en-US-TonyNeural");
+
+            // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on Git Hub and subscribe to my YouTube channel.";
         }
         #endregion
 

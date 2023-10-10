@@ -73,7 +73,13 @@ namespace Simon
             FilterCountryComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             FilterGenderComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             FilterLabel = new Label();
+            GitHubButton = new PictureBox();
+            YouTubeButton = new PictureBox();
+            LeaveAStarPleaseLabel = new Label();
+            SubscribeLabel = new Label();
             FilterPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
             SuspendLayout();
             // 
             // TextToSpeakTextBox
@@ -96,7 +102,7 @@ namespace Simon
             TextToSpeakTextBox.OnTextChangedListener = null;
             TextToSpeakTextBox.PasswordMode = false;
             TextToSpeakTextBox.ScrollBars = ScrollBars.None;
-            TextToSpeakTextBox.Size = new Size(821, 264);
+            TextToSpeakTextBox.Size = new Size(821, 189);
             TextToSpeakTextBox.TabIndex = 0;
             TextToSpeakTextBox.TextBoxBottomMargin = 0;
             TextToSpeakTextBox.TextBoxDisabledColor = Color.LightGray;
@@ -127,7 +133,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(542, 601);
+            SpeakButton.Location = new Point(470, 580);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(175, 55);
@@ -201,7 +207,7 @@ namespace Simon
             OutputFileControl.LabelText = "File Name:";
             OutputFileControl.LabelTopMargin = 0;
             OutputFileControl.LabelWidth = 160;
-            OutputFileControl.Location = new Point(31, 519);
+            OutputFileControl.Location = new Point(31, 442);
             OutputFileControl.MultiLine = false;
             OutputFileControl.Name = "OutputFileControl";
             OutputFileControl.OnTextChangedListener = null;
@@ -236,7 +242,7 @@ namespace Simon
             OutputFolderControl.LabelText = "Output Folder:";
             OutputFolderControl.LabelTopMargin = 0;
             OutputFolderControl.LabelWidth = 160;
-            OutputFolderControl.Location = new Point(31, 468);
+            OutputFolderControl.Location = new Point(31, 391);
             OutputFolderControl.Name = "OutputFolderControl";
             OutputFolderControl.OnTextChangedListener = null;
             OutputFolderControl.OpenCallback = null;
@@ -276,7 +282,7 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(190, 602);
+            TryVoicesButton.Location = new Point(238, 580);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
             TryVoicesButton.Size = new Size(175, 55);
@@ -297,7 +303,7 @@ namespace Simon
             AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
             AppendVoiceNameCheckBox.LabelText = "Append Voice Name:";
             AppendVoiceNameCheckBox.LabelWidth = 196;
-            AppendVoiceNameCheckBox.Location = new Point(642, 555);
+            AppendVoiceNameCheckBox.Location = new Point(642, 477);
             AppendVoiceNameCheckBox.Name = "AppendVoiceNameCheckBox";
             AppendVoiceNameCheckBox.Size = new Size(220, 28);
             AppendVoiceNameCheckBox.TabIndex = 10;
@@ -459,12 +465,62 @@ namespace Simon
             FilterLabel.TabIndex = 0;
             FilterLabel.Text = "Filter";
             // 
+            // GitHubButton
+            // 
+            GitHubButton.BackgroundImage = Properties.Resources.GitHub;
+            GitHubButton.BackgroundImageLayout = ImageLayout.Stretch;
+            GitHubButton.Location = new Point(31, 566);
+            GitHubButton.Name = "GitHubButton";
+            GitHubButton.Size = new Size(150, 83);
+            GitHubButton.TabIndex = 15;
+            GitHubButton.TabStop = false;
+            GitHubButton.Click += GitHubButton_Click;
+            GitHubButton.MouseEnter += GitHubButton_MouseEnter;
+            GitHubButton.MouseLeave += GitHubButton_MouseLeave;
+            // 
+            // YouTubeButton
+            // 
+            YouTubeButton.BackgroundImage = Properties.Resources.YouTubeBlue;
+            YouTubeButton.BackgroundImageLayout = ImageLayout.Stretch;
+            YouTubeButton.Location = new Point(702, 566);
+            YouTubeButton.Name = "YouTubeButton";
+            YouTubeButton.Size = new Size(150, 83);
+            YouTubeButton.TabIndex = 16;
+            YouTubeButton.TabStop = false;
+            YouTubeButton.Click += YouTubeButton_Click;
+            // 
+            // LeaveAStarPleaseLabel
+            // 
+            LeaveAStarPleaseLabel.BackColor = Color.Transparent;
+            LeaveAStarPleaseLabel.ForeColor = Color.LemonChiffon;
+            LeaveAStarPleaseLabel.Location = new Point(18, 533);
+            LeaveAStarPleaseLabel.Name = "LeaveAStarPleaseLabel";
+            LeaveAStarPleaseLabel.Size = new Size(177, 30);
+            LeaveAStarPleaseLabel.TabIndex = 17;
+            LeaveAStarPleaseLabel.Text = "Leave a star please!";
+            LeaveAStarPleaseLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // SubscribeLabel
+            // 
+            SubscribeLabel.BackColor = Color.Transparent;
+            SubscribeLabel.ForeColor = Color.LemonChiffon;
+            SubscribeLabel.Location = new Point(696, 536);
+            SubscribeLabel.Name = "SubscribeLabel";
+            SubscribeLabel.Size = new Size(163, 30);
+            SubscribeLabel.TabIndex = 18;
+            SubscribeLabel.Text = "Subscribe Please!";
+            SubscribeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(893, 709);
+            Controls.Add(SubscribeLabel);
+            Controls.Add(LeaveAStarPleaseLabel);
+            Controls.Add(YouTubeButton);
+            Controls.Add(GitHubButton);
             Controls.Add(FilterPanel);
             Controls.Add(CountryComboBox);
             Controls.Add(GenderComboBox);
@@ -485,8 +541,10 @@ namespace Simon
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.0.2";
+            Text = "Simon 1.0.3";
             FilterPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
+            ((System.ComponentModel.ISupportInitialize)YouTubeButton).EndInit();
             ResumeLayout(false);
         }
         #endregion
@@ -504,6 +562,10 @@ namespace Simon
         private DataJuggler.Win.Controls.LabelComboBoxControl FilterCountryComboBox;
         private DataJuggler.Win.Controls.LabelComboBoxControl FilterGenderComboBox;
         private Label FilterLabel;
+        private PictureBox GitHubButton;
+        private PictureBox YouTubeButton;
+        private Label LeaveAStarPleaseLabel;
+        private Label SubscribeLabel;
     }
     #endregion
 

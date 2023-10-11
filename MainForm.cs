@@ -319,8 +319,12 @@ namespace Simon
             // Increment the value for Index
             Index++;
 
+            // if hte last voice has finished
             if (Index >= VoiceComboBox.Items.Count)
             {
+                // Show a message finished
+                StatusLabel.Text = "Status: Try Voices Complete.";
+
                 // Stop the timer
                 VoicesTimer.Stop();
             }
@@ -656,7 +660,7 @@ namespace Simon
             VoiceComboBox.SelectedIndex = VoiceComboBox.FindItemIndexByValue("en-US-TonyNeural");
 
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on Git Hub and subscribe to my YouTube channel.";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on GitHub and subscribe to my YouTube channel.";
         }
         #endregion
 

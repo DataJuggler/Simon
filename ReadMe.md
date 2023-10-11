@@ -63,7 +63,10 @@ I added 4 new features
 3. I added a feature where you can add [VoiceName] to the Text to Speak, and [VoiceName] will be replaced
     with the name of the character speaking it.
 4. I added a checkbox for Append Voice Name, and the file will be saved with the voice name.
-    Example: File Name: 'Audio.wav', will be saved as 'Audio_Roger.wav', if Roger is the current speaker.
+    Example: File Name: 'Audio.wav', will be saved as 'Audio_Roger.(partial guid).wav', if Roger is the current speaker.
+
+* A partial guid is a series of random digits to ensure a filename is unique in a folder.
+Example: Audio_Wayne.92fe27c7-08b.wav
 
 
 

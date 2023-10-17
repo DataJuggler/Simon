@@ -77,6 +77,7 @@ namespace Simon
             YouTubeButton = new PictureBox();
             LeaveAStarPleaseLabel = new Label();
             SubscribeLabel = new Label();
+            StopButton = new DataJuggler.Win.Controls.Button();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -133,10 +134,10 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(470, 580);
+            SpeakButton.Location = new Point(378, 580);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
-            SpeakButton.Size = new Size(175, 55);
+            SpeakButton.Size = new Size(127, 55);
             SpeakButton.TabIndex = 2;
             SpeakButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             SpeakButton.Click += SpeakButton_Click;
@@ -282,10 +283,10 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(238, 580);
+            TryVoicesButton.Location = new Point(216, 580);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
-            TryVoicesButton.Size = new Size(175, 55);
+            TryVoicesButton.Size = new Size(127, 55);
             TryVoicesButton.TabIndex = 9;
             TryVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             TryVoicesButton.Click += TryVoicesButton_Click;
@@ -511,12 +512,27 @@ namespace Simon
             SubscribeLabel.Text = "Subscribe Please!";
             SubscribeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // StopButton
+            // 
+            StopButton.BackColor = Color.Transparent;
+            StopButton.ButtonText = "Stop";
+            StopButton.FlatStyle = FlatStyle.Flat;
+            StopButton.ForeColor = Color.LemonChiffon;
+            StopButton.Location = new Point(540, 580);
+            StopButton.Margin = new Padding(5);
+            StopButton.Name = "StopButton";
+            StopButton.Size = new Size(127, 55);
+            StopButton.TabIndex = 19;
+            StopButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            StopButton.Click += StopButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(893, 709);
+            Controls.Add(StopButton);
             Controls.Add(SubscribeLabel);
             Controls.Add(LeaveAStarPleaseLabel);
             Controls.Add(YouTubeButton);
@@ -566,6 +582,7 @@ namespace Simon
         private PictureBox YouTubeButton;
         private Label LeaveAStarPleaseLabel;
         private Label SubscribeLabel;
+        private DataJuggler.Win.Controls.Button StopButton;
     }
     #endregion
 

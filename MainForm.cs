@@ -34,6 +34,8 @@ namespace Simon
         private List<Voice> voices;
         private Voice selectedVoice;
         private int index;
+        private SoundPlayer player;
+        
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
         private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
         #endregion
@@ -261,8 +263,10 @@ namespace Simon
                         StatusLabel.Text = "Status: The file " + fileName2 + " was created.";
 
                         // Play the Sound
-                        SoundPlayer simpleSound = new SoundPlayer(fileName2);
-                        simpleSound.Play();
+                        Player = new SoundPlayer(fileName2);
+                        
+                        // Play the sound
+                        Player.Play();
                     }
                     else
                     {
@@ -293,6 +297,24 @@ namespace Simon
         }
         #endregion
 
+        #region StopButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when the 'StopButton' is clicked.
+        /// </summary>
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            // if the value for HasPlayer is true
+            if (HasPlayer)
+            {
+                // Stop Player
+                Player.Stop();
+
+                // Show a message
+                StatusLabel.Text = "Status: Player was stopped.";
+            }
+        }
+        #endregion
+            
         #region TryVoicesButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'TryVoicesButton' is clicked.
@@ -796,6 +818,23 @@ namespace Simon
         }
         #endregion
 
+        #region HasPlayer
+        /// <summary>
+        /// This property returns true if this object has a 'Player'.
+        /// </summary>
+        public bool HasPlayer
+        {
+            get
+            {
+                // initial value
+                bool hasPlayer = (this.Player != null);
+                    
+                // return value
+                return hasPlayer;
+            }
+        }
+        #endregion
+            
         #region HasSelectedVoice
         /// <summary>
         /// This property returns true if this object has a 'SelectedVoice'.
@@ -866,6 +905,17 @@ namespace Simon
         }
         #endregion
 
+        #region Player
+        /// <summary>
+        /// This property gets or sets the value for 'Player'.
+        /// </summary>
+        public SoundPlayer Player
+        {
+            get { return player; }
+            set { player = value; }
+        }
+        #endregion
+            
         #region SelectedVoice
         /// <summary>
         /// This property gets or sets the value for 'SelectedVoice'.

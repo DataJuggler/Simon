@@ -43,8 +43,7 @@ Once installed, you should see an icon on your desktop that looks like a setup o
 # Running Simon
 Double click on the icon on your desktop to start Simon.
 
-Once Simon loads, you will need to select a voice. I pre-select Tony, as this voice sounds
-pretty natural to me. In a future version I may save your last voice, but I have not created
+Once Simon loads, you will need to select a voice. In a future version I may save your last voice, but I have not created
 this feature yet.
 
 Enter the text you want to Simon to speak, and select an output folder and output file name.

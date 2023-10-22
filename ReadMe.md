@@ -33,17 +33,21 @@ To use this app you will need to follow these setup instructions.
     Name: SpeechKey. Paste in one of your keys from step 5, then Hit 'OK'.
 8. Create a second Environment Variable in the same System variables.
     Name: SpeechRegion and paste or type in the region you selected in step 5, then Hit 'OK'.
+9. When you run Simon, an output folder of c:\Temp will be selected by default. Either make
+    sure this folder exists, or you may select another directory. If you check the 'Make Default'
+    check box, this folder will be selected the next time your run Simon.
+    
 
 Download and install Simon from https://github.com/DataJuggler/Simon
 Scroll down until you see Releases on the right. The latest release will be shown first.
 
 Download SimonSetup.msi, and run it, or save it somewhere on your PC and run it.
-Once installed, you should see an icon on your desktop that looks like a setup of lips.
+Once installed, you should see an icon on your desktop that looks like a set of lips.
 
 # Running Simon
 Double click on the icon on your desktop to start Simon.
 
-Once Simon loads, you will need to select a voice. I pre-select Tony, as this voice sounds
+Once Simon loads, you will need to select a voice. 
 pretty natural to me. In a future version I may save your last voice, but I have not created
 this feature yet.
 

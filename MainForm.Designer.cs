@@ -78,6 +78,7 @@ namespace Simon
             LeaveAStarPleaseLabel = new Label();
             SubscribeLabel = new Label();
             StopButton = new DataJuggler.Win.Controls.Button();
+            MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -134,7 +135,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(378, 580);
+            SpeakButton.Location = new Point(378, 612);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(127, 55);
@@ -147,7 +148,7 @@ namespace Simon
             StatusLabel.BackColor = Color.Transparent;
             StatusLabel.Dock = DockStyle.Bottom;
             StatusLabel.ForeColor = Color.LemonChiffon;
-            StatusLabel.Location = new Point(0, 676);
+            StatusLabel.Location = new Point(0, 702);
             StatusLabel.Name = "StatusLabel";
             StatusLabel.Size = new Size(893, 33);
             StatusLabel.TabIndex = 3;
@@ -208,7 +209,7 @@ namespace Simon
             OutputFileControl.LabelText = "File Name:";
             OutputFileControl.LabelTopMargin = 0;
             OutputFileControl.LabelWidth = 160;
-            OutputFileControl.Location = new Point(31, 442);
+            OutputFileControl.Location = new Point(31, 474);
             OutputFileControl.MultiLine = false;
             OutputFileControl.Name = "OutputFileControl";
             OutputFileControl.OnTextChangedListener = null;
@@ -283,7 +284,7 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(216, 580);
+            TryVoicesButton.Location = new Point(216, 612);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
             TryVoicesButton.Size = new Size(127, 55);
@@ -304,7 +305,7 @@ namespace Simon
             AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
             AppendVoiceNameCheckBox.LabelText = "Append Voice Name:";
             AppendVoiceNameCheckBox.LabelWidth = 196;
-            AppendVoiceNameCheckBox.Location = new Point(642, 477);
+            AppendVoiceNameCheckBox.Location = new Point(642, 509);
             AppendVoiceNameCheckBox.Name = "AppendVoiceNameCheckBox";
             AppendVoiceNameCheckBox.Size = new Size(220, 28);
             AppendVoiceNameCheckBox.TabIndex = 10;
@@ -470,7 +471,7 @@ namespace Simon
             // 
             GitHubButton.BackgroundImage = Properties.Resources.GitHub;
             GitHubButton.BackgroundImageLayout = ImageLayout.Stretch;
-            GitHubButton.Location = new Point(31, 566);
+            GitHubButton.Location = new Point(31, 598);
             GitHubButton.Name = "GitHubButton";
             GitHubButton.Size = new Size(150, 83);
             GitHubButton.TabIndex = 15;
@@ -483,7 +484,7 @@ namespace Simon
             // 
             YouTubeButton.BackgroundImage = Properties.Resources.YouTubeBlue;
             YouTubeButton.BackgroundImageLayout = ImageLayout.Stretch;
-            YouTubeButton.Location = new Point(702, 566);
+            YouTubeButton.Location = new Point(702, 598);
             YouTubeButton.Name = "YouTubeButton";
             YouTubeButton.Size = new Size(150, 83);
             YouTubeButton.TabIndex = 16;
@@ -494,7 +495,7 @@ namespace Simon
             // 
             LeaveAStarPleaseLabel.BackColor = Color.Transparent;
             LeaveAStarPleaseLabel.ForeColor = Color.LemonChiffon;
-            LeaveAStarPleaseLabel.Location = new Point(18, 533);
+            LeaveAStarPleaseLabel.Location = new Point(18, 565);
             LeaveAStarPleaseLabel.Name = "LeaveAStarPleaseLabel";
             LeaveAStarPleaseLabel.Size = new Size(177, 30);
             LeaveAStarPleaseLabel.TabIndex = 17;
@@ -505,7 +506,7 @@ namespace Simon
             // 
             SubscribeLabel.BackColor = Color.Transparent;
             SubscribeLabel.ForeColor = Color.LemonChiffon;
-            SubscribeLabel.Location = new Point(696, 536);
+            SubscribeLabel.Location = new Point(696, 568);
             SubscribeLabel.Name = "SubscribeLabel";
             SubscribeLabel.Size = new Size(163, 30);
             SubscribeLabel.TabIndex = 18;
@@ -518,7 +519,7 @@ namespace Simon
             StopButton.ButtonText = "Stop";
             StopButton.FlatStyle = FlatStyle.Flat;
             StopButton.ForeColor = Color.LemonChiffon;
-            StopButton.Location = new Point(540, 580);
+            StopButton.Location = new Point(540, 612);
             StopButton.Margin = new Padding(5);
             StopButton.Name = "StopButton";
             StopButton.Size = new Size(127, 55);
@@ -526,12 +527,32 @@ namespace Simon
             StopButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             StopButton.Click += StopButton_Click;
             // 
+            // MakeDefaultDirectory
+            // 
+            MakeDefaultDirectory.BackColor = Color.Transparent;
+            MakeDefaultDirectory.CheckBoxHorizontalOffSet = 0;
+            MakeDefaultDirectory.CheckBoxVerticalOffSet = 3;
+            MakeDefaultDirectory.CheckChangedListener = null;
+            MakeDefaultDirectory.Checked = false;
+            MakeDefaultDirectory.Editable = true;
+            MakeDefaultDirectory.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            MakeDefaultDirectory.LabelColor = Color.LemonChiffon;
+            MakeDefaultDirectory.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            MakeDefaultDirectory.LabelText = "Make Default Directory:";
+            MakeDefaultDirectory.LabelWidth = 224;
+            MakeDefaultDirectory.Location = new Point(614, 429);
+            MakeDefaultDirectory.Name = "MakeDefaultDirectory";
+            MakeDefaultDirectory.Size = new Size(248, 28);
+            MakeDefaultDirectory.TabIndex = 20;
+            MakeDefaultDirectory.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(893, 709);
+            ClientSize = new Size(893, 735);
+            Controls.Add(MakeDefaultDirectory);
             Controls.Add(StopButton);
             Controls.Add(SubscribeLabel);
             Controls.Add(LeaveAStarPleaseLabel);
@@ -557,7 +578,8 @@ namespace Simon
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.0.3";
+            Text = "Simon 1.0.5";
+            Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).EndInit();
@@ -583,6 +605,7 @@ namespace Simon
         private Label LeaveAStarPleaseLabel;
         private Label SubscribeLabel;
         private DataJuggler.Win.Controls.Button StopButton;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl MakeDefaultDirectory;
     }
     #endregion
 

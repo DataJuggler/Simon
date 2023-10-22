@@ -17,6 +17,7 @@ using System.Text;
 using System.Media;
 using DataJuggler.Win.Controls;
 using System.Diagnostics;
+using Simon.Security;
 
 #endregion
 
@@ -35,7 +36,9 @@ namespace Simon
         private Voice selectedVoice;
         private int index;
         private SoundPlayer player;
-        
+        private SecureUserData settings;
+        private bool tryVoicesInProgress;
+
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
         private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
         #endregion
@@ -138,6 +141,63 @@ namespace Simon
         }
         #endregion
 
+        #region MainForm_Load(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when Main Form _ Load
+        /// </summary>
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // Create a new instance of a 'SecureUserData' object.
+            Settings = new SecureUserData();
+
+            // Set the OutputFolder
+            string outputFolder = Settings.OutputFolder;
+            OutputFolderControl.Text = outputFolder;
+
+            // Check for a Gender filter
+            string gender = Settings.GenderFilter;
+
+            // if a Gender was found
+            if (TextHelper.Exists(gender))
+            {
+                // attempt to find the index
+                int index = GenderComboBox.FindItemIndexByValue(gender);
+
+                // Set the genderIndex
+                FilterGenderComboBox.SelectedIndex = index;
+            }
+
+            // Check for a Country filter
+            string country = Settings.CountryFilter;
+
+            // if a Country was found
+            if (TextHelper.Exists(country))
+            {
+                // attempt to find the index
+                int index = CountryComboBox.FindItemIndexByValue(country);
+
+                // Set the genderIndex
+                FilterCountryComboBox.SelectedIndex = index;
+            }
+
+            // Attempt to Select the last voice if the voice is available with the current filters.
+            if (TextHelper.Exists(Settings.Voice))
+            {
+                // get the voice display text
+                string voiceDisplayText = Settings.Voice + " - " + FilterCountryComboBox.ComboBoxText;
+
+                // get the index of the last voice
+                int index =  VoiceComboBox.FindItemIndexByValue(voiceDisplayText);
+
+                // Set the index
+                VoiceComboBox.SelectedIndex = index;
+            }
+
+            // Checking this by default
+            AppendVoiceNameCheckBox.Checked = Settings.AppendVoiceName;
+        }
+        #endregion
+            
         #region OnSelectedIndexChanged(LabelComboBoxControl control, int selectedIndex, object selectedItem)
         /// <summary>
         /// event is fired when a selection is made in the 'On'.
@@ -197,76 +257,105 @@ namespace Simon
             Refresh();
             Application.DoEvents();
 
+            // load the EnvironmentVariables for key and region
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
-            // get the text of the selected voice
-            string voice = FullNameControl.Text;
-            string textToSpeak = TextToSpeakTextBox.Text;
-
-            if (HasSelectedVoice)
+            // If the strings key and region both exist
+            if (TextHelper.Exists(key, region))
             {
-                // replace out the VoiceName
-                textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
-            }
+                // get the text of the selected voice
+                string voice = SelectedVoice.Name;
+                string textToSpeak = TextToSpeakTextBox.Text;
 
-            var config = SpeechConfig.FromSubscription(key, region);
-            config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
-
-            config.SpeechSynthesisVoiceName = voice;
-            var synthesizer = new SpeechSynthesizer(config, null as AudioConfig);
-
-            // If the strings voice and textToSpeak both exist
-            if (TextHelper.Exists(voice, textToSpeak))
-            {
-                // if the directory exists
-                if (Directory.Exists(OutputFolderControl.Text))
+                if (HasSelectedVoice)
                 {
-                    // Speak the text
-                    var result = await synthesizer.SpeakTextAsync(textToSpeak);
+                    // replace out the VoiceName
+                    textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
+                }
 
-                    // if success
-                    if (result.Reason == ResultReason.SynthesizingAudioCompleted)
+                // Setup Settings
+                Settings.Voice = voice;
+                Settings.GenderFilter = GenderComboBox.ComboBoxText;
+                Settings.CountryFilter = CountryComboBox.ComboBoxText;
+                Settings.AppendVoiceName = AppendVoiceNameCheckBox.Checked;
+
+                // if the MakeDefaultDirectory checkbox is checked
+                if (MakeDefaultDirectory.Checked)
+                {
+                    // Store the Output Folder
+                    Settings.OutputFolder = OutputFolderControl.Text;
+                }
+
+                // Save the settings
+                Settings.Save();
+
+                var config = SpeechConfig.FromSubscription(key, region);
+                config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
+
+                config.SpeechSynthesisVoiceName = SelectedVoice.FullName; ;
+                var synthesizer = new SpeechSynthesizer(config, null as AudioConfig);
+
+                // If the strings voice and textToSpeak both exist
+                if (TextHelper.Exists(voice, textToSpeak))
+                {
+                    // if the directory exists
+                    if (Directory.Exists(OutputFolderControl.Text))
                     {
-                        // load the AudioDataStream
-                        AudioDataStream audioDataStream = AudioDataStream.FromResult(result);  // to return in Memory  
+                        // Speak the text
+                        var result = await synthesizer.SpeakTextAsync(textToSpeak);
 
-                        // set the fileName and fileName2
-                        string fileName = Path.Combine(OutputFolderControl.Text, OutputFileControl.Text);
-
-                        // if checked and the SelectedVoice exists
-                        if ((AppendVoiceNameCheckBox.Checked) && (HasSelectedVoice))
+                        // if success
+                        if (result.Reason == ResultReason.SynthesizingAudioCompleted)
                         {
-                            // Set the fileName
-                            fileName = fileName.Replace(".wav", "_" + SelectedVoice.Name + ".wav");
+                            // load the AudioDataStream
+                            AudioDataStream audioDataStream = AudioDataStream.FromResult(result);  // to return in Memory  
+
+                            // set the fileName and fileName2
+                            string fileName = Path.Combine(OutputFolderControl.Text, OutputFileControl.Text);
+
+                            // if checked and the SelectedVoice exists
+                            if ((AppendVoiceNameCheckBox.Checked) && (HasSelectedVoice))
+                            {
+                                // Set the fileName
+                                fileName = fileName.Replace(".wav", "_" + SelectedVoice.Name + ".wav");
+                            }
+
+                            // Ensure unique in a folder
+                            string fileName2 = FileHelper.CreateFileNameWithPartialGuid(fileName, 12);
+
+                            // get the byte array
+                            byte[] buffer = result.AudioData;
+
+                            // create the wavFormat
+                            WaveFormat format = new WaveFormat(48000, 16, 1);
+
+                            // now write out the file
+                            using (WaveFileWriter writer = new WaveFileWriter(fileName2, format))
+                            {
+                                writer.Write(buffer, 0, buffer.Length);
+                            }
+
+                            // Show in red
+                            StatusLabel.ForeColor = Color.LemonChiffon;
+
+                            // show the status
+                            StatusLabel.Text = "Status: The file " + fileName2 + " was created.";
+
+                            // Play the Sound
+                            Player = new SoundPlayer(fileName2);
+
+                            // Play the sound
+                            Player.Play();
                         }
-
-                        // Ensure unique in a folder
-                        string fileName2 = FileHelper.CreateFileNameWithPartialGuid(fileName, 12);
-
-                        // get the byte array
-                        byte[] buffer = result.AudioData;
-
-                        // create the wavFormat
-                        WaveFormat format = new WaveFormat(48000, 16, 1);
-
-                        // now write out the file
-                        using (WaveFileWriter writer = new WaveFileWriter(fileName2, format))
+                        else
                         {
-                            writer.Write(buffer, 0, buffer.Length);
+                            // Show in red
+                            StatusLabel.ForeColor = Color.Firebrick;
+
+                            // show the status
+                            StatusLabel.Text = "Houston, we have a problem. Something did not work.";
                         }
-
-                        // Show in red
-                        StatusLabel.ForeColor = Color.LemonChiffon;
-
-                        // show the status
-                        StatusLabel.Text = "Status: The file " + fileName2 + " was created.";
-
-                        // Play the Sound
-                        Player = new SoundPlayer(fileName2);
-                        
-                        // Play the sound
-                        Player.Play();
                     }
                     else
                     {
@@ -274,7 +363,7 @@ namespace Simon
                         StatusLabel.ForeColor = Color.Firebrick;
 
                         // show the status
-                        StatusLabel.Text = "Houston, we have a problem. Something did not work.";
+                        StatusLabel.Text = "The ouput folder does not exist.";
                     }
                 }
                 else
@@ -283,7 +372,7 @@ namespace Simon
                     StatusLabel.ForeColor = Color.Firebrick;
 
                     // show the status
-                    StatusLabel.Text = "You must set the environment variables for SpeechKey and SpeechRegion must be 'centralus'";
+                    StatusLabel.Text = "You must select a voice and enter the Text to Speak";
                 }
             }
             else
@@ -292,7 +381,7 @@ namespace Simon
                 StatusLabel.ForeColor = Color.Firebrick;
 
                 // show the status
-                StatusLabel.Text = "You must select a voice and enter the Text to Speak";
+                StatusLabel.Text = "You must set the environment variables for SpeechKey and SpeechRegion must be 'centralus'";
             }
         }
         #endregion
@@ -314,7 +403,7 @@ namespace Simon
             }
         }
         #endregion
-            
+
         #region TryVoicesButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'TryVoicesButton' is clicked.
@@ -327,8 +416,14 @@ namespace Simon
             // reset
             Index = -1;
 
+            // Set this to true, so voices are not stored during Speak
+            TryVoicesInProgress = true;
+
             // Start the timer
             VoicesTimer.Start();
+
+            // Set this to false, so next Voice selected will be stored
+            TryVoicesInProgress = true;
         }
         #endregion
 
@@ -668,8 +763,7 @@ namespace Simon
             FilterCountryComboBox.SelectedIndexListener = this;
             VoiceComboBox.SelectedIndexListener = this;
 
-            // Set the OutputFolder
-            OutputFolderControl.Text = @"c:\Temp";
+            // Set the OutputFile
             OutputFileControl.Text = @"Audio.wav";
 
             // Load the voices from a file
@@ -678,11 +772,8 @@ namespace Simon
             // Load the voices
             VoiceComboBox.LoadItems(Voices);
 
-            // Select Guy for now
-            VoiceComboBox.SelectedIndex = VoiceComboBox.FindItemIndexByValue("en-US-TonyNeural");
-
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on GitHub and subscribe to my YouTube channel.";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on GitHub, and subscribe to my YouTube channel.";
         }
         #endregion
 
@@ -828,13 +919,13 @@ namespace Simon
             {
                 // initial value
                 bool hasPlayer = (this.Player != null);
-                    
+
                 // return value
                 return hasPlayer;
             }
         }
         #endregion
-            
+
         #region HasSelectedVoice
         /// <summary>
         /// This property returns true if this object has a 'SelectedVoice'.
@@ -915,7 +1006,7 @@ namespace Simon
             set { player = value; }
         }
         #endregion
-            
+
         #region SelectedVoice
         /// <summary>
         /// This property gets or sets the value for 'SelectedVoice'.
@@ -924,6 +1015,28 @@ namespace Simon
         {
             get { return selectedVoice; }
             set { selectedVoice = value; }
+        }
+        #endregion
+
+        #region Settings
+        /// <summary>
+        /// This property gets or sets the value for 'Settings'.
+        /// </summary>
+        public SecureUserData Settings
+        {
+            get { return settings; }
+            set { settings = value; }
+        }
+        #endregion
+
+        #region TryVoicesInProgress
+        /// <summary>
+        /// This property gets or sets the value for 'TryVoicesInProgress'.
+        /// </summary>
+        public bool TryVoicesInProgress
+        {
+            get { return tryVoicesInProgress; }
+            set { tryVoicesInProgress = value; }
         }
         #endregion
 

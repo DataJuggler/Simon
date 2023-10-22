@@ -5,6 +5,11 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# 10.22.2023 Important note about Upgrading
+For now you must uninstall the previous version to install a new version.
+I am working on making Upgrades available, and giving the app a way to notify you
+when a new release is available.
+
 Simon comes with 74 English voices. There are other languages, but I only speak 
 English, so this is all I imported. When I first wrote this app, I saved the voices in
 SQL Server, however I figured most people are not SQL Server developers, so I switched
@@ -58,6 +63,9 @@ Click the Speak button, and you should hear the result. You will also be shown a
 
 If you have any problems, create an issue on GitHub here:
 https://github.com/DataJuggler/Simon/issues
+
+# Update 10.22.2023 Version 1.0.5
+This release was all about validation, and showing the right message for the problem.
 
 # Update 10.10.2023
 I added 4 new features

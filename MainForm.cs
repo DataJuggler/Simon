@@ -187,7 +187,7 @@ namespace Simon
                 string voiceDisplayText = Settings.Voice + " - " + FilterCountryComboBox.ComboBoxText;
 
                 // get the index of the last voice
-                int index =  VoiceComboBox.FindItemIndexByValue(voiceDisplayText);
+                int index = VoiceComboBox.FindItemIndexByValue(voiceDisplayText);
 
                 // Set the index
                 VoiceComboBox.SelectedIndex = index;
@@ -197,7 +197,7 @@ namespace Simon
             AppendVoiceNameCheckBox.Checked = Settings.AppendVoiceName;
         }
         #endregion
-            
+
         #region OnSelectedIndexChanged(LabelComboBoxControl control, int selectedIndex, object selectedItem)
         /// <summary>
         /// event is fired when a selection is made in the 'On'.
@@ -253,6 +253,16 @@ namespace Simon
             // Set Focus to the HiddenButton
             HiddenButton.Focus();
 
+            // Restore the color
+            StatusLabel.ForeColor = Color.LemonChiffon;
+
+            // Change the text
+            StatusLabel.Text = "Processing...";
+
+            // Refresh the UI
+            Refresh();
+            Application.DoEvents();
+
             // Make sure the UI updates with the SpeakButton lost focus
             Refresh();
             Application.DoEvents();
@@ -264,97 +274,125 @@ namespace Simon
             // If the strings key and region both exist
             if (TextHelper.Exists(key, region))
             {
-                // get the text of the selected voice
-                string voice = SelectedVoice.Name;
-                string textToSpeak = TextToSpeakTextBox.Text;
-
+                // if a voice is selected
                 if (HasSelectedVoice)
                 {
+                    // Setup Settings
+                    Settings.Voice = SelectedVoice.Name;
+                    Settings.GenderFilter = GenderComboBox.ComboBoxText;
+                    Settings.CountryFilter = CountryComboBox.ComboBoxText;
+                    Settings.AppendVoiceName = AppendVoiceNameCheckBox.Checked;
+
+                    // if the MakeDefaultDirectory checkbox is checked
+                    if (MakeDefaultDirectory.Checked)
+                    {
+                        // Store the Output Folder
+                        Settings.OutputFolder = OutputFolderControl.Text;
+                    }
+
+                    // Save the settings
+                    Settings.Save();
+
+                    // get the text to speack
+                    string textToSpeak = TextToSpeakTextBox.Text;
+
                     // replace out the VoiceName
                     textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
-                }
 
-                // Setup Settings
-                Settings.Voice = voice;
-                Settings.GenderFilter = GenderComboBox.ComboBoxText;
-                Settings.CountryFilter = CountryComboBox.ComboBoxText;
-                Settings.AppendVoiceName = AppendVoiceNameCheckBox.Checked;
+                    var config = SpeechConfig.FromSubscription(key, region);
+                    config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
 
-                // if the MakeDefaultDirectory checkbox is checked
-                if (MakeDefaultDirectory.Checked)
-                {
-                    // Store the Output Folder
-                    Settings.OutputFolder = OutputFolderControl.Text;
-                }
+                    config.SpeechSynthesisVoiceName = SelectedVoice.FullName; ;
+                    var synthesizer = new SpeechSynthesizer(config, null as AudioConfig);
 
-                // Save the settings
-                Settings.Save();
-
-                var config = SpeechConfig.FromSubscription(key, region);
-                config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
-
-                config.SpeechSynthesisVoiceName = SelectedVoice.FullName; ;
-                var synthesizer = new SpeechSynthesizer(config, null as AudioConfig);
-
-                // If the strings voice and textToSpeak both exist
-                if (TextHelper.Exists(voice, textToSpeak))
-                {
-                    // if the directory exists
-                    if (Directory.Exists(OutputFolderControl.Text))
+                    // If the string textToSpeak exists
+                    if (TextHelper.Exists(textToSpeak))
                     {
-                        // Speak the text
-                        var result = await synthesizer.SpeakTextAsync(textToSpeak);
-
-                        // if success
-                        if (result.Reason == ResultReason.SynthesizingAudioCompleted)
+                        // if the directory exists
+                        if (Directory.Exists(OutputFolderControl.Text))
                         {
-                            // load the AudioDataStream
-                            AudioDataStream audioDataStream = AudioDataStream.FromResult(result);  // to return in Memory  
-
-                            // set the fileName and fileName2
-                            string fileName = Path.Combine(OutputFolderControl.Text, OutputFileControl.Text);
-
-                            // if checked and the SelectedVoice exists
-                            if ((AppendVoiceNameCheckBox.Checked) && (HasSelectedVoice))
+                            // if the OutputFileControl has a value
+                            if (TextHelper.Exists(OutputFileControl.Text))
                             {
-                                // Set the fileName
-                                fileName = fileName.Replace(".wav", "_" + SelectedVoice.Name + ".wav");
+                                // Speak the text
+                                var result = await synthesizer.SpeakTextAsync(textToSpeak);
+
+                                // if success
+                                if (result.Reason == ResultReason.SynthesizingAudioCompleted)
+                                {
+                                    // load the AudioDataStream
+                                    AudioDataStream audioDataStream = AudioDataStream.FromResult(result);  // to return in Memory  
+
+                                    // set the fileName and fileName2
+                                    string fileName = Path.Combine(OutputFolderControl.Text, OutputFileControl.Text);
+
+                                    // if checked and the SelectedVoice exists
+                                    if ((AppendVoiceNameCheckBox.Checked) && (HasSelectedVoice))
+                                    {
+                                        // Set the fileName
+                                        fileName = fileName.Replace(".wav", "_" + SelectedVoice.Name + ".wav");
+                                    }
+
+                                    // Ensure unique in a folder
+                                    string fileName2 = FileHelper.CreateFileNameWithPartialGuid(fileName, 12);
+
+                                    // get the byte array
+                                    byte[] buffer = result.AudioData;
+
+                                    // create the wavFormat
+                                    WaveFormat format = new WaveFormat(48000, 16, 1);
+
+                                    // now write out the file
+                                    using (WaveFileWriter writer = new WaveFileWriter(fileName2, format))
+                                    {
+                                        writer.Write(buffer, 0, buffer.Length);
+                                    }
+
+                                    // Show in red
+                                    StatusLabel.ForeColor = Color.LemonChiffon;
+
+                                    // show the status
+                                    StatusLabel.Text = "Status: The file " + fileName2 + " was created.";
+
+                                    // Play the Sound
+                                    Player = new SoundPlayer(fileName2);
+
+                                    // Play the sound
+                                    Player.Play();
+                                }
+                                else
+                                {
+                                    // Show in red
+                                    StatusLabel.ForeColor = Color.Firebrick;
+
+                                    // show the status
+                                    StatusLabel.Text = "Houston, we have a problem. Something did not work.";
+                                }
                             }
-
-                            // Ensure unique in a folder
-                            string fileName2 = FileHelper.CreateFileNameWithPartialGuid(fileName, 12);
-
-                            // get the byte array
-                            byte[] buffer = result.AudioData;
-
-                            // create the wavFormat
-                            WaveFormat format = new WaveFormat(48000, 16, 1);
-
-                            // now write out the file
-                            using (WaveFileWriter writer = new WaveFileWriter(fileName2, format))
+                            else
                             {
-                                writer.Write(buffer, 0, buffer.Length);
+                                // Show in red
+                                StatusLabel.ForeColor = Color.Firebrick;
+
+                                // show the status
+                                StatusLabel.Text = "You must enter a file name, and it must end in .wav";
                             }
-
-                            // Show in red
-                            StatusLabel.ForeColor = Color.LemonChiffon;
-
-                            // show the status
-                            StatusLabel.Text = "Status: The file " + fileName2 + " was created.";
-
-                            // Play the Sound
-                            Player = new SoundPlayer(fileName2);
-
-                            // Play the sound
-                            Player.Play();
                         }
                         else
                         {
                             // Show in red
                             StatusLabel.ForeColor = Color.Firebrick;
 
-                            // show the status
-                            StatusLabel.Text = "Houston, we have a problem. Something did not work.";
+                            if (TextHelper.Exists(OutputFolderControl.Text))
+                            {
+                                // show the status
+                                StatusLabel.Text = "You must select or enter an Output Folder.";
+                            }
+                            else if (!Directory.Exists(OutputFolderControl.Text))
+                            {
+                                // show the status
+                                StatusLabel.Text = "The ouput folder does not exist.";
+                            }
                         }
                     }
                     else
@@ -363,7 +401,7 @@ namespace Simon
                         StatusLabel.ForeColor = Color.Firebrick;
 
                         // show the status
-                        StatusLabel.Text = "The ouput folder does not exist.";
+                        StatusLabel.Text = "You must enter the text to speak.";
                     }
                 }
                 else
@@ -372,7 +410,7 @@ namespace Simon
                     StatusLabel.ForeColor = Color.Firebrick;
 
                     // show the status
-                    StatusLabel.Text = "You must select a voice and enter the Text to Speak";
+                    StatusLabel.Text = "You must select a voice.";
                 }
             }
             else

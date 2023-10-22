@@ -135,7 +135,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(378, 612);
+            SpeakButton.Location = new Point(378, 605);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(127, 55);
@@ -147,12 +147,14 @@ namespace Simon
             // 
             StatusLabel.BackColor = Color.Transparent;
             StatusLabel.Dock = DockStyle.Bottom;
+            StatusLabel.Font = new Font("Segoe UI Symbol", 18F, FontStyle.Regular, GraphicsUnit.Point);
             StatusLabel.ForeColor = Color.LemonChiffon;
-            StatusLabel.Location = new Point(0, 702);
+            StatusLabel.Location = new Point(0, 693);
             StatusLabel.Name = "StatusLabel";
-            StatusLabel.Size = new Size(893, 33);
+            StatusLabel.Size = new Size(893, 42);
             StatusLabel.TabIndex = 3;
             StatusLabel.Text = "Status:";
+            StatusLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VoiceComboBox
             // 
@@ -284,7 +286,7 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(216, 612);
+            TryVoicesButton.Location = new Point(216, 605);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
             TryVoicesButton.Size = new Size(127, 55);
@@ -471,7 +473,7 @@ namespace Simon
             // 
             GitHubButton.BackgroundImage = Properties.Resources.GitHub;
             GitHubButton.BackgroundImageLayout = ImageLayout.Stretch;
-            GitHubButton.Location = new Point(31, 598);
+            GitHubButton.Location = new Point(31, 591);
             GitHubButton.Name = "GitHubButton";
             GitHubButton.Size = new Size(150, 83);
             GitHubButton.TabIndex = 15;
@@ -484,7 +486,7 @@ namespace Simon
             // 
             YouTubeButton.BackgroundImage = Properties.Resources.YouTubeBlue;
             YouTubeButton.BackgroundImageLayout = ImageLayout.Stretch;
-            YouTubeButton.Location = new Point(702, 598);
+            YouTubeButton.Location = new Point(702, 591);
             YouTubeButton.Name = "YouTubeButton";
             YouTubeButton.Size = new Size(150, 83);
             YouTubeButton.TabIndex = 16;
@@ -495,7 +497,7 @@ namespace Simon
             // 
             LeaveAStarPleaseLabel.BackColor = Color.Transparent;
             LeaveAStarPleaseLabel.ForeColor = Color.LemonChiffon;
-            LeaveAStarPleaseLabel.Location = new Point(18, 565);
+            LeaveAStarPleaseLabel.Location = new Point(18, 558);
             LeaveAStarPleaseLabel.Name = "LeaveAStarPleaseLabel";
             LeaveAStarPleaseLabel.Size = new Size(177, 30);
             LeaveAStarPleaseLabel.TabIndex = 17;
@@ -506,7 +508,7 @@ namespace Simon
             // 
             SubscribeLabel.BackColor = Color.Transparent;
             SubscribeLabel.ForeColor = Color.LemonChiffon;
-            SubscribeLabel.Location = new Point(696, 568);
+            SubscribeLabel.Location = new Point(696, 561);
             SubscribeLabel.Name = "SubscribeLabel";
             SubscribeLabel.Size = new Size(163, 30);
             SubscribeLabel.TabIndex = 18;
@@ -519,7 +521,7 @@ namespace Simon
             StopButton.ButtonText = "Stop";
             StopButton.FlatStyle = FlatStyle.Flat;
             StopButton.ForeColor = Color.LemonChiffon;
-            StopButton.Location = new Point(540, 612);
+            StopButton.Location = new Point(540, 605);
             StopButton.Margin = new Padding(5);
             StopButton.Name = "StopButton";
             StopButton.Size = new Size(127, 55);

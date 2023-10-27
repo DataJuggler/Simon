@@ -147,7 +147,7 @@ namespace Simon
             // 
             StatusLabel.BackColor = Color.Transparent;
             StatusLabel.Dock = DockStyle.Bottom;
-            StatusLabel.Font = new Font("Segoe UI Symbol", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            StatusLabel.Font = new Font("Segoe UI Symbol", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             StatusLabel.ForeColor = Color.LemonChiffon;
             StatusLabel.Location = new Point(0, 693);
             StatusLabel.Name = "StatusLabel";
@@ -580,7 +580,7 @@ namespace Simon
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.0.5";
+            Text = "Simon 1.0.6";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();

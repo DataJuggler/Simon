@@ -18,6 +18,7 @@ using System.Media;
 using DataJuggler.Win.Controls;
 using System.Diagnostics;
 using Simon.Security;
+using System.Windows.Forms;
 
 #endregion
 
@@ -38,6 +39,8 @@ namespace Simon
         private SoundPlayer player;
         private SecureUserData settings;
         private bool tryVoicesInProgress;
+        private string key;
+        private string region;
 
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
         private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
@@ -238,8 +241,12 @@ namespace Simon
             }
             else
             {
-                // Filter by Gender and Country
-                FilterLists();
+                // Do not fiilter the lists while TryVoicesInProogress is true
+                if (!TryVoicesInProgress)
+                {
+                    // Filter by Gender and Country
+                    FilterLists();
+                }
             }
         }
         #endregion
@@ -263,16 +270,22 @@ namespace Simon
             Refresh();
             Application.DoEvents();
 
-            // Make sure the UI updates with the SpeakButton lost focus
-            Refresh();
-            Application.DoEvents();
+            // ensure EnvironmentVariables for key and region and loaded
+            if (!HasKey)
+            {
+                // set the value for Key
+                Key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
+            }
 
-            // load the EnvironmentVariables for key and region
-            string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
-            string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
+            // if the value for HasRegion is false
+            if (!HasRegion)
+            {
+                // set the value for Key
+                Region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
+            }
 
             // If the strings key and region both exist
-            if (TextHelper.Exists(key, region))
+            if ((HasKey) && (HasRegion))
             {
                 // if a voice is selected
                 if (HasSelectedVoice)
@@ -299,7 +312,8 @@ namespace Simon
                     // replace out the VoiceName
                     textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
 
-                    var config = SpeechConfig.FromSubscription(key, region);
+                    // Create the SpeachConfig object
+                    var config = SpeechConfig.FromSubscription(Key, Region);
                     config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
 
                     config.SpeechSynthesisVoiceName = SelectedVoice.FullName; ;
@@ -308,6 +322,13 @@ namespace Simon
                     // If the string textToSpeak exists
                     if (TextHelper.Exists(textToSpeak))
                     {
+                        // Set the Timer Interval if TryVoicesInProgress is true and this is the first item
+                        if ((TryVoicesInProgress) && (Index == 0))
+                        {
+                            // set the timer interval
+                            VoicesTimer.Interval = textToSpeak.Length * 75;
+                        }
+
                         // if the directory exists
                         if (Directory.Exists(OutputFolderControl.Text))
                         {
@@ -430,6 +451,18 @@ namespace Simon
         /// </summary>
         private void StopButton_Click(object sender, EventArgs e)
         {
+            // Stop the Timer
+            VoicesTimer.Stop();
+
+            // Reset Timer Duration
+            VoicesTimer.Stop();
+
+            // Reset
+            Index = -1;
+
+            // No longer trying voices
+            TryVoicesInProgress = false;
+
             // if the value for HasPlayer is true
             if (HasPlayer)
             {
@@ -448,8 +481,19 @@ namespace Simon
         /// </summary>
         private void TryVoicesButton_Click(object sender, EventArgs e)
         {
+            // Reset the Interval
+            VoicesTimer.Interval = 5000;
+
+            // Show the user a message
+            StatusLabel.Text = "Setting up voices, please wait...";
+            StatusLabel.ForeColor = Color.LemonChiffon;
+
             // Set Focus off this button
             HiddenButton.Focus();
+
+            // Refresh the App
+            Refresh();
+            Application.DoEvents();
 
             // reset
             Index = -1;
@@ -811,7 +855,7 @@ namespace Simon
             VoiceComboBox.LoadItems(Voices);
 
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on GitHub, and subscribe to my YouTube channel.";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on Git Hub, and subscribe to my YouTube channel.";
         }
         #endregion
 
@@ -947,6 +991,23 @@ namespace Simon
         }
         #endregion
 
+        #region HasKey
+        /// <summary>
+        /// This property returns true if the 'Key' exists.
+        /// </summary>
+        public bool HasKey
+        {
+            get
+            {
+                // initial value
+                bool hasKey = (!String.IsNullOrEmpty(this.Key));
+
+                // return value
+                return hasKey;
+            }
+        }
+        #endregion
+
         #region HasPlayer
         /// <summary>
         /// This property returns true if this object has a 'Player'.
@@ -960,6 +1021,23 @@ namespace Simon
 
                 // return value
                 return hasPlayer;
+            }
+        }
+        #endregion
+
+        #region HasRegion
+        /// <summary>
+        /// This property returns true if the 'Region' exists.
+        /// </summary>
+        public bool HasRegion
+        {
+            get
+            {
+                // initial value
+                bool hasRegion = (!String.IsNullOrEmpty(this.Region));
+
+                // return value
+                return hasRegion;
             }
         }
         #endregion
@@ -1009,6 +1087,17 @@ namespace Simon
         }
         #endregion
 
+        #region Key
+        /// <summary>
+        /// This property gets or sets the value for 'Key'.
+        /// </summary>
+        public string Key
+        {
+            get { return key; }
+            set { key = value; }
+        }
+        #endregion
+
         #region MaleVoices
         /// <summary>
         /// This read only property returns the value of MaleVoices from the object Voices.
@@ -1042,6 +1131,17 @@ namespace Simon
         {
             get { return player; }
             set { player = value; }
+        }
+        #endregion
+
+        #region Region
+        /// <summary>
+        /// This property gets or sets the value for 'Region'.
+        /// </summary>
+        public string Region
+        {
+            get { return region; }
+            set { region = value; }
         }
         #endregion
 

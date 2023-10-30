@@ -950,7 +950,7 @@ namespace Simon
                     // required
                     break;
 
-                case "Whispering":
+                case "Terrified":
 
                     // set the return value
                     index = 29;
@@ -958,7 +958,7 @@ namespace Simon
                     // required
                     break;
 
-                case "Terrified":
+                case "Unfriendly":
 
                     // set the return value
                     index = 30;
@@ -966,7 +966,7 @@ namespace Simon
                     // required
                     break;
 
-                case "Unfriendly":
+                case "Whispering":
 
                     // set the return value
                     index = 31;

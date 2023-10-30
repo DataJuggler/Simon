@@ -25,7 +25,6 @@ namespace Simon
         private DataJuggler.Win.Controls.Button WriteVoicesButton;
         private DataJuggler.Win.Controls.LabelTextBoxControl OutputFileControl;
         private DataJuggler.Win.Controls.LabelTextBoxBrowserControl OutputFolderControl;
-        private DataJuggler.Win.Controls.Button PreviewButton;
         #endregion
 
         #region Methods
@@ -79,6 +78,9 @@ namespace Simon
             SubscribeLabel = new Label();
             StopButton = new DataJuggler.Win.Controls.Button();
             MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            EmotionComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            DegreeTextBox = new DataJuggler.Win.Controls.LabelTextBoxControl();
+            RangeLabel = new Label();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -98,7 +100,7 @@ namespace Simon
             TextToSpeakTextBox.LabelText = "Text To Speak:";
             TextToSpeakTextBox.LabelTopMargin = 0;
             TextToSpeakTextBox.LabelWidth = 160;
-            TextToSpeakTextBox.Location = new Point(31, 185);
+            TextToSpeakTextBox.Location = new Point(31, 161);
             TextToSpeakTextBox.MultiLine = true;
             TextToSpeakTextBox.Name = "TextToSpeakTextBox";
             TextToSpeakTextBox.OnTextChangedListener = null;
@@ -135,7 +137,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(378, 605);
+            SpeakButton.Location = new Point(378, 621);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(127, 55);
@@ -172,7 +174,7 @@ namespace Simon
             VoiceComboBox.LabelTopMargin = 0;
             VoiceComboBox.LabelWidth = 160;
             VoiceComboBox.List = null;
-            VoiceComboBox.Location = new Point(31, 91);
+            VoiceComboBox.Location = new Point(31, 67);
             VoiceComboBox.Name = "VoiceComboBox";
             VoiceComboBox.SelectedIndex = -1;
             VoiceComboBox.SelectedIndexListener = null;
@@ -211,7 +213,7 @@ namespace Simon
             OutputFileControl.LabelText = "File Name:";
             OutputFileControl.LabelTopMargin = 0;
             OutputFileControl.LabelWidth = 160;
-            OutputFileControl.Location = new Point(31, 474);
+            OutputFileControl.Location = new Point(31, 434);
             OutputFileControl.MultiLine = false;
             OutputFileControl.Name = "OutputFileControl";
             OutputFileControl.OnTextChangedListener = null;
@@ -246,7 +248,7 @@ namespace Simon
             OutputFolderControl.LabelText = "Output Folder:";
             OutputFolderControl.LabelTopMargin = 0;
             OutputFolderControl.LabelWidth = 160;
-            OutputFolderControl.Location = new Point(31, 391);
+            OutputFolderControl.Location = new Point(31, 363);
             OutputFolderControl.Name = "OutputFolderControl";
             OutputFolderControl.OnTextChangedListener = null;
             OutputFolderControl.OpenCallback = null;
@@ -286,7 +288,7 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(216, 605);
+            TryVoicesButton.Location = new Point(216, 621);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
             TryVoicesButton.Size = new Size(127, 55);
@@ -307,7 +309,7 @@ namespace Simon
             AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
             AppendVoiceNameCheckBox.LabelText = "Append Voice Name:";
             AppendVoiceNameCheckBox.LabelWidth = 196;
-            AppendVoiceNameCheckBox.Location = new Point(642, 509);
+            AppendVoiceNameCheckBox.Location = new Point(642, 465);
             AppendVoiceNameCheckBox.Name = "AppendVoiceNameCheckBox";
             AppendVoiceNameCheckBox.Size = new Size(220, 28);
             AppendVoiceNameCheckBox.TabIndex = 10;
@@ -327,7 +329,7 @@ namespace Simon
             FullNameControl.LabelText = "Full Name:";
             FullNameControl.LabelTopMargin = 0;
             FullNameControl.LabelWidth = 160;
-            FullNameControl.Location = new Point(31, 135);
+            FullNameControl.Location = new Point(31, 111);
             FullNameControl.MultiLine = false;
             FullNameControl.Name = "FullNameControl";
             FullNameControl.OnTextChangedListener = null;
@@ -358,7 +360,7 @@ namespace Simon
             GenderComboBox.LabelTopMargin = 0;
             GenderComboBox.LabelWidth = 100;
             GenderComboBox.List = null;
-            GenderComboBox.Location = new Point(539, 91);
+            GenderComboBox.Location = new Point(539, 67);
             GenderComboBox.Name = "GenderComboBox";
             GenderComboBox.SelectedIndex = -1;
             GenderComboBox.SelectedIndexListener = null;
@@ -384,7 +386,7 @@ namespace Simon
             CountryComboBox.LabelTopMargin = 0;
             CountryComboBox.LabelWidth = 100;
             CountryComboBox.List = null;
-            CountryComboBox.Location = new Point(539, 138);
+            CountryComboBox.Location = new Point(539, 114);
             CountryComboBox.Name = "CountryComboBox";
             CountryComboBox.SelectedIndex = -1;
             CountryComboBox.SelectedIndexListener = null;
@@ -405,7 +407,7 @@ namespace Simon
             FilterPanel.Dock = DockStyle.Top;
             FilterPanel.Location = new Point(0, 0);
             FilterPanel.Name = "FilterPanel";
-            FilterPanel.Size = new Size(893, 61);
+            FilterPanel.Size = new Size(893, 54);
             FilterPanel.TabIndex = 14;
             // 
             // FilterCountryComboBox
@@ -521,7 +523,7 @@ namespace Simon
             StopButton.ButtonText = "Stop";
             StopButton.FlatStyle = FlatStyle.Flat;
             StopButton.ForeColor = Color.LemonChiffon;
-            StopButton.Location = new Point(540, 605);
+            StopButton.Location = new Point(540, 621);
             StopButton.Margin = new Padding(5);
             StopButton.Name = "StopButton";
             StopButton.Size = new Size(127, 55);
@@ -542,11 +544,77 @@ namespace Simon
             MakeDefaultDirectory.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
             MakeDefaultDirectory.LabelText = "Make Default Directory:";
             MakeDefaultDirectory.LabelWidth = 224;
-            MakeDefaultDirectory.Location = new Point(614, 429);
+            MakeDefaultDirectory.Location = new Point(614, 397);
             MakeDefaultDirectory.Name = "MakeDefaultDirectory";
             MakeDefaultDirectory.Size = new Size(248, 28);
             MakeDefaultDirectory.TabIndex = 20;
             MakeDefaultDirectory.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // EmotionComboBox
+            // 
+            EmotionComboBox.BackColor = Color.Transparent;
+            EmotionComboBox.ComboBoxLeftMargin = 1;
+            EmotionComboBox.ComboBoxText = "";
+            EmotionComboBox.ComoboBoxFont = null;
+            EmotionComboBox.Editable = true;
+            EmotionComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            EmotionComboBox.HideLabel = false;
+            EmotionComboBox.LabelBottomMargin = 0;
+            EmotionComboBox.LabelColor = Color.LemonChiffon;
+            EmotionComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            EmotionComboBox.LabelText = "Emotion:";
+            EmotionComboBox.LabelTopMargin = 8;
+            EmotionComboBox.LabelWidth = 96;
+            EmotionComboBox.List = null;
+            EmotionComboBox.Location = new Point(216, 502);
+            EmotionComboBox.Name = "EmotionComboBox";
+            EmotionComboBox.SelectedIndex = -1;
+            EmotionComboBox.SelectedIndexListener = null;
+            EmotionComboBox.Size = new Size(348, 28);
+            EmotionComboBox.Sorted = true;
+            EmotionComboBox.Source = null;
+            EmotionComboBox.TabIndex = 21;
+            EmotionComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // DegreeTextBox
+            // 
+            DegreeTextBox.BackColor = Color.Transparent;
+            DegreeTextBox.BottomMargin = 0;
+            DegreeTextBox.Editable = true;
+            DegreeTextBox.Encrypted = false;
+            DegreeTextBox.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            DegreeTextBox.Inititialized = true;
+            DegreeTextBox.LabelBottomMargin = 0;
+            DegreeTextBox.LabelColor = Color.LemonChiffon;
+            DegreeTextBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            DegreeTextBox.LabelText = "Degree:";
+            DegreeTextBox.LabelTopMargin = 0;
+            DegreeTextBox.LabelWidth = 96;
+            DegreeTextBox.Location = new Point(216, 550);
+            DegreeTextBox.MultiLine = false;
+            DegreeTextBox.Name = "DegreeTextBox";
+            DegreeTextBox.OnTextChangedListener = null;
+            DegreeTextBox.PasswordMode = false;
+            DegreeTextBox.ScrollBars = ScrollBars.None;
+            DegreeTextBox.Size = new Size(174, 28);
+            DegreeTextBox.TabIndex = 23;
+            DegreeTextBox.TextBoxBottomMargin = 0;
+            DegreeTextBox.TextBoxDisabledColor = Color.LightGray;
+            DegreeTextBox.TextBoxEditableColor = Color.White;
+            DegreeTextBox.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            DegreeTextBox.TextBoxTopMargin = 0;
+            DegreeTextBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
+            // RangeLabel
+            // 
+            RangeLabel.BackColor = Color.Transparent;
+            RangeLabel.ForeColor = Color.LemonChiffon;
+            RangeLabel.Location = new Point(405, 548);
+            RangeLabel.Name = "RangeLabel";
+            RangeLabel.Size = new Size(151, 30);
+            RangeLabel.TabIndex = 24;
+            RangeLabel.Text = "Range: .01 - 2.0";
+            RangeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -554,6 +622,9 @@ namespace Simon
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(893, 735);
+            Controls.Add(RangeLabel);
+            Controls.Add(DegreeTextBox);
+            Controls.Add(EmotionComboBox);
             Controls.Add(MakeDefaultDirectory);
             Controls.Add(StopButton);
             Controls.Add(SubscribeLabel);
@@ -580,7 +651,7 @@ namespace Simon
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.0.6";
+            Text = "Simon 1.1.0";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
@@ -608,6 +679,9 @@ namespace Simon
         private Label SubscribeLabel;
         private DataJuggler.Win.Controls.Button StopButton;
         private DataJuggler.Win.Controls.LabelCheckBoxControl MakeDefaultDirectory;
+        private DataJuggler.Win.Controls.LabelComboBoxControl EmotionComboBox;
+        private DataJuggler.Win.Controls.LabelTextBoxControl DegreeTextBox;
+        private Label RangeLabel;
     }
     #endregion
 

@@ -71,7 +71,67 @@ namespace Simon.Security
             }
             #endregion
 
-            #region GenderFilder
+            #region Degree
+            /// <summary>
+            /// This property gets or sets the value for Degree
+            /// </summary>
+            [UserScopedSetting()]
+            public string Degree
+            {
+                get
+                {
+                    // initial value
+                    string degree = "";
+
+                    // if the Emotion exists
+                    if (this["Degree"] != null)
+                    {
+                        // set the return value
+                        degree = this["Degree"].ToString();
+                    }
+
+                    // return the value for Degree
+                    return degree;
+                }
+                set
+                {
+                    // set the value for Degree
+                    this["Degree"] = value;
+                }   
+            }
+            #endregion
+
+            #region Emotion
+            /// <summary>
+            /// This property gets or sets the value for Emotion
+            /// </summary>
+            [UserScopedSetting()]
+            public string Emotion
+            {
+                get
+                {
+                    // initial value
+                    string emotion = "";
+
+                    // if the Emotion exists
+                    if (this["Emotion"] != null)
+                    {
+                        // set the return value
+                        emotion = this["Emotion"].ToString();
+                    }
+
+                    // return the value for Emotion
+                    return emotion;
+                }
+                set
+                {
+                    // set the value for Emotion
+                    this["Emotion"] = value;
+                }   
+            }
+            #endregion
+
+            #region GenderFilter
             /// <summary>
             /// This property gets or sets the value for GenderFilter
             /// </summary>

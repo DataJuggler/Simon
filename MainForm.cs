@@ -11,7 +11,6 @@ using ObjectLibrary.Enumerations;
 using DataJuggler.Win.Controls.Interfaces;
 using NAudio;
 using NAudio.Wave;
-using Simon.Util;
 using System.Collections;
 using System.Text;
 using System.Media;
@@ -19,6 +18,10 @@ using DataJuggler.Win.Controls;
 using System.Diagnostics;
 using Simon.Security;
 using System.Windows.Forms;
+using NAudio.CoreAudioApi;
+using System.Security.Policy;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
 
 #endregion
 
@@ -198,6 +201,27 @@ namespace Simon
 
             // Checking this by default
             AppendVoiceNameCheckBox.Checked = Settings.AppendVoiceName;
+
+            // get the value for Emotion
+            string emotion = Settings.Emotion;
+
+            // If the emotion string exists
+            if (TextHelper.Exists(emotion))
+            {
+                // Find the Emotion
+                EmotionComboBox.SelectedIndex = FindEmotionIndex(emotion);
+            }
+
+            // Set the value for Degree
+            string degree = Settings.Degree;
+
+            // If the degree string exists
+            if (TextHelper.Exists(degree))
+            {
+                // display the value for Degree
+                DegreeTextBox.Text = degree;
+            }
+
         }
         #endregion
 
@@ -270,19 +294,8 @@ namespace Simon
             Refresh();
             Application.DoEvents();
 
-            // ensure EnvironmentVariables for key and region and loaded
-            if (!HasKey)
-            {
-                // set the value for Key
-                Key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
-            }
-
-            // if the value for HasRegion is false
-            if (!HasRegion)
-            {
-                // set the value for Key
-                Region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
-            }
+            // Load the Environment Variables
+            LoadKeyAndRegion();
 
             // If the strings key and region both exist
             if ((HasKey) && (HasRegion))
@@ -295,6 +308,8 @@ namespace Simon
                     Settings.GenderFilter = GenderComboBox.ComboBoxText;
                     Settings.CountryFilter = CountryComboBox.ComboBoxText;
                     Settings.AppendVoiceName = AppendVoiceNameCheckBox.Checked;
+                    Settings.Emotion = EmotionComboBox.ComboBoxText;
+                    Settings.Degree = DegreeTextBox.Text;
 
                     // if the MakeDefaultDirectory checkbox is checked
                     if (MakeDefaultDirectory.Checked)
@@ -335,14 +350,21 @@ namespace Simon
                             // if the OutputFileControl has a value
                             if (TextHelper.Exists(OutputFileControl.Text))
                             {
+                                // Get the text of the file
+                                string fileText = GetSSMLFileText();
+
+                                // Set the fileText
+                                fileText = fileText.Replace("[TextToSpeak]", textToSpeak);
+
                                 // Speak the text
-                                var result = await synthesizer.SpeakTextAsync(textToSpeak);
+                                // var result = await synthesizer.SpeakTextAsync(textToSpeak);
+                                var result = await synthesizer.SpeakSsmlAsync(fileText);
 
                                 // if success
                                 if (result.Reason == ResultReason.SynthesizingAudioCompleted)
                                 {
-                                    // load the AudioDataStream
-                                    AudioDataStream audioDataStream = AudioDataStream.FromResult(result);  // to return in Memory  
+                                    // load the AudioDataStream in Memory  
+                                    AudioDataStream audioDataStream = AudioDataStream.FromResult(result);
 
                                     // set the fileName and fileName2
                                     string fileName = Path.Combine(OutputFolderControl.Text, OutputFileControl.Text);
@@ -692,11 +714,285 @@ namespace Simon
         }
         #endregion
 
+        #region FindEmotionIndex(string emotion)
+        /// <summary>
+        /// returns the Emotion Index
+        /// </summary>
+        public static int FindEmotionIndex(string emotion)
+        {
+            // initial value (Narration Relaxed Reading)
+            int index = 21;
+
+            // Determine the action by the emotion
+            switch (emotion)
+            {
+                case "Advertisement Upbeat":
+
+                    // set the return value
+                    index = 0;
+
+                    // required
+                    break;
+
+                case "Affectionate":
+
+                    // set the return value
+                    index = 1;
+
+                    // required
+                    break;
+
+                case "Angry":
+
+                    // set the return value
+                    index = 2;
+
+                    // required
+                    break;
+
+                case "Assistant":
+
+                    // set the return value
+                    index = 3;
+
+                    // required
+                    break;
+
+                case "Calm":
+
+                    // set the return value
+                    index = 4;
+
+                    // required
+                    break;
+
+                case "Chat":
+
+                    // set the return value
+                    index = 5;
+
+                    // required
+                    break;
+
+                case "Cheerful":
+
+                    // set the return value
+                    index = 6;
+
+                    // required
+                    break;
+
+                case "Customer Service":
+
+                    // set the return value
+                    index = 7;
+
+                    // required
+                    break;
+
+                case "Depressed":
+
+                    // set the return value
+                    index = 8;
+
+                    // required
+                    break;
+
+                case "Disgruntled":
+
+                    // set the return value
+                    index = 9;
+
+                    // required
+                    break;
+
+                case "Documentary Narration":
+
+                    // set the return value
+                    index = 10;
+
+                    // required
+                    break;
+
+                case "Embarrassed":
+
+                    // set the return value
+                    index = 11;
+
+                    // required
+                    break;
+
+                case "Empathetic":
+
+                    // set the return value
+                    index = 12;
+
+                    // required
+                    break;
+
+                case "Envious":
+
+                    // set the return value
+                    index = 13;
+
+                    // required
+                    break;
+
+                case "Excited":
+
+                    // set the return value
+                    index = 14;
+
+                    // required
+                    break;
+
+                case "Fearful":
+
+                    // set the return value
+                    index = 15;
+
+                    // required
+                    break;
+
+                case "Friendly":
+
+                    // set the return value
+                    index = 16;
+
+                    // required
+                    break;
+
+                case "Gentle":
+
+                    // set the return value
+                    index = 17;
+
+                    // required
+                    break;
+
+                case "Hopeful":
+
+                    // set the return value
+                    index = 18;
+
+                    // required
+                    break;
+
+                case "Lyrical":
+
+                    // set the return value
+                    index = 19;
+
+                    // required
+                    break;
+
+                case "Narration Professional":
+
+                    // set the return value
+                    index = 20;
+
+                    // required
+                    break;
+
+                case "Newscast":
+
+                    // set the return value
+                    index = 22;
+
+                    // required
+                    break;
+
+                case "Newscast Casual":
+
+                    // set the return value
+                    index = 23;
+
+                    // required
+                    break;
+
+                case "Newscast_Formal":
+
+                    // set the return value
+                    index = 24;
+
+                    // required
+                    break;
+
+                case "Poetry Reading":
+
+                    // set the return value
+                    index = 25;
+
+                    // required
+                    break;
+
+                case "Shouting":
+
+                    // set the return value
+                    index = 26;
+
+                    // required
+                    break;
+
+                case "Sports Commentary":
+
+                    // set the return value
+                    index = 27;
+
+                    // required
+                    break;
+
+                case "Sports Commentary Excited":
+
+                    // set the return value
+                    index = 28;
+
+                    // required
+                    break;
+
+                case "Whispering":
+
+                    // set the return value
+                    index = 29;
+
+                    // required
+                    break;
+
+                case "Terrified":
+
+                    // set the return value
+                    index = 30;
+
+                    // required
+                    break;
+
+                case "Unfriendly":
+
+                    // set the return value
+                    index = 31;
+
+                    // required
+                    break;
+
+                default:
+
+                    // default to Narration Relaxed Reading
+                    index = 21;
+
+                    // required
+                    break;
+            }
+
+            // return value
+            return index;
+        }
+        #endregion
+
         #region GetCountry(string locale)
         /// <summary>
         /// returns the Country
         /// </summary>
-        public string GetCountry(string locale)
+        public static string GetCountry(string locale)
         {
             // initial value
             string country = "";
@@ -820,16 +1116,138 @@ namespace Simon
         }
         #endregion
 
+        #region GetEmotion()
+        /// <summary>
+        /// returns the Emotion
+        /// </summary>
+        public string GetEmotion()
+        {
+            // initial value
+            string emotion = EmotionComboBox.ComboBoxText.Replace(" ", "");
+
+            // Determine the action by the emotion
+            switch (emotion)
+            {
+                case "DocumentaryNarration":
+
+                    // set the return value
+                    emotion = "documentary-narration";
+
+                    // required
+                    break;
+
+                case "NarrationProfessional":
+
+                    // set the return value
+                    emotion = "narration-professional";
+
+                    // required
+                    break;
+
+                case "NarrationRelaxedReading":
+
+                    // set the return value
+                    emotion = "narration-relaxedreading";
+
+                    // required
+                    break;
+
+                default:
+
+                    // set the return value
+                    emotion = TextHelper.CapitalizeFirstChar(emotion, true);
+
+                    // required
+                    break;
+            }
+
+            // return value
+            return emotion;
+        }
+        #endregion
+
+        #region GetRole()
+        /// <summary>
+        /// returns the Role
+        /// </summary>
+        public string GetRole()
+        {
+            // initial value
+            string role = "";
+
+            if (HasSelectedVoice)
+            {
+                if (SelectedVoice.Gender == GenderEnum.Female)
+                {
+                    // Girl
+                    role = "Girl";
+                }
+                else
+                {
+                    // Muse be a boy
+                    role = "Boy";
+                }
+            }
+
+            // return value
+            return role;
+        }
+        #endregion
+
+        #region GetSSMLFileText()
+        /// <summary>
+        /// returns the SSML File Text
+        /// </summary>
+        public string GetSSMLFileText()
+        {
+            // initial value
+            string fileText = "";
+
+            // Create the path
+            string path = @"../../../SSML/VoiceInfo.txt";
+
+            // if the directory exists
+            if (!FileHelper.Exists(path))
+            {
+                // Must be installed version
+                path = "SSML/VoiceInfo.txt";
+            }
+
+            // Read all the text of the file            
+            fileText = File.ReadAllText(path).Replace("[VoiceName]", SelectedVoice.FullName);
+
+            // if the file exists
+            if (TextHelper.Exists(fileText))
+            {
+                // Get the users selections
+                string emotion = GetEmotion();
+                string role = GetRole();
+                string degree = DegreeTextBox.Text;
+
+                // Set the role
+                fileText = fileText.Replace("[Role]", role);
+
+                // Set the Emotion
+                fileText = fileText.Replace("[Emotion]", emotion);
+
+                // Set the Degree
+                fileText = fileText.Replace("[Degree]", degree);
+
+                // Replace out the Locale
+                fileText = fileText.Replace("[Locale]", SelectedVoice.Locale);
+            }
+
+            // return value
+            return fileText;
+        }
+        #endregion
+
         #region Init()
         /// <summary>
         ///  This method performs initializations for this object.
         /// </summary>
         public void Init()
         {
-            // swithching to loading the voices from a text file, to make it easier to setup for non-sql developers
-            // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
-            // Voices = gateway.LoadVoices();
-
             // Load the Filter Combo Boxes
             FilterGenderComboBox.LoadItems(typeof(GenderEnum));
             FilterCountryComboBox.LoadItems(typeof(CountryEnum));
@@ -854,8 +1272,39 @@ namespace Simon
             // Load the voices
             VoiceComboBox.LoadItems(Voices);
 
+            // Load the Emotions
+            EmotionComboBox.LoadItems(typeof(EmotionEnum));
+
+            // Deafult to 
+            EmotionComboBox.SelectedIndex = EmotionComboBox.FindItemIndexByValue("Narration Relaxed Reading");
+
+            // Default to 1 degree for emotion
+            DegreeTextBox.Text = "1";
+
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on Git Hub, and subscribe to my YouTube channel.";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on GitHub, and subscribe to my YouTube channel.";
+        }
+        #endregion
+
+        #region LoadKeyAndRegion()
+        /// <summary>
+        /// Load Key And Region
+        /// </summary>
+        public void LoadKeyAndRegion()
+        {
+            // ensure EnvironmentVariables for key and region and loaded
+            if (!HasKey)
+            {
+                // set the value for Key
+                Key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
+            }
+
+            // if the value for HasRegion is false
+            if (!HasRegion)
+            {
+                // set the value for Key
+                Region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
+            }
         }
         #endregion
 
@@ -937,7 +1386,7 @@ namespace Simon
         /// <summary>
         /// returns the Gender
         /// </summary>
-        public GenderEnum ParseGender(string genderText)
+        public static GenderEnum ParseGender(string genderText)
         {
             // initial value
             GenderEnum gender = GenderEnum.Both;
@@ -960,6 +1409,8 @@ namespace Simon
             // return value
             return gender;
         }
+
+
         #endregion
 
         #endregion
@@ -1000,7 +1451,7 @@ namespace Simon
             get
             {
                 // initial value
-                bool hasKey = (!String.IsNullOrEmpty(this.Key));
+                bool hasKey = (TextHelper.Exists(Key));
 
                 // return value
                 return hasKey;
@@ -1034,7 +1485,7 @@ namespace Simon
             get
             {
                 // initial value
-                bool hasRegion = (!String.IsNullOrEmpty(this.Region));
+                bool hasRegion = (TextHelper.Exists(Region));
 
                 // return value
                 return hasRegion;
@@ -1138,7 +1589,7 @@ namespace Simon
         /// <summary>
         /// This property gets or sets the value for 'Region'.
         /// </summary>
-        public string Region
+        public new string Region
         {
             get { return region; }
             set { region = value; }

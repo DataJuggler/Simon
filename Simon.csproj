@@ -11,6 +11,14 @@
     <ApplicationIcon>Images\Lips.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;IDE0090;IDE0066;IDE0059;IDE0059;IDE0017;CA1507;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;IDE0090;IDE0066;IDE0059;IDE0059;IDE0017;CA1507;</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Data\**" />
     <EmbeddedResource Remove="Data\**" />

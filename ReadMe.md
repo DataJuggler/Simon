@@ -64,6 +64,13 @@ Click the Speak button, and you should hear the result. You will also be shown a
 If you have any problems, create an issue on GitHub here:
 https://github.com/DataJuggler/Simon/issues
 
+# Update 10.30.2023 Version 1.1.0
+Simon now has emotions you can choose! I will warn you not all voices work with all emotions, but this is a big improvement.
+A few of my favorite emotions are Advertising Upbeat, Excited, Terrified and Whispering.
+
+The emotions include a Degree textbox, and the values must be between .01 and 2.0. The value of .01 has almost no effect, and
+the 2.0 will strongly emphasize the emotion.
+
 # Update 10.22.2023 Version 1.0.5
 This release was all about validation, and showing the right message for the problem.
 

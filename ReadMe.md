@@ -5,6 +5,11 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# 11.4.2023: New Video
+
+In this video I show how to setup Simon, and show a 7 minute picture story narrated by one of Simon's female voices, Cara.
+https://youtu.be/T_muhqFGEPQ?si=KHrQQNG7mXCYTfFM
+
 # 10.22.2023 Important note about Upgrading
 For now you must uninstall the previous version to install a new version.
 I am working on making Upgrades available, and giving the app a way to notify you

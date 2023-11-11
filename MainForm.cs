@@ -22,6 +22,7 @@ using NAudio.CoreAudioApi;
 using System.Security.Policy;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 #endregion
 
@@ -327,6 +328,9 @@ namespace Simon
                     // replace out the VoiceName
                     textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
 
+                    // replace out any pauses
+                    textToSpeak = ReplacePauses(textToSpeak);
+
                     // Create the SpeachConfig object
                     var config = SpeechConfig.FromSubscription(Key, Region);
                     config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw48Khz16BitMonoPcm);
@@ -405,6 +409,9 @@ namespace Simon
                                 }
                                 else
                                 {
+                                    // for debugging only
+                                    string reason = result.Reason.ToString();
+
                                     // Show in red
                                     StatusLabel.ForeColor = Color.Firebrick;
 
@@ -1282,7 +1289,7 @@ namespace Simon
             DegreeTextBox.Text = "1";
 
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, please leave a star on GitHub, and subscribe to my YouTube channel.";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, [Pause1.5] please leave a star on GitHub, and subscribe to my YouTube channel.";
         }
         #endregion
 
@@ -1382,6 +1389,27 @@ namespace Simon
         }
         #endregion
 
+        #region ParseBreakTime(pauseString)
+        /// <summary>
+        /// returns the Break Time from a string such as
+        /// [Pause3], [Pause1.5]
+        /// </summary>
+        public double ParseBreakTime(string pauseString)
+        {
+            // initial value
+            double breakTime = 0;
+
+            // get a temp string
+            string temp = pauseString.Replace("[Pause", "").Replace("]", "");
+
+            // set the return value
+            breakTime = NumericHelper.ParseDouble(temp, 0, -1);
+
+            // return value
+            return breakTime;
+        }
+        #endregion
+
         #region ParseGender(string genderText)
         /// <summary>
         /// returns the Gender
@@ -1411,6 +1439,70 @@ namespace Simon
         }
 
 
+        #endregion
+
+        #region ReplacePauses()
+        /// <summary>
+        /// returns the Pauses
+        /// </summary>
+        public string ReplacePauses(string textToSpeak)
+        {
+            // locals
+            int index = -1;
+            int index2 = -1;
+
+            do
+            {
+                if (TextHelper.Exists(textToSpeak))
+                {
+                    // Set the current index
+                    index = textToSpeak.IndexOf("[Pause");
+                    index2 = textToSpeak.IndexOf("]");
+
+                    // verify both indexes are met
+                    if ((index >= 0) && (index2 >= 0))
+                    {
+                        // set the len
+                        int len = index2 - index + 1;
+
+                        // Get the string in brackets such as [Pause1] or [Pause.5]
+                        string temp = textToSpeak.Substring(index, len);
+
+                        // Parse out the break time
+                        double breakTime = ParseBreakTime(temp);
+
+                        // set the return value
+                        if (breakTime > 0)
+                        {
+                            // if the value for breakTime is greater than 5
+                            if (breakTime > 5)
+                            {
+                                // reset to 5
+                                breakTime = 5;
+                            }
+
+                            // convert to milliseconds
+                            double breakMilliseconds = breakTime * 1000;
+
+                            // get the break string
+                            string breakString = "<break time=\"(time)ms\" />".Replace("(time)", breakMilliseconds.ToString());
+
+                            // get the beforeString
+                            string beforeString = textToSpeak.Substring(0, index).Trim();
+
+                            // get the afterString
+                            string afterString = textToSpeak.Substring(index2 + 1).Trim();
+
+                            // get the new string
+                            textToSpeak = beforeString + breakString + afterString;
+                        }
+                    }
+                }
+            } while (index > 0);
+
+            // return value
+            return textToSpeak;
+        }
         #endregion
 
         #endregion

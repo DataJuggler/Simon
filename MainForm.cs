@@ -1394,7 +1394,7 @@ namespace Simon
         /// returns the Break Time from a string such as
         /// [Pause3], [Pause1.5]
         /// </summary>
-        public double ParseBreakTime(string pauseString)
+        public static double ParseBreakTime(string pauseString)
         {
             // initial value
             double breakTime = 0;
@@ -1445,7 +1445,7 @@ namespace Simon
         /// <summary>
         /// returns the Pauses
         /// </summary>
-        public string ReplacePauses(string textToSpeak)
+        public static string ReplacePauses(string textToSpeak)
         {
             // locals
             int index = -1;

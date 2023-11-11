@@ -5,6 +5,11 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# 11.4.2023: New Video
+
+In this video I show how to setup Simon, and show a 7 minute picture story narrated by one of Simon's female voices, Cara.
+https://youtu.be/T_muhqFGEPQ?si=KHrQQNG7mXCYTfFM
+
 # 10.22.2023 Important note about Upgrading
 For now you must uninstall the previous version to install a new version.
 I am working on making Upgrades available, and giving the app a way to notify you
@@ -44,22 +49,24 @@ To use this app you will need to follow these setup instructions.
     
 
 Download and install Simon from https://github.com/DataJuggler/Simon
-Scroll down until you see Releases on the right. The latest release will be shown first.
+Scroll down until you see Releases on the right. Once on the releases tab, scroll down until you see the Simon.msi. The latest release will be shown first.
 
-Download SimonSetup.msi, and run it, or save it somewhere on your PC and run it.
+Download Simon.msi, and run it, or save it somewhere on your PC and run it.
 Once installed, you should see an icon on your desktop that looks like a set of lips.
 
 # Running Simon
 Double click on the icon on your desktop to start Simon.
 
-Once Simon loads, you will need to select a voice. 
-pretty natural to me. In a future version I may save your last voice, but I have not created
-this feature yet.
+Once Simon loads, you will need to select a voice. You can filter the voices by Gender and Country. Simon will save your last voice selected the next time you run it.
 
 Enter the text you want to Simon to speak, and select an output folder and output file name.
-When the app loads, I preselect Temp as the Output folder and Audio.wav as the Output File Name.
 
 Click the Speak button, and you should hear the result. You will also be shown a message of the current file name.
+
+This video is an example of the Poetry Reading emotion.
+
+A Halloween Love Poem
+https://youtu.be/KFtBqTzw4c8
 
 If you have any problems, create an issue on GitHub here:
 https://github.com/DataJuggler/Simon/issues

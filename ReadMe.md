@@ -5,6 +5,12 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# 11.10.2023: New Feature - Pause
+You can now now add pauses to your text, by adding this to your script.
+
+Example: The top story tonight is, [Pause3] Trump becomes the first President since Grover Cleveland in 1893 to
+win a Presidential election after being voted out of office.
+
 # 11.4.2023: New Video
 
 In this video I show how to setup Simon, and show a 7 minute picture story narrated by one of Simon's female voices, Cara.

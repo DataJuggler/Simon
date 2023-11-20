@@ -18,10 +18,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;IDE0017;IDE0059;IDE0074;IDE0090;</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DataJuggler.Net7" Version="7.3.1" />
-  </ItemGroup>
   
 </Project>
 

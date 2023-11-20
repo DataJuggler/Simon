@@ -23,6 +23,7 @@ using System.Security.Policy;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Xml.Schema;
 
 #endregion
 
@@ -48,6 +49,7 @@ namespace Simon
 
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
         private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
+        private const string SayAsCharacter = "<say-as interpret-as='characters'>[Character]</say-as>";
         #endregion
 
         #region Constructor
@@ -327,6 +329,9 @@ namespace Simon
 
                     // replace out the VoiceName
                     textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
+
+                    // Replace out any characters that need to be spelled out
+                    textToSpeak = ReplaceSpellOutCharacters(textToSpeak);
 
                     // replace out any pauses
                     textToSpeak = ReplacePauses(textToSpeak);
@@ -1173,6 +1178,40 @@ namespace Simon
         }
         #endregion
 
+        #region GetNextWord(List<Word> words, string searchText)
+        /// <summary>
+        /// returns the Next Word
+        /// </summary>
+        public static Word GetNextWord(List<Word> words, string searchText)
+        {
+            // initial value
+            Word nextWord = null;
+
+            // local
+            bool useNextWord = false;
+
+            // Iterate the collection of Word objects
+            foreach (Word word in words)
+            {
+                // if the value for useNextWord is true
+                if (useNextWord)
+                {
+                    // Set the return value
+                    nextWord = word;
+
+                    // break out of the loop
+                    break;
+                }
+
+                // Use the next word if this word starts with the search text
+                useNextWord = word.Text.StartsWith(searchText);                    
+            }
+                
+            // return value
+            return nextWord;
+        }
+        #endregion
+            
         #region GetRole()
         /// <summary>
         /// returns the Role
@@ -1457,7 +1496,7 @@ namespace Simon
                 {
                     // Set the current index
                     index = textToSpeak.IndexOf("[Pause");
-                    index2 = textToSpeak.IndexOf("]");
+                    index2 = textToSpeak.IndexOf(']');
 
                     // verify both indexes are met
                     if ((index >= 0) && (index2 >= 0))
@@ -1505,6 +1544,101 @@ namespace Simon
         }
         #endregion
 
+        #region ReplaceSpellOutCharacters()
+        /// <summary>
+        /// Replace Spell Out Characters
+        /// </summary>
+        public static string ReplaceSpellOutCharacters(string textToSpeak)
+        {
+            // If the textToSpeak string exists
+            if (TextHelper.Exists(textToSpeak))   
+            {
+                // locals
+                int index = -1;
+                char[] delimiters = { ' ' };
+                
+                do
+                {
+                    // get the words
+                    List<Word> words = TextHelper.GetWords(textToSpeak, delimiters);
+
+                    // Get the index of spell out
+                    index = textToSpeak.IndexOf("[SpellOut");
+
+                    // if not found
+                    if (index == -1)
+                    {
+                        // exit
+                        break;
+                    }
+
+                    // get the closeing brace index
+                    int closeIndex = textToSpeak.IndexOf(']', index);
+
+                    // set the len
+                    int len = closeIndex - index - 8 - 1;
+
+                    // if the closeIndex is at least 8 characters after
+                    if (closeIndex > (index + 9))
+                    {
+                        // get the value of the pause
+                        string temp = textToSpeak.Substring(index + 9, len);
+
+                        // If the temp string exists
+                        if (TextHelper.Exists(temp))
+                        {
+                            // Get the pause len
+                            double pauseLen = NumericHelper.ParseDouble(temp, 0, 0);
+
+                            // now get the word after the pause
+                            Word nextWord = GetNextWord(words, "[SpellOut");
+
+                            // get the nextword
+                            if (NullHelper.Exists(nextWord))
+                            {
+                                // Create a new instance of a 'StringBuilder' object.
+                                StringBuilder sb = new StringBuilder();
+
+                                // iterate the characters 
+                                foreach (char c in nextWord.Text)
+                                {
+                                    // Get a temp string
+                                    string temp2 = SayAsCharacter.Replace("[Character]", c.ToString());
+
+                                    // If the value for pauseLen is greater than zero
+                                    if (pauseLen > 0)
+                                    {
+                                        // get a pause
+                                        string temp3 = "[Pause" + pauseLen.ToString() + "]";
+
+                                        // Append the Pause
+                                        sb.Append(temp3);
+                                    }
+
+                                    // Append this string
+                                    sb.Append(temp2);
+                                }
+
+                                // Set the text
+                                nextWord.Text = sb.ToString();
+
+                                // Remove the word for [SpellOut
+                                words.RemoveAt(nextWord.Index - 1);
+
+                                // Export the words
+                                textToSpeak = TextHelper.ExportWords(words);
+                            }
+                        }
+                    }
+
+                } while (index > 0);
+            }
+
+            // return value
+            return textToSpeak;
+        }
+        #endregion
+            
         #endregion
 
         #region Properties

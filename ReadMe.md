@@ -5,7 +5,11 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
-# 11.10.2023: New Feature - Pause
+# 11.20.2023: Version 1.3 New Feature - Spell Out
+Now you can add [Spellout.4] TEXT and the next word will be spelled out, with a 4 tenths of a second pause 
+between each character.
+
+# 11.10.2023: Version 1.2 New Feature - Pause
 You can now now add pauses to your text, by adding this to your script.
 
 Example: The top story tonight is, [Pause3] Trump becomes the first President since Grover Cleveland in 1893 to

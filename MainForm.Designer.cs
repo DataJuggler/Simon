@@ -93,11 +93,11 @@ namespace Simon
             TextToSpeakTextBox.BottomMargin = 0;
             TextToSpeakTextBox.Editable = true;
             TextToSpeakTextBox.Encrypted = false;
-            TextToSpeakTextBox.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            TextToSpeakTextBox.Font = new Font("Verdana", 12F, FontStyle.Bold);
             TextToSpeakTextBox.Inititialized = true;
             TextToSpeakTextBox.LabelBottomMargin = 0;
             TextToSpeakTextBox.LabelColor = Color.LemonChiffon;
-            TextToSpeakTextBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            TextToSpeakTextBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             TextToSpeakTextBox.LabelText = "Text To Speak:";
             TextToSpeakTextBox.LabelTopMargin = 0;
             TextToSpeakTextBox.LabelWidth = 160;
@@ -112,7 +112,7 @@ namespace Simon
             TextToSpeakTextBox.TextBoxBottomMargin = 0;
             TextToSpeakTextBox.TextBoxDisabledColor = Color.LightGray;
             TextToSpeakTextBox.TextBoxEditableColor = Color.White;
-            TextToSpeakTextBox.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TextToSpeakTextBox.TextBoxFont = new Font("Verdana", 12F);
             TextToSpeakTextBox.TextBoxTopMargin = 0;
             TextToSpeakTextBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -150,7 +150,7 @@ namespace Simon
             // 
             StatusLabel.BackColor = Color.Transparent;
             StatusLabel.Dock = DockStyle.Bottom;
-            StatusLabel.Font = new Font("Segoe UI Symbol", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            StatusLabel.Font = new Font("Segoe UI Symbol", 15.75F);
             StatusLabel.ForeColor = Color.LemonChiffon;
             StatusLabel.Location = new Point(0, 693);
             StatusLabel.Name = "StatusLabel";
@@ -166,11 +166,11 @@ namespace Simon
             VoiceComboBox.ComboBoxText = "";
             VoiceComboBox.ComoboBoxFont = null;
             VoiceComboBox.Editable = true;
-            VoiceComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            VoiceComboBox.Font = new Font("Verdana", 12F);
             VoiceComboBox.HideLabel = false;
             VoiceComboBox.LabelBottomMargin = 0;
             VoiceComboBox.LabelColor = Color.LemonChiffon;
-            VoiceComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            VoiceComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             VoiceComboBox.LabelText = "Voice:";
             VoiceComboBox.LabelTopMargin = 0;
             VoiceComboBox.LabelWidth = 160;
@@ -206,11 +206,11 @@ namespace Simon
             OutputFileControl.BottomMargin = 0;
             OutputFileControl.Editable = true;
             OutputFileControl.Encrypted = false;
-            OutputFileControl.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            OutputFileControl.Font = new Font("Verdana", 12F, FontStyle.Bold);
             OutputFileControl.Inititialized = true;
             OutputFileControl.LabelBottomMargin = 0;
             OutputFileControl.LabelColor = Color.LemonChiffon;
-            OutputFileControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            OutputFileControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             OutputFileControl.LabelText = "File Name:";
             OutputFileControl.LabelTopMargin = 0;
             OutputFileControl.LabelWidth = 160;
@@ -225,7 +225,7 @@ namespace Simon
             OutputFileControl.TextBoxBottomMargin = 0;
             OutputFileControl.TextBoxDisabledColor = Color.LightGray;
             OutputFileControl.TextBoxEditableColor = Color.White;
-            OutputFileControl.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            OutputFileControl.TextBoxFont = new Font("Verdana", 12F);
             OutputFileControl.TextBoxTopMargin = 0;
             OutputFileControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -241,11 +241,11 @@ namespace Simon
             OutputFolderControl.Editable = true;
             OutputFolderControl.EnabledLabelColor = Color.Empty;
             OutputFolderControl.Filter = null;
-            OutputFolderControl.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            OutputFolderControl.Font = new Font("Verdana", 12F);
             OutputFolderControl.HideBrowseButton = false;
             OutputFolderControl.LabelBottomMargin = 0;
             OutputFolderControl.LabelColor = Color.LemonChiffon;
-            OutputFolderControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            OutputFolderControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             OutputFolderControl.LabelText = "Output Folder:";
             OutputFolderControl.LabelTopMargin = 0;
             OutputFolderControl.LabelWidth = 160;
@@ -261,7 +261,7 @@ namespace Simon
             OutputFolderControl.TextBoxBottomMargin = 0;
             OutputFolderControl.TextBoxDisabledColor = Color.Empty;
             OutputFolderControl.TextBoxEditableColor = Color.Empty;
-            OutputFolderControl.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            OutputFolderControl.TextBoxFont = new Font("Verdana", 12F);
             OutputFolderControl.TextBoxTopMargin = 0;
             OutputFolderControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -305,9 +305,9 @@ namespace Simon
             AppendVoiceNameCheckBox.CheckChangedListener = null;
             AppendVoiceNameCheckBox.Checked = false;
             AppendVoiceNameCheckBox.Editable = true;
-            AppendVoiceNameCheckBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            AppendVoiceNameCheckBox.Font = new Font("Verdana", 12F);
             AppendVoiceNameCheckBox.LabelColor = Color.LemonChiffon;
-            AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             AppendVoiceNameCheckBox.LabelText = "Append Voice Name:";
             AppendVoiceNameCheckBox.LabelWidth = 196;
             AppendVoiceNameCheckBox.Location = new Point(632, 480);
@@ -322,11 +322,11 @@ namespace Simon
             FullNameControl.BottomMargin = 0;
             FullNameControl.Editable = true;
             FullNameControl.Encrypted = false;
-            FullNameControl.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FullNameControl.Font = new Font("Verdana", 12F, FontStyle.Bold);
             FullNameControl.Inititialized = true;
             FullNameControl.LabelBottomMargin = 0;
             FullNameControl.LabelColor = Color.LemonChiffon;
-            FullNameControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FullNameControl.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             FullNameControl.LabelText = "Full Name:";
             FullNameControl.LabelTopMargin = 0;
             FullNameControl.LabelWidth = 160;
@@ -341,7 +341,7 @@ namespace Simon
             FullNameControl.TextBoxBottomMargin = 0;
             FullNameControl.TextBoxDisabledColor = Color.LightGray;
             FullNameControl.TextBoxEditableColor = Color.White;
-            FullNameControl.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            FullNameControl.TextBoxFont = new Font("Verdana", 12F);
             FullNameControl.TextBoxTopMargin = 0;
             FullNameControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -352,11 +352,11 @@ namespace Simon
             GenderComboBox.ComboBoxText = "";
             GenderComboBox.ComoboBoxFont = null;
             GenderComboBox.Editable = true;
-            GenderComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            GenderComboBox.Font = new Font("Verdana", 12F);
             GenderComboBox.HideLabel = false;
             GenderComboBox.LabelBottomMargin = 0;
             GenderComboBox.LabelColor = Color.LemonChiffon;
-            GenderComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            GenderComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             GenderComboBox.LabelText = "Gender:";
             GenderComboBox.LabelTopMargin = 0;
             GenderComboBox.LabelWidth = 100;
@@ -378,11 +378,11 @@ namespace Simon
             CountryComboBox.ComboBoxText = "";
             CountryComboBox.ComoboBoxFont = null;
             CountryComboBox.Editable = true;
-            CountryComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            CountryComboBox.Font = new Font("Verdana", 12F);
             CountryComboBox.HideLabel = false;
             CountryComboBox.LabelBottomMargin = 0;
             CountryComboBox.LabelColor = Color.LemonChiffon;
-            CountryComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            CountryComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             CountryComboBox.LabelText = "Country:";
             CountryComboBox.LabelTopMargin = 0;
             CountryComboBox.LabelWidth = 100;
@@ -418,11 +418,11 @@ namespace Simon
             FilterCountryComboBox.ComboBoxText = "";
             FilterCountryComboBox.ComoboBoxFont = null;
             FilterCountryComboBox.Editable = true;
-            FilterCountryComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterCountryComboBox.Font = new Font("Verdana", 12F);
             FilterCountryComboBox.HideLabel = false;
             FilterCountryComboBox.LabelBottomMargin = 0;
             FilterCountryComboBox.LabelColor = Color.LemonChiffon;
-            FilterCountryComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FilterCountryComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             FilterCountryComboBox.LabelText = "Country:";
             FilterCountryComboBox.LabelTopMargin = 0;
             FilterCountryComboBox.LabelWidth = 100;
@@ -444,11 +444,11 @@ namespace Simon
             FilterGenderComboBox.ComboBoxText = "";
             FilterGenderComboBox.ComoboBoxFont = null;
             FilterGenderComboBox.Editable = true;
-            FilterGenderComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterGenderComboBox.Font = new Font("Verdana", 12F);
             FilterGenderComboBox.HideLabel = false;
             FilterGenderComboBox.LabelBottomMargin = 0;
             FilterGenderComboBox.LabelColor = Color.LemonChiffon;
-            FilterGenderComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FilterGenderComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             FilterGenderComboBox.LabelText = "Gender:";
             FilterGenderComboBox.LabelTopMargin = 0;
             FilterGenderComboBox.LabelWidth = 100;
@@ -539,11 +539,11 @@ namespace Simon
             EmotionComboBox.ComboBoxText = "";
             EmotionComboBox.ComoboBoxFont = null;
             EmotionComboBox.Editable = true;
-            EmotionComboBox.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            EmotionComboBox.Font = new Font("Verdana", 12F);
             EmotionComboBox.HideLabel = false;
             EmotionComboBox.LabelBottomMargin = 0;
             EmotionComboBox.LabelColor = Color.LemonChiffon;
-            EmotionComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            EmotionComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             EmotionComboBox.LabelText = "Emotion:";
             EmotionComboBox.LabelTopMargin = 8;
             EmotionComboBox.LabelWidth = 96;
@@ -564,11 +564,11 @@ namespace Simon
             DegreeTextBox.BottomMargin = 0;
             DegreeTextBox.Editable = true;
             DegreeTextBox.Encrypted = false;
-            DegreeTextBox.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            DegreeTextBox.Font = new Font("Verdana", 12F, FontStyle.Bold);
             DegreeTextBox.Inititialized = true;
             DegreeTextBox.LabelBottomMargin = 0;
             DegreeTextBox.LabelColor = Color.LemonChiffon;
-            DegreeTextBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            DegreeTextBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             DegreeTextBox.LabelText = "Degree:";
             DegreeTextBox.LabelTopMargin = 0;
             DegreeTextBox.LabelWidth = 96;
@@ -583,7 +583,7 @@ namespace Simon
             DegreeTextBox.TextBoxBottomMargin = 0;
             DegreeTextBox.TextBoxDisabledColor = Color.LightGray;
             DegreeTextBox.TextBoxEditableColor = Color.White;
-            DegreeTextBox.TextBoxFont = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            DegreeTextBox.TextBoxFont = new Font("Verdana", 12F);
             DegreeTextBox.TextBoxTopMargin = 0;
             DegreeTextBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -617,9 +617,9 @@ namespace Simon
             MakeDefaultDirectory.CheckChangedListener = null;
             MakeDefaultDirectory.Checked = false;
             MakeDefaultDirectory.Editable = true;
-            MakeDefaultDirectory.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            MakeDefaultDirectory.Font = new Font("Verdana", 12F);
             MakeDefaultDirectory.LabelColor = Color.LemonChiffon;
-            MakeDefaultDirectory.LabelFont = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            MakeDefaultDirectory.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             MakeDefaultDirectory.LabelText = "Make Default Directory:";
             MakeDefaultDirectory.LabelWidth = 224;
             MakeDefaultDirectory.Location = new Point(604, 409);
@@ -660,11 +660,11 @@ namespace Simon
             Controls.Add(GetVoicesButton);
             Controls.Add(TextToSpeakTextBox);
             DoubleBuffered = true;
-            Font = new Font("Segoe UI Symbol", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = new Font("Segoe UI Symbol", 14.25F);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.2.0";
+            Text = "Simon 1.3.0";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();

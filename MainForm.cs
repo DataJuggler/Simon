@@ -1542,7 +1542,7 @@ namespace Simon
                         }
                     }
                 }
-            } while (index > 0);
+            } while (index >= 0);
 
             // return value
             return textToSpeak;
@@ -1614,8 +1614,11 @@ namespace Simon
                                 // If the value for pauseLen is greater than zero
                                 if (pauseLen > 0)
                                 {
+                                    // get a string without a preceding zero
+                                    string pauseLenString = pauseLen.ToString().Replace("0.", ".").Replace("+", "");
+
                                     // get a pause
-                                    string temp3 = "[Pause" + pauseLen.ToString() + "]";
+                                    string temp3 = "[Pause" + pauseLenString + "]";
 
                                     // Append the Pause
                                     sb.Append(temp3);

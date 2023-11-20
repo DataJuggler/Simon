@@ -1328,7 +1328,7 @@ namespace Simon
             DegreeTextBox.Text = "1";
 
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, [Pause1.5] please leave a star on GitHub, and subscribe to my YouTube channel.";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, [Pause1.5] please leave a star on GitHub, and subscribe to my YouTube channel. You can now spell out words like [SpellOut.4] TGIF";
         }
         #endregion
 

@@ -1583,59 +1583,61 @@ namespace Simon
                     // set the len
                     int len = closeIndex - index - 8 - 1;
 
+                    // local
+                    double pauseLen = 0;
+
                     // if the closeIndex is at least 8 characters after
-                    if (closeIndex > (index + 9))
+                    if (closeIndex >= (index + 7))
                     {
                         // get the value of the pause
                         string temp = textToSpeak.Substring(index + 9, len);
+
+                        // Create a new instance of a 'StringBuilder' object.
+                        StringBuilder sb = new StringBuilder();
 
                         // If the temp string exists
                         if (TextHelper.Exists(temp))
                         {
                             // Get the pause len
-                            double pauseLen = NumericHelper.ParseDouble(temp, 0, 0);
+                            pauseLen = NumericHelper.ParseDouble(temp, 0, 0);
+                        }
 
-                            // now get the word after the pause
-                            Word nextWord = GetNextWord(words, "[SpellOut");
+                        // now get the word after the pause
+                        Word nextWord = GetNextWord(words, "[SpellOut");
 
-                            // get the nextword
-                            if (NullHelper.Exists(nextWord))
+                        // get the nextword
+                        if (NullHelper.Exists(nextWord))
+                        {
+                            // iterate the characters 
+                            foreach (char c in nextWord.Text)
                             {
-                                // Create a new instance of a 'StringBuilder' object.
-                                StringBuilder sb = new StringBuilder();
-
-                                // iterate the characters 
-                                foreach (char c in nextWord.Text)
+                                // If the value for pauseLen is greater than zero
+                                if (pauseLen > 0)
                                 {
-                                    // Get a temp string
-                                    string temp2 = SayAsCharacter.Replace("[Character]", c.ToString());
+                                    // get a pause
+                                    string temp3 = "[Pause" + pauseLen.ToString() + "]";
 
-                                    // If the value for pauseLen is greater than zero
-                                    if (pauseLen > 0)
-                                    {
-                                        // get a pause
-                                        string temp3 = "[Pause" + pauseLen.ToString() + "]";
-
-                                        // Append the Pause
-                                        sb.Append(temp3);
-                                    }
-
-                                    // Append this string
-                                    sb.Append(temp2);
+                                    // Append the Pause
+                                    sb.Append(temp3);
                                 }
 
-                                // Set the text
-                                nextWord.Text = sb.ToString();
+                                // Get a temp string
+                                string temp2 = SayAsCharacter.Replace("[Character]", c.ToString());
 
-                                // Remove the word for [SpellOut
-                                words.RemoveAt(nextWord.Index - 1);
-
-                                // Export the words
-                                textToSpeak = TextHelper.ExportWords(words);
+                                // Append this string
+                                sb.Append(temp2);
                             }
+
+                            // Set the text
+                            nextWord.Text = sb.ToString();
+
+                            // Remove the word for [SpellOut
+                            words.RemoveAt(nextWord.Index - 1);
+
+                            // Export the words
+                            textToSpeak = TextHelper.ExportWords(words);
                         }
                     }
-
                 } while (index > 0);
             }
 

@@ -1496,44 +1496,49 @@ namespace Simon
                 {
                     // Set the current index
                     index = textToSpeak.IndexOf("[Pause");
-                    index2 = textToSpeak.IndexOf(']');
 
-                    // verify both indexes are met
-                    if ((index >= 0) && (index2 >= 0))
+                    // if the first index was found
+                    if (index >= 0)
                     {
-                        // set the len
-                        int len = index2 - index + 1;
+                        index2 = textToSpeak.IndexOf(']', index);
 
-                        // Get the string in brackets such as [Pause1] or [Pause.5]
-                        string temp = textToSpeak.Substring(index, len);
-
-                        // Parse out the break time
-                        double breakTime = ParseBreakTime(temp);
-
-                        // set the return value
-                        if (breakTime > 0)
+                        // verify index 2 was found
+                        if (index2 >= 0)
                         {
-                            // if the value for breakTime is greater than 5
-                            if (breakTime > 5)
+                            // set the len
+                            int len = index2 - index + 1;
+
+                            // Get the string in brackets such as [Pause1] or [Pause.5]
+                            string temp = textToSpeak.Substring(index, len);
+
+                            // Parse out the break time
+                            double breakTime = ParseBreakTime(temp);
+
+                            // set the return value
+                            if (breakTime > 0)
                             {
-                                // reset to 5
-                                breakTime = 5;
+                                // if the value for breakTime is greater than 5
+                                if (breakTime > 5)
+                                {
+                                    // reset to 5
+                                    breakTime = 5;
+                                }
+
+                                // convert to milliseconds
+                                double breakMilliseconds = breakTime * 1000;
+
+                                // get the break string
+                                string breakString = "<break time=\"(time)ms\" />".Replace("(time)", breakMilliseconds.ToString());
+
+                                // get the beforeString
+                                string beforeString = textToSpeak.Substring(0, index).Trim();
+
+                                // get the afterString
+                                string afterString = textToSpeak.Substring(index2 + 1).Trim();
+
+                                // get the new string
+                                textToSpeak = beforeString + breakString + afterString;
                             }
-
-                            // convert to milliseconds
-                            double breakMilliseconds = breakTime * 1000;
-
-                            // get the break string
-                            string breakString = "<break time=\"(time)ms\" />".Replace("(time)", breakMilliseconds.ToString());
-
-                            // get the beforeString
-                            string beforeString = textToSpeak.Substring(0, index).Trim();
-
-                            // get the afterString
-                            string afterString = textToSpeak.Substring(index2 + 1).Trim();
-
-                            // get the new string
-                            textToSpeak = beforeString + breakString + afterString;
                         }
                     }
                 }

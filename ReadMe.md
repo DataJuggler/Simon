@@ -5,6 +5,11 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# 12.5.2023: Version 1.4 New Feature - Pitch
+You can now select extra low, low, medium, default, high or extra high. As far as I can tell, Medium and Default are the same.
+You can also write [PitchName], if you want to type 'I am speaking in a [PitchName] pitch. [PitchName] will be
+replaced with a text friendly version of the pitch.
+
 # 11.20.2023: Version 1.3 New Feature - Spell Out
 Now you can add [Spellout.4] TEXT and the next word will be spelled out, with a 4 tenths of a second pause 
 between each character.

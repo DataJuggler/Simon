@@ -86,6 +86,21 @@ namespace ObjectLibrary.Enumerations
     }
     #endregion
 
+    #region PitchEnum
+    /// <summary>
+    /// A collection of Pitches
+    /// </summary>
+    public enum PitchEnum : int
+    {
+        Default_Pitch = 0,
+        XLow = 1,
+        Low = 2,
+        Medium = 3,
+        High = 4,
+        XHigh = 5
+    }
+    #endregion
+
     #region RoleEnum : int
     /// <summary>
     /// This enum is used for the type of role

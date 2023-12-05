@@ -82,6 +82,7 @@ namespace Simon
             RangeLabel = new Label();
             InfoLabel = new Label();
             MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            PitchComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -308,11 +309,11 @@ namespace Simon
             AppendVoiceNameCheckBox.Font = new Font("Verdana", 12F);
             AppendVoiceNameCheckBox.LabelColor = Color.LemonChiffon;
             AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
-            AppendVoiceNameCheckBox.LabelText = "Append Voice Name:";
-            AppendVoiceNameCheckBox.LabelWidth = 196;
-            AppendVoiceNameCheckBox.Location = new Point(632, 480);
+            AppendVoiceNameCheckBox.LabelText = "Append Voice:";
+            AppendVoiceNameCheckBox.LabelWidth = 144;
+            AppendVoiceNameCheckBox.Location = new Point(689, 480);
             AppendVoiceNameCheckBox.Name = "AppendVoiceNameCheckBox";
-            AppendVoiceNameCheckBox.Size = new Size(220, 28);
+            AppendVoiceNameCheckBox.Size = new Size(163, 28);
             AppendVoiceNameCheckBox.TabIndex = 10;
             AppendVoiceNameCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -548,7 +549,7 @@ namespace Simon
             EmotionComboBox.LabelTopMargin = 8;
             EmotionComboBox.LabelWidth = 96;
             EmotionComboBox.List = null;
-            EmotionComboBox.Location = new Point(216, 502);
+            EmotionComboBox.Location = new Point(328, 496);
             EmotionComboBox.Name = "EmotionComboBox";
             EmotionComboBox.SelectedIndex = -1;
             EmotionComboBox.SelectedIndexListener = null;
@@ -572,7 +573,7 @@ namespace Simon
             DegreeTextBox.LabelText = "Degree:";
             DegreeTextBox.LabelTopMargin = 0;
             DegreeTextBox.LabelWidth = 96;
-            DegreeTextBox.Location = new Point(216, 550);
+            DegreeTextBox.Location = new Point(328, 544);
             DegreeTextBox.MultiLine = false;
             DegreeTextBox.Name = "DegreeTextBox";
             DegreeTextBox.OnTextChangedListener = null;
@@ -591,7 +592,7 @@ namespace Simon
             // 
             RangeLabel.BackColor = Color.Transparent;
             RangeLabel.ForeColor = Color.LemonChiffon;
-            RangeLabel.Location = new Point(405, 548);
+            RangeLabel.Location = new Point(517, 542);
             RangeLabel.Name = "RangeLabel";
             RangeLabel.Size = new Size(151, 30);
             RangeLabel.TabIndex = 24;
@@ -628,12 +629,39 @@ namespace Simon
             MakeDefaultDirectory.TabIndex = 20;
             MakeDefaultDirectory.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
+            // PitchComboBox
+            // 
+            PitchComboBox.BackColor = Color.Transparent;
+            PitchComboBox.ComboBoxLeftMargin = 1;
+            PitchComboBox.ComboBoxText = "";
+            PitchComboBox.ComoboBoxFont = null;
+            PitchComboBox.Editable = true;
+            PitchComboBox.Font = new Font("Verdana", 12F);
+            PitchComboBox.HideLabel = false;
+            PitchComboBox.LabelBottomMargin = 0;
+            PitchComboBox.LabelColor = Color.LemonChiffon;
+            PitchComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
+            PitchComboBox.LabelText = "Pitch:";
+            PitchComboBox.LabelTopMargin = 8;
+            PitchComboBox.LabelWidth = 96;
+            PitchComboBox.List = null;
+            PitchComboBox.Location = new Point(94, 496);
+            PitchComboBox.Name = "PitchComboBox";
+            PitchComboBox.SelectedIndex = -1;
+            PitchComboBox.SelectedIndexListener = null;
+            PitchComboBox.Size = new Size(224, 28);
+            PitchComboBox.Sorted = false;
+            PitchComboBox.Source = null;
+            PitchComboBox.TabIndex = 26;
+            PitchComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(889, 735);
+            Controls.Add(PitchComboBox);
             Controls.Add(InfoLabel);
             Controls.Add(RangeLabel);
             Controls.Add(DegreeTextBox);
@@ -662,9 +690,10 @@ namespace Simon
             DoubleBuffered = true;
             Font = new Font("Segoe UI Symbol", 14.25F);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.3.0";
+            Text = "Simon 1.4.0";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
@@ -696,6 +725,7 @@ namespace Simon
         private Label RangeLabel;
         private Label InfoLabel;
         private DataJuggler.Win.Controls.LabelCheckBoxControl MakeDefaultDirectory;
+        private DataJuggler.Win.Controls.LabelComboBoxControl PitchComboBox;
     }
     #endregion
 

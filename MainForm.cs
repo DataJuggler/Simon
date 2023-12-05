@@ -4,26 +4,18 @@
 
 using DataJuggler.UltimateHelper;
 using DataJuggler.UltimateHelper.Objects;
+using DataJuggler.Win.Controls;
+using DataJuggler.Win.Controls.Interfaces;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using Microsoft.VisualBasic.Logging;
+using NAudio.Wave;
 using ObjectLibrary.BusinessObjects;
 using ObjectLibrary.Enumerations;
-using DataJuggler.Win.Controls.Interfaces;
-using NAudio;
-using NAudio.Wave;
-using System.Collections;
-using System.Text;
-using System.Media;
-using DataJuggler.Win.Controls;
-using System.Diagnostics;
 using Simon.Security;
-using System.Windows.Forms;
-using NAudio.CoreAudioApi;
-using System.Security.Policy;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using System.Xml.Schema;
+using System.Diagnostics;
+using System.Media;
+using System.Text;
 
 #endregion
 
@@ -99,12 +91,20 @@ namespace Simon
                     voice.FullName = voiceInfo.ShortName;
                     voice.Country = GetCountry(voiceInfo.Locale);
 
-                    // Save this voice
-                    // bool saved = gateway.SaveVoice(ref voice);
+                    // Check if this voice exists
+                    // Voice existingVoice = gateway.FindVoiceByName(voice.Name);
 
-                    // if (!saved)
+                    // does the existing voice exist
+                    // if (NullHelper.IsNull(existingVoice))
                     // {
-                    // Exception error = gateway.GetLastException();
+                        // Save this voice
+                        // bool saved = gateway.SaveVoice(ref voice);
+
+                        // if (!saved)
+                        // {
+                            // test only
+                            // Exception error = gateway.GetLastException();
+                        // }
                     // }
                 }
 
@@ -215,6 +215,16 @@ namespace Simon
                 EmotionComboBox.SelectedIndex = FindEmotionIndex(emotion);
             }
 
+            // Set the pitch
+            string pitch = Settings.Pitch;
+
+            // If the pitch string exists
+            if (TextHelper.Exists(pitch))
+            {
+                // Find the Emotion
+                PitchComboBox.SelectedIndex = FindPitchIndex(pitch);
+            }
+
             // Set the value for Degree
             string degree = Settings.Degree;
 
@@ -313,6 +323,7 @@ namespace Simon
                     Settings.AppendVoiceName = AppendVoiceNameCheckBox.Checked;
                     Settings.Emotion = EmotionComboBox.ComboBoxText;
                     Settings.Degree = DegreeTextBox.Text;
+                    Settings.Pitch = PitchComboBox.ComboBoxText;
 
                     // if the MakeDefaultDirectory checkbox is checked
                     if (MakeDefaultDirectory.Checked)
@@ -335,6 +346,9 @@ namespace Simon
 
                     // replace out any pauses
                     textToSpeak = ReplacePauses(textToSpeak);
+
+                    // replace out Pitch Name
+                    textToSpeak = textToSpeak.Replace("[PitchName]", GetPitchName());
 
                     // Create the SpeachConfig object
                     var config = SpeechConfig.FromSubscription(Key, Region);
@@ -361,6 +375,9 @@ namespace Simon
                             {
                                 // Get the text of the file
                                 string fileText = GetSSMLFileText();
+
+                                // Replace out the pitch
+                                fileText = ReplacePitch(fileText);
 
                                 // Set the fileText
                                 fileText = fileText.Replace("[TextToSpeak]", textToSpeak);
@@ -1000,6 +1017,75 @@ namespace Simon
         }
         #endregion
 
+        #region FindPitchIndex(string pitch)
+        /// <summary>
+        /// returns the Pitch Index
+        /// </summary>
+        public int FindPitchIndex(string pitch)
+        {
+            // initial value
+            int index = PitchComboBox.FindItemIndexByValue("default", true);
+
+            // if a pitch value was passed in
+            if (TextHelper.Exists(pitch))
+            {
+                switch(pitch)
+                {
+                    case "XLow":
+
+                        // set the index
+                        index = 1;
+
+                        // required
+                        break;
+
+                    case "Low":
+
+                        // set the index
+                        index = 2;
+
+                        // required
+                        break;
+
+                    case "Medium":
+
+                        // set the index
+                        index = 3;
+
+                        // required
+                        break;
+
+                    case "High":
+
+                        // set the index
+                        index = 4;
+
+                        // required
+                        break;
+
+                    case "XHigh":
+
+                        // set the index
+                        index = 5;
+
+                        // required
+                        break;
+
+                    default:
+
+                        // set the index
+                        index = 0;
+
+                        // required
+                        break;
+                }
+            }
+                
+            // return value
+            return index;
+        }
+        #endregion
+            
         #region GetCountry(string locale)
         /// <summary>
         /// returns the Country
@@ -1212,6 +1298,42 @@ namespace Simon
         }
         #endregion
             
+        #region GetPitchName()
+        /// <summary>
+        /// returns the Pitch Name
+        /// </summary>
+        public string GetPitchName()
+        {
+            // initial value
+            string pitchName = PitchComboBox.ComboBoxText;
+
+            // Get the current value
+            string pitch = PitchComboBox.ComboBoxText;
+
+            switch (pitch)
+            {
+                case "XLow":
+
+                    // Set the return value
+                    pitchName = "Extra Low";
+
+                    // required
+                    break;
+
+                case "XHigh":
+
+                    // Set the return value
+                    pitchName = "Extra High";
+
+                    // required
+                    break;
+            }
+                
+            // return value
+            return pitchName;
+        }
+        #endregion
+            
         #region GetRole()
         /// <summary>
         /// returns the Role
@@ -1294,11 +1416,18 @@ namespace Simon
         /// </summary>
         public void Init()
         {
+            // I use this to update the voices when new ones come available.
+            // GetVoicesButton_Click(this, new EventArgs());
+
             // Load the Filter Combo Boxes
             FilterGenderComboBox.LoadItems(typeof(GenderEnum));
             FilterCountryComboBox.LoadItems(typeof(CountryEnum));
             GenderComboBox.LoadItems(typeof(GenderEnum));
             CountryComboBox.LoadItems(typeof(CountryEnum));
+            PitchComboBox.LoadItems(typeof(PitchEnum));
+
+            // Repliace out the word Default Pitch
+            PitchComboBox.Items[0] = "Default";
 
             // Default value
             FilterGenderComboBox.SelectedIndex = 0;
@@ -1549,6 +1678,23 @@ namespace Simon
         }
         #endregion
 
+        #region ReplacePitch(string textToSpeach)
+        /// <summary>
+        /// returns the Pitch
+        /// </summary>
+        public string ReplacePitch(string fileText)
+        {
+            // Get the selected value
+            string pitch = PitchComboBox.ComboBoxText;
+
+            // initial value
+            pitch = fileText.Replace("[Pitch]", pitch.Replace("XLow", "x-low").Replace("XHigh", "x-high").ToLower());
+                
+            // return value
+            return pitch;
+        }
+        #endregion
+            
         #region ReplaceSpellOutCharacters()
         /// <summary>
         /// Replace Spell Out Characters

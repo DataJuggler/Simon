@@ -161,36 +161,6 @@ namespace Simon.Security
             }
             #endregion
 
-            #region Voice
-            /// <summary>
-            /// This property gets or sets the value for Voice
-            /// </summary>
-            [UserScopedSetting()]
-            public string Voice
-            {
-                get
-                {
-                    // initial value
-                    string voice = "";
-
-                    // if the CompareCount exists
-                    if (this["Voice"] != null)
-                    {
-                        // set the return value
-                        voice = this["Voice"].ToString();
-                    }
-
-                    // return the value for outputFolder
-                    return voice;
-                }
-                set
-                {
-                    // set the value for Voice
-                    this["Voice"] = value;
-                }   
-            }
-            #endregion
-
             #region OutputFolder
             /// <summary>
             /// This property gets or sets the value for OutputFolder
@@ -217,6 +187,66 @@ namespace Simon.Security
                 {
                     // set the value for CompareCount
                     this["OutputFolder"] = value;
+                }   
+            }
+            #endregion
+
+            #region Emotion
+            /// <summary>
+            /// This property gets or sets the value for Pitch
+            /// </summary>
+            [UserScopedSetting()]
+            public string Pitch
+            {
+                get
+                {
+                    // initial value
+                    string pitch = "default";
+
+                    // if the Emotion exists
+                    if (this["Pitch"] != null)
+                    {
+                        // set the return value
+                        pitch = this["Pitch"].ToString();
+                    }
+
+                    // return the value for Emotion
+                    return pitch;
+                }
+                set
+                {
+                    // set the value for Pitch
+                    this["Pitch"] = value;
+                }   
+            }
+            #endregion
+
+            #region Voice
+            /// <summary>
+            /// This property gets or sets the value for Voice
+            /// </summary>
+            [UserScopedSetting()]
+            public string Voice
+            {
+                get
+                {
+                    // initial value
+                    string voice = "";
+
+                    // if the CompareCount exists
+                    if (this["Voice"] != null)
+                    {
+                        // set the return value
+                        voice = this["Voice"].ToString();
+                    }
+
+                    // return the value for outputFolder
+                    return voice;
+                }
+                set
+                {
+                    // set the value for Voice
+                    this["Voice"] = value;
                 }   
             }
             #endregion

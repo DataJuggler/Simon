@@ -1,5 +1,4 @@
 
-
 #region using statements
 
 using DataAccessComponent.StoredProcedureManager.DeleteProcedures;
@@ -12,7 +11,6 @@ using System;
 using System.Data;
 
 #endregion
-
 
 namespace DataAccessComponent.DataManager.Writers
 {
@@ -27,10 +25,48 @@ namespace DataAccessComponent.DataManager.Writers
 
         #region Static Methods
 
-            // *******************************************
-            // Write any overrides or custom methods here.
-            // *******************************************
+            #region CreateFindVoiceStoredProcedure(Voice voice)
+            /// <summary>
+            /// This method creates an instance of a
+            /// 'FindVoiceStoredProcedure' object and
+            /// creates the sql parameter[] array needed
+            /// to execute the procedure 'Voice_Find'.
+            /// </summary>
+            /// <param name="voice">The 'Voice' to use to
+            /// get the primary key parameter.</param>
+            /// <returns>An instance of an FetchUserStoredProcedure</returns>
+            public static new FindVoiceStoredProcedure CreateFindVoiceStoredProcedure(Voice voice)
+            {
+                // Initial Value
+                FindVoiceStoredProcedure findVoiceStoredProcedure = null;
 
+                // verify voice exists
+                if(voice != null)
+                {
+                    // Instanciate findVoiceStoredProcedure
+                    findVoiceStoredProcedure = new FindVoiceStoredProcedure();
+
+                    // if voice.FindByName is true
+                    if (voice.FindByName)
+                    {
+                            // Change the procedure name
+                            findVoiceStoredProcedure.ProcedureName = "Voice_FindByName";
+                            
+                            // Create the @Name parameter
+                            findVoiceStoredProcedure.Parameters = SqlParameterHelper.CreateSqlParameters("@Name", voice.Name);
+                    }
+                    else
+                    {
+                        // Now create parameters for this procedure
+                        findVoiceStoredProcedure.Parameters = CreatePrimaryKeyParameter(voice);
+                    }
+                }
+
+                // return value
+                return findVoiceStoredProcedure;
+            }
+            #endregion
+            
         #endregion
 
     }

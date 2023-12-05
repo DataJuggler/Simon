@@ -72,3 +72,6 @@
 72,Tony,en-US,en-US-TonyNeural,United States,Male
 73,Leah,en-ZA,en-ZA-LeahNeural,South Africa,Female
 74,Luke,en-ZA,en-ZA-LukeNeural,South Africa,Male
+75,Andrew,en-US,en-US-AndrewNeural,United States,Male
+76,Brian,en-US,en-US-BrianNeural,United States,Male
+77,Emma,en-US,en-US-EmmaNeural,United States,Female

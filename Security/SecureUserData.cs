@@ -191,7 +191,7 @@ namespace Simon.Security
             }
             #endregion
 
-            #region Emotion
+            #region Pitch
             /// <summary>
             /// This property gets or sets the value for Pitch
             /// </summary>
@@ -203,20 +203,50 @@ namespace Simon.Security
                     // initial value
                     string pitch = "default";
 
-                    // if the Emotion exists
+                    // if the Pitch exists
                     if (this["Pitch"] != null)
                     {
                         // set the return value
                         pitch = this["Pitch"].ToString();
                     }
 
-                    // return the value for Emotion
+                    // return the value for pitch
                     return pitch;
                 }
                 set
                 {
                     // set the value for Pitch
                     this["Pitch"] = value;
+                }   
+            }
+            #endregion
+
+            #region Rate
+            /// <summary>
+            /// This property gets or sets the value for Rate
+            /// </summary>
+            [UserScopedSetting()]
+            public string Rate
+            {
+                get
+                {
+                    // initial value
+                    string rate = "default";
+
+                    // if the Rate exists
+                    if (this["Rate"] != null)
+                    {
+                        // set the return value
+                        rate = this["Rate"].ToString();
+                    }
+
+                    // return the value for pitch
+                    return rate;
+                }
+                set
+                {
+                    // set the value for Pitch
+                    this["Rate"] = value;
                 }   
             }
             #endregion

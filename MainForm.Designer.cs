@@ -83,6 +83,7 @@ namespace Simon
             InfoLabel = new Label();
             MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             PitchComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            RateComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -139,7 +140,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(379, 622);
+            SpeakButton.Location = new Point(379, 654);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(127, 55);
@@ -153,7 +154,7 @@ namespace Simon
             StatusLabel.Dock = DockStyle.Bottom;
             StatusLabel.Font = new Font("Segoe UI Symbol", 15.75F);
             StatusLabel.ForeColor = Color.LemonChiffon;
-            StatusLabel.Location = new Point(0, 693);
+            StatusLabel.Location = new Point(0, 753);
             StatusLabel.Name = "StatusLabel";
             StatusLabel.Size = new Size(889, 42);
             StatusLabel.TabIndex = 3;
@@ -290,7 +291,7 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(215, 622);
+            TryVoicesButton.Location = new Point(215, 654);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
             TryVoicesButton.Size = new Size(127, 55);
@@ -477,7 +478,7 @@ namespace Simon
             // 
             GitHubButton.BackgroundImage = Properties.Resources.GitHub;
             GitHubButton.BackgroundImageLayout = ImageLayout.Stretch;
-            GitHubButton.Location = new Point(31, 591);
+            GitHubButton.Location = new Point(31, 623);
             GitHubButton.Name = "GitHubButton";
             GitHubButton.Size = new Size(150, 83);
             GitHubButton.TabIndex = 15;
@@ -490,7 +491,7 @@ namespace Simon
             // 
             YouTubeButton.BackgroundImage = Properties.Resources.YouTubeBlue;
             YouTubeButton.BackgroundImageLayout = ImageLayout.Stretch;
-            YouTubeButton.Location = new Point(702, 591);
+            YouTubeButton.Location = new Point(702, 623);
             YouTubeButton.Name = "YouTubeButton";
             YouTubeButton.Size = new Size(150, 83);
             YouTubeButton.TabIndex = 16;
@@ -501,7 +502,7 @@ namespace Simon
             // 
             LeaveAStarPleaseLabel.BackColor = Color.Transparent;
             LeaveAStarPleaseLabel.ForeColor = Color.LemonChiffon;
-            LeaveAStarPleaseLabel.Location = new Point(18, 558);
+            LeaveAStarPleaseLabel.Location = new Point(18, 590);
             LeaveAStarPleaseLabel.Name = "LeaveAStarPleaseLabel";
             LeaveAStarPleaseLabel.Size = new Size(177, 30);
             LeaveAStarPleaseLabel.TabIndex = 17;
@@ -512,7 +513,7 @@ namespace Simon
             // 
             SubscribeLabel.BackColor = Color.Transparent;
             SubscribeLabel.ForeColor = Color.LemonChiffon;
-            SubscribeLabel.Location = new Point(689, 558);
+            SubscribeLabel.Location = new Point(689, 590);
             SubscribeLabel.Name = "SubscribeLabel";
             SubscribeLabel.Size = new Size(163, 30);
             SubscribeLabel.TabIndex = 18;
@@ -525,7 +526,7 @@ namespace Simon
             StopButton.ButtonText = "Stop";
             StopButton.FlatStyle = FlatStyle.Flat;
             StopButton.ForeColor = Color.LemonChiffon;
-            StopButton.Location = new Point(541, 622);
+            StopButton.Location = new Point(541, 654);
             StopButton.Margin = new Padding(5);
             StopButton.Name = "StopButton";
             StopButton.Size = new Size(127, 55);
@@ -655,12 +656,39 @@ namespace Simon
             PitchComboBox.TabIndex = 26;
             PitchComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
+            // RateComboBox
+            // 
+            RateComboBox.BackColor = Color.Transparent;
+            RateComboBox.ComboBoxLeftMargin = 1;
+            RateComboBox.ComboBoxText = "";
+            RateComboBox.ComoboBoxFont = null;
+            RateComboBox.Editable = true;
+            RateComboBox.Font = new Font("Verdana", 12F);
+            RateComboBox.HideLabel = false;
+            RateComboBox.LabelBottomMargin = 0;
+            RateComboBox.LabelColor = Color.LemonChiffon;
+            RateComboBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
+            RateComboBox.LabelText = "Rate:";
+            RateComboBox.LabelTopMargin = 8;
+            RateComboBox.LabelWidth = 96;
+            RateComboBox.List = null;
+            RateComboBox.Location = new Point(94, 544);
+            RateComboBox.Name = "RateComboBox";
+            RateComboBox.SelectedIndex = -1;
+            RateComboBox.SelectedIndexListener = null;
+            RateComboBox.Size = new Size(224, 28);
+            RateComboBox.Sorted = false;
+            RateComboBox.Source = null;
+            RateComboBox.TabIndex = 27;
+            RateComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(889, 735);
+            ClientSize = new Size(889, 795);
+            Controls.Add(RateComboBox);
             Controls.Add(PitchComboBox);
             Controls.Add(InfoLabel);
             Controls.Add(RangeLabel);
@@ -693,7 +721,7 @@ namespace Simon
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.4.0";
+            Text = "Simon 1.5.0";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
@@ -726,6 +754,7 @@ namespace Simon
         private Label InfoLabel;
         private DataJuggler.Win.Controls.LabelCheckBoxControl MakeDefaultDirectory;
         private DataJuggler.Win.Controls.LabelComboBoxControl PitchComboBox;
+        private DataJuggler.Win.Controls.LabelComboBoxControl RateComboBox;
     }
     #endregion
 

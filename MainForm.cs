@@ -221,8 +221,18 @@ namespace Simon
             // If the pitch string exists
             if (TextHelper.Exists(pitch))
             {
-                // Find the Emotion
+                // Find the Pitch
                 PitchComboBox.SelectedIndex = FindPitchIndex(pitch);
+            }
+
+            // Set the rate
+            string rate = Settings.Rate;
+
+            // If the rate string exists
+            if (TextHelper.Exists(rate))
+            {
+                // Find the Rate
+                RateComboBox.SelectedIndex = FindRateIndex(rate);
             }
 
             // Set the value for Degree
@@ -324,6 +334,7 @@ namespace Simon
                     Settings.Emotion = EmotionComboBox.ComboBoxText;
                     Settings.Degree = DegreeTextBox.Text;
                     Settings.Pitch = PitchComboBox.ComboBoxText;
+                    Settings.Rate = RateComboBox.ComboBoxText;
 
                     // if the MakeDefaultDirectory checkbox is checked
                     if (MakeDefaultDirectory.Checked)
@@ -349,6 +360,9 @@ namespace Simon
 
                     // replace out Pitch Name
                     textToSpeak = textToSpeak.Replace("[PitchName]", GetPitchName());
+
+                    // replace out Rate Name
+                    textToSpeak = textToSpeak.Replace("[RateName]", GetRateName());
 
                     // Create the SpeachConfig object
                     var config = SpeechConfig.FromSubscription(Key, Region);
@@ -378,6 +392,9 @@ namespace Simon
 
                                 // Replace out the pitch
                                 fileText = ReplacePitch(fileText);
+
+                                // Replace out the rate
+                                fileText = ReplaceRate(fileText);
 
                                 // Set the fileText
                                 fileText = fileText.Replace("[TextToSpeak]", textToSpeak);
@@ -1086,6 +1103,75 @@ namespace Simon
         }
         #endregion
             
+        #region FindRateIndex(string rate)
+        /// <summary>
+        /// returns the Rate Index
+        /// </summary>
+        public int FindRateIndex(string rate)
+        {
+            // initial value
+            int index = PitchComboBox.FindItemIndexByValue("default", true);
+
+            // if a rate value was passed in
+            if (TextHelper.Exists(rate))
+            {
+                switch(rate)
+                {
+                    case "XSlow":
+
+                        // set the index
+                        index = 1;
+
+                        // required
+                        break;
+
+                    case "Slow":
+
+                        // set the index
+                        index = 2;
+
+                        // required
+                        break;
+
+                    case "Medium":
+
+                        // set the index
+                        index = 3;
+
+                        // required
+                        break;
+
+                    case "Fast":
+
+                        // set the index
+                        index = 4;
+
+                        // required
+                        break;
+
+                    case "XFast":
+
+                        // set the index
+                        index = 5;
+
+                        // required
+                        break;
+
+                    default:
+
+                        // set the index
+                        index = 0;
+
+                        // required
+                        break;
+                }
+            }
+                
+            // return value
+            return index;
+        }
+        #endregion
+            
         #region GetCountry(string locale)
         /// <summary>
         /// returns the Country
@@ -1333,6 +1419,42 @@ namespace Simon
             return pitchName;
         }
         #endregion
+
+        #region GetRateName()
+        /// <summary>
+        /// returns the Rate Name
+        /// </summary>
+        public string GetRateName()
+        {
+            // initial value
+            string rateName = RateComboBox.ComboBoxText;
+
+            // Get the current value
+            string rate = RateComboBox.ComboBoxText;
+
+            switch (rate)
+            {
+                case "XSlow":
+
+                    // Set the return value
+                    rateName = "Extra Slow";
+
+                    // required
+                    break;
+
+                case "XFast":
+
+                    // Set the return value
+                    rateName = "Extra Fast";
+
+                    // required
+                    break;
+            }
+                
+            // return value
+            return rateName;
+        }
+        #endregion
             
         #region GetRole()
         /// <summary>
@@ -1425,9 +1547,11 @@ namespace Simon
             GenderComboBox.LoadItems(typeof(GenderEnum));
             CountryComboBox.LoadItems(typeof(CountryEnum));
             PitchComboBox.LoadItems(typeof(PitchEnum));
+            RateComboBox.LoadItems(typeof(RateEnum));
 
             // Repliace out the word Default Pitch
             PitchComboBox.Items[0] = "Default";
+            RateComboBox.Items[0] = "Default";
 
             // Default value
             FilterGenderComboBox.SelectedIndex = 0;
@@ -1678,7 +1802,7 @@ namespace Simon
         }
         #endregion
 
-        #region ReplacePitch(string textToSpeach)
+        #region ReplacePitch(string fileText)
         /// <summary>
         /// returns the Pitch
         /// </summary>
@@ -1692,6 +1816,60 @@ namespace Simon
                 
             // return value
             return pitch;
+        }
+        #endregion
+            
+        #region ReplaceRate(string fileText)
+        /// <summary>
+        /// returns the Rate
+        /// </summary>
+        public string ReplaceRate(string fileText)
+        {
+             // Get the selected value
+            string rateValue = "0%";
+
+            // Get the current value
+            string rate = RateComboBox.ComboBoxText;
+
+            switch(rate)
+            {
+                case "XSlow":
+
+                    // Slow down more
+                    rateValue = "-20%";
+
+                    // required
+                    break;
+
+                case "Slow":
+
+                    // Slow down some
+                    rateValue = "-10%";
+
+                    // required
+                    break;
+
+                case "Fast":
+
+                    // Speed up some
+                    rateValue = "+10%";
+
+                    // required
+                    break;
+
+                case "XFast":
+
+                    // Speed up some
+                    rateValue = "+20%";
+
+                    // required
+                    break;
+            }
+
+            fileText = fileText.Replace("[Rate]", rateValue);
+                
+            // return value
+            return fileText;
         }
         #endregion
             

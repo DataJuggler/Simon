@@ -101,6 +101,21 @@ namespace ObjectLibrary.Enumerations
     }
     #endregion
 
+    #region RateEnum
+    /// <summary>
+    /// A collection of Rates
+    /// </summary>
+    public enum RateEnum : int
+    {
+        Default_Rate = 0,
+        XSlow = 1,
+        Slow = 2,
+        Medium = 3,
+        Fast = 4,
+        XFast = 5
+    }
+    #endregion
+
     #region RoleEnum : int
     /// <summary>
     /// This enum is used for the type of role

@@ -5,6 +5,13 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# 12.7.2023: Version 1.5 New Feature - Rate
+You can now select extra slow, slow, medium, default, fast or extra fast. As far as I can tell, Medium and Default are the same.
+You can also write [RateName], if you want to type 'I am speaking at the [RateName] rate. [RateName] will be
+replaced with a text friendly version of the rate. I didn't use the default values of x-slow, slow, fast or x-fast, instead
+I replace slow with "-10%", and replace extra slow with "-20%". The same is true for fast is "+10%", and x-fast is
+"+20%". The Microsoft options of x-slow and slow were too slow, and the fast and x-fast options were too fast.
+
 # 12.5.2023: Version 1.4 New Feature - Pitch
 You can now select extra low, low, medium, default, high or extra high. As far as I can tell, Medium and Default are the same.
 You can also write [PitchName], if you want to type 'I am speaking in a [PitchName] pitch. [PitchName] will be

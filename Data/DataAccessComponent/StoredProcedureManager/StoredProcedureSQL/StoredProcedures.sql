@@ -6,7 +6,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Insert
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   10/7/2023
+-- Create Date:   2/13/2024
 -- Description:    Insert a new Voice
 -- =========================================================
 
@@ -39,6 +39,7 @@ Create PROCEDURE Voice_Insert
     -- Add the parameters for the stored procedure here
     @Country nvarchar(50),
     @FullName nvarchar(128),
+    @Gender int,
     @Locale nvarchar(20),
     @Name nvarchar(50)
 
@@ -51,10 +52,10 @@ BEGIN
 
     -- Begin Insert Statement
     Insert Into [Voice]
-    ([Country],[FullName],[Locale],[Name])
+    ([Country],[FullName],[Gender],[Locale],[Name])
 
     -- Begin Values List
-    Values(@Country, @FullName, @Locale, @Name)
+    Values(@Country, @FullName, @Gender, @Locale, @Name)
 
     -- Return ID of new record
     SELECT SCOPE_IDENTITY()
@@ -67,7 +68,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Update
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   10/7/2023
+-- Create Date:   2/13/2024
 -- Description:    Update an existing Voice
 -- =========================================================
 
@@ -100,6 +101,7 @@ Create PROCEDURE Voice_Update
     -- Add the parameters for the stored procedure here
     @Country nvarchar(50),
     @FullName nvarchar(128),
+    @Gender int,
     @Id int,
     @Locale nvarchar(20),
     @Name nvarchar(50)
@@ -117,6 +119,7 @@ BEGIN
     -- Update Each field
     Set [Country] = @Country,
     [FullName] = @FullName,
+    [Gender] = @Gender,
     [Locale] = @Locale,
     [Name] = @Name
 
@@ -131,7 +134,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Find
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   10/7/2023
+-- Create Date:   2/13/2024
 -- Description:    Find an existing Voice
 -- =========================================================
 
@@ -172,7 +175,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Begin Select Statement
-    Select [Country],[FullName],[Id],[Locale],[Name]
+    Select [Country],[FullName],[Gender],[Id],[Locale],[Name]
 
     -- From tableName
     From [Voice]
@@ -188,7 +191,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Delete
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   10/7/2023
+-- Create Date:   2/13/2024
 -- Description:    Delete an existing Voice
 -- =========================================================
 
@@ -242,7 +245,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_FetchAll
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   10/7/2023
+-- Create Date:   2/13/2024
 -- Description:    Returns all Voice objects
 -- =========================================================
 
@@ -280,12 +283,75 @@ BEGIN
     SET NOCOUNT ON
 
     -- Begin Select Statement
-    Select [Country],[FullName],[Id],[Locale],[Name]
+    Select [Country],[FullName],[Gender],[Id],[Locale],[Name]
 
     -- From tableName
     From [Voice]
 
 END
+
+-- Begin Custom Methods
+
+
+set ANSI_NULLS ON
+set QUOTED_IDENTIFIER ON
+Go
+-- =========================================================
+-- Procure Name: Voice_FindByName
+-- Author:           Data Juggler - Data Tier.Net Procedure Generator
+-- Create Date:   2/13/2024
+-- Description:    Find an existing Voice for the Name given.
+-- =========================================================
+
+-- Check if the procedure already exists
+IF EXISTS (select * from syscomments where id = object_id ('Voice_FindByName'))
+
+    -- Procedure Does Exist, Drop First
+    BEGIN
+
+        -- Execute Drop
+        Drop Procedure Voice_FindByName
+
+        -- Test if procedure was dropped
+        IF OBJECT_ID('dbo.Voice_FindByName') IS NOT NULL
+
+            -- Print Line Drop Failed
+            PRINT '<<< Drop Failed On Procedure Voice_FindByName >>>'
+
+        Else
+
+            -- Print Line Procedure Dropped
+            PRINT '<<< Drop Suceeded On Procedure Voice_FindByName >>>'
+
+    End
+
+GO
+
+Create PROCEDURE Voice_FindByName
+
+    -- Create @Name Paramater
+    @Name nvarchar(50)
+
+AS
+BEGIN
+
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Begin Select Statement
+    Select [Country],[FullName],[Gender],[Id],[Locale],[Name]
+
+    -- From tableName
+    From [Voice]
+
+    -- Find Matching Record
+    Where [Name] = @Name
+
+END
+
+
+-- End Custom Methods
 
 -- Thank you for using DataTier.Net.
 

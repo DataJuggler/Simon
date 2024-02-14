@@ -168,31 +168,31 @@ namespace DataGateway
             }
             #endregion
 
-                #region FindVoiceByName(string name)
-                /// <summary>
-                /// This method is used to find 'Voice' objects for the Name given.
-                /// </summary>
-                public Voice FindVoiceByName(string name)
-                {
-                    // initial value
-                    Voice voice = null;
+            #region FindVoiceByName(string name)
+            /// <summary>
+            /// This method is used to find 'Voice' objects for the Name given.
+            /// </summary>
+            public Voice FindVoiceByName(string name)
+            {
+                // initial value
+                Voice voice = null;
                     
-                    // Create a temp Voice object
-                    Voice tempVoice = new Voice();
+                // Create a temp Voice object
+                Voice tempVoice = new Voice();
                     
-                    // Set the value for FindByName to true
-                    tempVoice.FindByName = true;
+                // Set the value for FindByName to true
+                tempVoice.FindByName = true;
                     
-                    // Set the value for Name
-                    tempVoice.Name = name;
+                // Set the value for Name
+                tempVoice.Name = name;
                     
-                    // Perform the find
-                    voice = FindVoice(0, tempVoice);
+                // Perform the find
+                voice = FindVoice(0, tempVoice);
                     
-                    // return value
-                    return voice;
-                }
-                #endregion
+                // return value
+                return voice;
+            }
+            #endregion
                 
             #region GetDataConnector()
             /// <summary>
@@ -363,3 +363,4 @@ namespace DataGateway
     #endregion
 
 }
+

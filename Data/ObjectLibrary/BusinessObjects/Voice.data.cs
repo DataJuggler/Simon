@@ -18,10 +18,10 @@ namespace ObjectLibrary.BusinessObjects
         #region Private Variables
         private string country;
         private string fullName;
+        private GenderEnum gender;
         private int id;
         private string locale;
         private string name;
-        private GenderEnum gender;
         #endregion
 
         #region Methods
@@ -42,17 +42,6 @@ namespace ObjectLibrary.BusinessObjects
 
         #region Properties
 
-            #region Gender
-            /// <summary>
-            /// This property gets or sets the value for 'Gender'.
-            /// </summary>
-            public GenderEnum Gender
-            {
-                get { return gender; }
-                set { gender = value; }
-            }
-            #endregion
-            
             #region string Country
             public string Country
             {
@@ -77,6 +66,20 @@ namespace ObjectLibrary.BusinessObjects
                 set
                 {
                     fullName = value;
+                }
+            }
+            #endregion
+
+            #region GenderEnum Gender
+            public GenderEnum Gender
+            {
+                get
+                {
+                    return gender;
+                }
+                set
+                {
+                    gender = value;
                 }
             }
             #endregion

@@ -66,6 +66,8 @@ namespace Simon
         /// </summary>
         private async void GetVoicesButton_Click(object sender, EventArgs e)
         {
+            // locals
+            // bool saved;
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
@@ -90,21 +92,34 @@ namespace Simon
                     voice.Locale = voiceInfo.Locale;
                     voice.FullName = voiceInfo.ShortName;
                     voice.Country = GetCountry(voiceInfo.Locale);
-
+                    var gender = ParseGender(voiceInfo.Gender.ToString());
+                    voice.Gender = gender;
+                    
                     // Check if this voice exists
                     // Voice existingVoice = gateway.FindVoiceByName(voice.Name);
 
                     // does the existing voice exist
                     // if (NullHelper.IsNull(existingVoice))
                     // {
-                        // Save this voice
-                        // bool saved = gateway.SaveVoice(ref voice);
+                        // Set the Gender
+                        // voice.Gender = gender;
 
-                        // if (!saved)
-                        // {
-                            // test only
-                            // Exception error = gateway.GetLastException();
-                        // }
+                        // Save this voice
+                        // saved = gateway.SaveVoice(ref voice);
+                    // }
+                    // else
+                    // {
+                        // Set the Gender
+                        // existingVoice.Gender = gender;
+
+                        // Save this existingVoice
+                        // saved = gateway.SaveVoice(ref existingVoice);
+                    // }
+
+                    // if (!saved)
+                    // {
+                        // For debugging only
+                        // Exception error = gateway.GetLastException();
                     // }
                 }
 
@@ -616,6 +631,12 @@ namespace Simon
             StringBuilder sb = new StringBuilder();
             char comma = ',';
 
+            // Create a new instance of a 'Gateway' object.
+            // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
+
+            // Load all the voices
+            // Voices = gateway.LoadVoices();
+
             // if my machine (database loaded voices)
             if (ListHelper.HasOneOrMoreItems(Voices))
             {
@@ -627,6 +648,12 @@ namespace Simon
                 {
                     // Must be installed version
                     path = "Voices";
+                }
+
+                if (FileHelper.Exists(path))
+                {
+                    // Delete this file
+                    File.Delete(path);
                 }
 
                 // try again
@@ -648,6 +675,8 @@ namespace Simon
                         sb.Append(voice.FullName);
                         sb.Append(comma);
                         sb.Append(voice.Country);
+                        sb.Append(comma);
+                        sb.Append(voice.Gender.ToString());
                         sb.Append(Environment.NewLine);
                     }
 

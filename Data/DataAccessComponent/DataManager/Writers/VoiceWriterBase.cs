@@ -2,14 +2,14 @@
 
 #region using statements
 
+using System;
+using ObjectLibrary.BusinessObjects;
 using DataAccessComponent.StoredProcedureManager.DeleteProcedures;
 using DataAccessComponent.StoredProcedureManager.FetchProcedures;
 using DataAccessComponent.StoredProcedureManager.InsertProcedures;
 using DataAccessComponent.StoredProcedureManager.UpdateProcedures;
-using Microsoft.Data.SqlClient;
-using ObjectLibrary.BusinessObjects;
-using System;
 using System.Data;
+using Microsoft.Data.SqlClient;
 
 #endregion
 
@@ -117,7 +117,7 @@ namespace DataAccessComponent.DataManager.Writers
             internal static SqlParameter[] CreateInsertParameters(Voice voice)
             {
                 // Initial Values
-                SqlParameter[] parameters = new SqlParameter[4];
+                SqlParameter[] parameters = new SqlParameter[5];
                 SqlParameter param = null;
 
                 // verify voiceexists
@@ -135,17 +135,23 @@ namespace DataAccessComponent.DataManager.Writers
                     // set parameters[1]
                     parameters[1] = param;
 
-                    // Create [Locale] parameter
-                    param = new SqlParameter("@Locale", voice.Locale);
+                    // Create [Gender] parameter
+                    param = new SqlParameter("@Gender", voice.Gender);
 
                     // set parameters[2]
                     parameters[2] = param;
 
-                    // Create [Name] parameter
-                    param = new SqlParameter("@Name", voice.Name);
+                    // Create [Locale] parameter
+                    param = new SqlParameter("@Locale", voice.Locale);
 
                     // set parameters[3]
                     parameters[3] = param;
+
+                    // Create [Name] parameter
+                    param = new SqlParameter("@Name", voice.Name);
+
+                    // set parameters[4]
+                    parameters[4] = param;
                 }
 
                 // return value
@@ -192,7 +198,7 @@ namespace DataAccessComponent.DataManager.Writers
             internal static SqlParameter[] CreateUpdateParameters(Voice voice)
             {
                 // Initial Values
-                SqlParameter[] parameters = new SqlParameter[5];
+                SqlParameter[] parameters = new SqlParameter[6];
                 SqlParameter param = null;
 
                 // verify voiceexists
@@ -210,21 +216,27 @@ namespace DataAccessComponent.DataManager.Writers
                     // set parameters[1]
                     parameters[1] = param;
 
-                    // Create parameter for [Locale]
-                    param = new SqlParameter("@Locale", voice.Locale);
+                    // Create parameter for [Gender]
+                    param = new SqlParameter("@Gender", voice.Gender);
 
                     // set parameters[2]
                     parameters[2] = param;
 
-                    // Create parameter for [Name]
-                    param = new SqlParameter("@Name", voice.Name);
+                    // Create parameter for [Locale]
+                    param = new SqlParameter("@Locale", voice.Locale);
 
                     // set parameters[3]
                     parameters[3] = param;
 
+                    // Create parameter for [Name]
+                    param = new SqlParameter("@Name", voice.Name);
+
+                    // set parameters[4]
+                    parameters[4] = param;
+
                     // Create parameter for [Id]
                     param = new SqlParameter("@Id", voice.Id);
-                    parameters[4] = param;
+                    parameters[5] = param;
                 }
 
                 // return value

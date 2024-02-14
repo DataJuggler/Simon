@@ -38,15 +38,17 @@ namespace DataAccessComponent.DataManager.Readers
                 // Create field Integers
                 int countryfield = 0;
                 int fullNamefield = 1;
-                int idfield = 2;
-                int localefield = 3;
-                int namefield = 4;
+                int genderfield = 2;
+                int idfield = 3;
+                int localefield = 4;
+                int namefield = 5;
 
                 try
                 {
                     // Load Each field
                     voice.Country = DataHelper.ParseString(dataRow.ItemArray[countryfield]);
                     voice.FullName = DataHelper.ParseString(dataRow.ItemArray[fullNamefield]);
+                    voice.Gender = (GenderEnum) DataHelper.ParseInteger(dataRow.ItemArray[genderfield], 0);
                     voice.UpdateIdentity(DataHelper.ParseInteger(dataRow.ItemArray[idfield], 0));
                     voice.Locale = DataHelper.ParseString(dataRow.ItemArray[localefield]);
                     voice.Name = DataHelper.ParseString(dataRow.ItemArray[namefield]);

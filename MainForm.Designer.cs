@@ -153,6 +153,7 @@ namespace Simon
             GetVoicesButton.Size = new Size(174, 55);
             GetVoicesButton.TabIndex = 1;
             GetVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            GetVoicesButton.Visible = false;
             GetVoicesButton.Click += GetVoicesButton_Click;
             // 
             // SpeakButton
@@ -220,6 +221,7 @@ namespace Simon
             WriteVoicesButton.Size = new Size(174, 55);
             WriteVoicesButton.TabIndex = 5;
             WriteVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            WriteVoicesButton.Visible = false;
             WriteVoicesButton.Click += WriteVoicesButton_Click;
             // 
             // OutputFileControl

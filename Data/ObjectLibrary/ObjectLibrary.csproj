@@ -3,7 +3,7 @@
   <PropertyGroup>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>DataJuggler.DataTier.Net7.ObjectLibrary</PackageId>
     <Version>7.1.1</Version>
     <Authors>DataJuggler</Authors>

@@ -5,6 +5,10 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# Updates
+# 3.29.2024: Version 1.6.0
+Simon has been updated to .NET 8, and new voices have been added, bringing the total to 84.
+
 # 12.7.2023: Version 1.5 New Feature - Rate
 You can now select extra slow, slow, medium, default, fast or extra fast. As far as I can tell, Medium and Default are the same.
 You can also write [RateName], if you want to type 'I am speaking at the [RateName] rate. [RateName] will be

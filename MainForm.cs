@@ -16,6 +16,7 @@ using Simon.Security;
 using System.Diagnostics;
 using System.Media;
 using System.Text;
+// using DataGateway;
 
 #endregion
 
@@ -85,6 +86,9 @@ namespace Simon
                 // Iterate the collection of VoiceInfo objects
                 foreach (VoiceInfo voiceInfo in voices)
                 {
+                    // reset
+                    // saved = true;
+
                     // Create a new instance of a 'Voice' object.
                     Voice voice = new Voice();
 
@@ -94,13 +98,15 @@ namespace Simon
                     voice.Country = GetCountry(voiceInfo.Locale);
                     var gender = ParseGender(voiceInfo.Gender.ToString());
                     voice.Gender = gender;
-                    
+
                     // Check if this voice exists
                     // Voice existingVoice = gateway.FindVoiceByName(voice.Name);
 
-                    // does the existing voice exist
+                    // Is this a new voice?
                     // if (NullHelper.IsNull(existingVoice))
                     // {
+                        // Save the new voice
+
                         // Set the Gender
                         // voice.Gender = gender;
 
@@ -109,6 +115,8 @@ namespace Simon
                     // }
                     // else
                     // {
+                        // Do Not Need To Save the existing voice
+
                         // Set the Gender
                         // existingVoice.Gender = gender;
 
@@ -116,6 +124,7 @@ namespace Simon
                         // saved = gateway.SaveVoice(ref existingVoice);
                     // }
 
+                    // if the save failed
                     // if (!saved)
                     // {
                         // For debugging only

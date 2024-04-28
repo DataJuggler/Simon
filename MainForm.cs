@@ -80,6 +80,16 @@ namespace Simon
                 // retrieve the voices
                 List<VoiceInfo> voices = result.Voices.Where(x => x.Locale.StartsWith("en")).ToList();
 
+                // test only
+                StringBuilder sb = new StringBuilder();
+                foreach (VoiceInfo tempVoice in voices)
+                {
+                    sb.Append(tempVoice.LocalName);
+                    sb.Append(Environment.NewLine);
+                }
+
+                Clipboard.SetText(sb.ToString());
+
                 // Create a new instance of a 'Gateway' object.
                 // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
 

@@ -32,7 +32,7 @@
 
   <ItemGroup>
     <PackageReference Include="DataJuggler.Win.Controls" Version="8.0.3" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.36.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.37.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 

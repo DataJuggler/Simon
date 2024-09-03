@@ -21,8 +21,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataJuggler.Speech\**" />
     <Compile Remove="Data\**" />
+    <EmbeddedResource Remove="DataJuggler.Speech\**" />
     <EmbeddedResource Remove="Data\**" />
+    <None Remove="DataJuggler.Speech\**" />
     <None Remove="Data\**" />
   </ItemGroup>
 
@@ -31,8 +34,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Win.Controls" Version="8.0.3" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.37.0" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="8.1.5" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.40.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
@@ -56,6 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="DataJuggler.Speech\DataJuggler.Speech.csproj" />
     <ProjectReference Include="Data\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 

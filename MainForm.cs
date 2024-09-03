@@ -68,7 +68,7 @@ namespace Simon
         private async void GetVoicesButton_Click(object sender, EventArgs e)
         {
             // locals
-            // bool saved;
+            bool saved;
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
@@ -97,7 +97,7 @@ namespace Simon
                 foreach (VoiceInfo voiceInfo in voices)
                 {
                     // reset
-                    // saved = true;
+                    saved = true;
 
                     // Create a new instance of a 'Voice' object.
                     Voice voice = new Voice();
@@ -107,24 +107,32 @@ namespace Simon
                     voice.FullName = voiceInfo.ShortName;
                     voice.Country = GetCountry(voiceInfo.Locale);
                     var gender = ParseGender(voiceInfo.Gender.ToString());
+
+                    if (gender == GenderEnum.Both)
+                    {
+                        // Breakpoint only
+                        gender = GenderEnum.Male;
+                    }
+
+                    // Set the Gender
                     voice.Gender = gender;
 
                     // Check if this voice exists
                     // Voice existingVoice = gateway.FindVoiceByName(voice.Name);
 
-                    // Is this a new voice?
-                    // if (NullHelper.IsNull(existingVoice))
-                    // {
-                        // Save the new voice
+                    //// Is this a new voice?
+                    //if (NullHelper.IsNull(existingVoice))
+                    //{
+                    //    // Save the new voice
 
-                        // Set the Gender
-                        // voice.Gender = gender;
+                    //    // Set the Gender
+                    //    voice.Gender = gender;
 
-                        // Save this voice
-                        // saved = gateway.SaveVoice(ref voice);
-                    // }
-                    // else
-                    // {
+                    //    // Save this voice
+                    //    saved = gateway.SaveVoice(ref voice);
+                    //}
+                    //else
+                    //{
                         // Do Not Need To Save the existing voice
 
                         // Set the Gender
@@ -386,9 +394,6 @@ namespace Simon
                     // replace out the VoiceName
                     textToSpeak = textToSpeak.Replace("[VoiceName]", SelectedVoice.Name);
 
-                    // Replace out any characters that need to be spelled out
-                    textToSpeak = ReplaceSpellOutCharacters(textToSpeak);
-
                     // replace out any pauses
                     textToSpeak = ReplacePauses(textToSpeak);
 
@@ -584,7 +589,7 @@ namespace Simon
         private void TryVoicesButton_Click(object sender, EventArgs e)
         {
             // Reset the Interval
-            VoicesTimer.Interval = 5000;
+            VoicesTimer.Interval = 8000;
 
             // Show the user a message
             StatusLabel.Text = "Setting up voices, please wait...";
@@ -1629,7 +1634,7 @@ namespace Simon
             DegreeTextBox.Text = "1";
 
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
-            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, [Pause1.1] please leave a star on GitHub, and subscribe to my YouTube channel. You can now spell out words. [Pause1.4] I said you were out [Pause1] [SpellOut.2]  OUT [Pause.2] Out. ";
+            TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, [Pause1.1] please leave a star on GitHub, and subscribe to my YouTube channel.";
         }
         #endregion
 
@@ -1685,42 +1690,35 @@ namespace Simon
 
                 // if the file exists
                 if (FileHelper.Exists(filePath))
-                {
-                    // read all text
-                    string fileText = File.ReadAllText(filePath);
+                {  
+                    // get the textLines
+                    List<TextLine> lines = TextHelper.GetTextLinesFromFile(filePath);
 
-                    // If the fileText string exists
-                    if (TextHelper.Exists(fileText))
+                    // If the lines collection exists and has one or more items
+                    if (ListHelper.HasOneOrMoreItems(lines))
                     {
-                        // get the textLines
-                        List<TextLine> lines = TextHelper.GetTextLines(fileText);
-
-                        // If the lines collection exists and has one or more items
-                        if (ListHelper.HasOneOrMoreItems(lines))
+                        // Iterate the collection of TextLine objects
+                        foreach (TextLine line in lines)
                         {
-                            // Iterate the collection of TextLine objects
-                            foreach (TextLine line in lines)
+                            // get the words
+                            List<Word> words = TextHelper.GetWords(line.Text, delimiter);
+
+                            // if there are five words
+                            if (ListHelper.HasXOrMoreItems(words, 5))
                             {
-                                // get the words
-                                List<Word> words = TextHelper.GetWords(line.Text, delimiter);
+                                // Create a new instance of a 'Voice' object.
+                                Voice voice = new Voice();
 
-                                // if there are five words
-                                if (ListHelper.HasXOrMoreItems(words, 5))
-                                {
-                                    // Create a new instance of a 'Voice' object.
-                                    Voice voice = new Voice();
+                                // get the id
+                                voice.UpdateIdentity(NumericHelper.ParseInteger(words[0].Text, -1, -2));
+                                voice.Name = words[1].Text;
+                                voice.Locale = words[2].Text;
+                                voice.FullName = words[3].Text;
+                                voice.Country = words[4].Text;
+                                voice.Gender = ParseGender(words[5].Text);
 
-                                    // get the id
-                                    voice.UpdateIdentity(NumericHelper.ParseInteger(words[0].Text, -1, -2));
-                                    voice.Name = words[1].Text;
-                                    voice.Locale = words[2].Text;
-                                    voice.FullName = words[3].Text;
-                                    voice.Country = words[4].Text;
-                                    voice.Gender = ParseGender(words[5].Text);
-
-                                    // Add this voice
-                                    voices.Add(voice);
-                                }
+                                // Add this voice
+                                voices.Add(voice);
                             }
                         }
                     }
@@ -1918,106 +1916,6 @@ namespace Simon
                 
             // return value
             return fileText;
-        }
-        #endregion
-            
-        #region ReplaceSpellOutCharacters()
-        /// <summary>
-        /// Replace Spell Out Characters
-        /// </summary>
-        public static string ReplaceSpellOutCharacters(string textToSpeak)
-        {
-            // If the textToSpeak string exists
-            if (TextHelper.Exists(textToSpeak))   
-            {
-                // locals
-                int index = -1;
-                char[] delimiters = { ' ' };
-                
-                do
-                {
-                    // get the words
-                    List<Word> words = TextHelper.GetWords(textToSpeak, delimiters);
-
-                    // Get the index of spell out
-                    index = textToSpeak.IndexOf("[SpellOut");
-
-                    // if not found
-                    if (index == -1)
-                    {
-                        // exit
-                        break;
-                    }
-
-                    // get the closeing brace index
-                    int closeIndex = textToSpeak.IndexOf(']', index);
-
-                    // set the len
-                    int len = closeIndex - index - 8 - 1;
-
-                    // local
-                    double pauseLen = 0;
-
-                    // if the closeIndex is at least 8 characters after
-                    if (closeIndex >= (index + 7))
-                    {
-                        // get the value of the pause
-                        string temp = textToSpeak.Substring(index + 9, len);
-
-                        // Create a new instance of a 'StringBuilder' object.
-                        StringBuilder sb = new StringBuilder();
-
-                        // If the temp string exists
-                        if (TextHelper.Exists(temp))
-                        {
-                            // Get the pause len
-                            pauseLen = NumericHelper.ParseDouble(temp, 0, 0);
-                        }
-
-                        // now get the word after the pause
-                        Word nextWord = GetNextWord(words, "[SpellOut");
-
-                        // get the nextword
-                        if (NullHelper.Exists(nextWord))
-                        {
-                            // iterate the characters 
-                            foreach (char c in nextWord.Text)
-                            {
-                                // If the value for pauseLen is greater than zero
-                                if (pauseLen > 0)
-                                {
-                                    // get a string without a preceding zero
-                                    string pauseLenString = pauseLen.ToString().Replace("0.", ".").Replace("+", "");
-
-                                    // get a pause
-                                    string temp3 = "[Pause" + pauseLenString + "]";
-
-                                    // Append the Pause
-                                    sb.Append(temp3);
-                                }
-
-                                // Get a temp string
-                                string temp2 = SayAsCharacter.Replace("[Character]", c.ToString());
-
-                                // Append this string
-                                sb.Append(temp2);
-                            }
-
-                            // Set the text
-                            nextWord.Text = sb.ToString();
-
-                            // Remove the word for [SpellOut
-                            words.RemoveAt(nextWord.Index - 1);
-
-                            // Export the words
-                            textToSpeak = TextHelper.ExportWords(words);
-                        }
-                    }
-                } while (index > 0);
-            }
-
-            // return value
-            return textToSpeak;
         }
         #endregion
             

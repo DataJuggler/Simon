@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApplicationLogicComponent\ApplicationLogicComponent.csproj" />
+    <ProjectReference Include="..\DataAccessComponent\DataAccessComponent.csproj" />
     <ProjectReference Include="..\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 

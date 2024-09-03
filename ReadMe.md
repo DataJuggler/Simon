@@ -21,20 +21,6 @@ You can now select extra low, low, medium, default, high or extra high. As far a
 You can also write [PitchName], if you want to type 'I am speaking in a [PitchName] pitch. [PitchName] will be
 replaced with a text friendly version of the pitch.
 
-# 11.20.2023: Version 1.3 New Feature - Spell Out
-Now you can add [Spellout.4] TEXT and the next word will be spelled out, with a 4 tenths of a second pause 
-between each character.
-
-Example: It's time we talk about [Spellout.3] SEX
-Here a delay of 3 tenths of a second is displayed.
-
-Note: Do not add a period to the word after spellout, or you will hear 'Period.' If you must leave a period,
-leave a space. It's time we talk about [Spellout.3] SEX .
-
-Sometimes you will want a pause after the spelled out word.
-
-Example: The company added a new [spellout.2] CFO [Pause2] This should improve our [Spellout.3] ROI.
-
 # 11.10.2023: Version 1.2 New Feature - Pause
 You can now now add pauses to your text, by adding this to your script.
 

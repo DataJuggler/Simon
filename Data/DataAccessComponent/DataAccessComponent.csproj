@@ -21,9 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net8" Version="8.0.3" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="8.0.6" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="DataJuggler.Net8" Version="8.0.7" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="8.1.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
   </ItemGroup>
 
   <ItemGroup>

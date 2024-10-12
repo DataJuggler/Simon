@@ -41,8 +41,7 @@ namespace Simon
         private string region;
 
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
-        private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
-        private const string SayAsCharacter = "<say-as interpret-as='characters'>[Character]</say-as>";
+        private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";        
         #endregion
 
         #region Constructor

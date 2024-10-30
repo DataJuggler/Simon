@@ -16,6 +16,7 @@ using Simon.Security;
 using System.Diagnostics;
 using System.Media;
 using System.Text;
+using System.Reflection;
 // using DataGateway;
 
 #endregion
@@ -67,7 +68,7 @@ namespace Simon
         private async void GetVoicesButton_Click(object sender, EventArgs e)
         {
             // locals
-            bool saved;
+            // bool saved;
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
@@ -96,7 +97,7 @@ namespace Simon
                 foreach (VoiceInfo voiceInfo in voices)
                 {
                     // reset
-                    saved = true;
+                    // saved = true;
 
                     // Create a new instance of a 'Voice' object.
                     Voice voice = new Voice();
@@ -197,95 +198,130 @@ namespace Simon
         /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // Display Simon 1.7.1 for example
+            DisplayAppVersion();
+
             // Create a new instance of a 'SecureUserData' object.
             Settings = new SecureUserData();
-
+    
             // Set the OutputFolder
             string outputFolder = Settings.OutputFolder;
             OutputFolderControl.Text = outputFolder;
-
+    
             // Check for a Gender filter
             string gender = Settings.GenderFilter;
-
+    
             // if a Gender was found
             if (TextHelper.Exists(gender))
             {
                 // attempt to find the index
                 int index = GenderComboBox.FindItemIndexByValue(gender);
-
-                // Set the genderIndex
-                FilterGenderComboBox.SelectedIndex = index;
+        
+                // Set the gender index if found
+                if (index >= 0)
+                {
+                    // Set the SelectedIndex
+                    FilterGenderComboBox.SelectedIndex = index;
+                }
             }
-
+    
             // Check for a Country filter
             string country = Settings.CountryFilter;
-
+    
             // if a Country was found
             if (TextHelper.Exists(country))
             {
                 // attempt to find the index
                 int index = CountryComboBox.FindItemIndexByValue(country);
-
-                // Set the genderIndex
-                FilterCountryComboBox.SelectedIndex = index;
+        
+                // Set the country index if found
+                if (index >= 0)
+                {
+                    // Set the SelectedIndex
+                    FilterCountryComboBox.SelectedIndex = index;
+                }
             }
-
-            // Attempt to Select the last voice if the voice is available with the current filters.
+    
+            // Attempt to select the last voice if the voice is available with the current filters
             if (TextHelper.Exists(Settings.Voice))
             {
                 // get the voice display text
                 string voiceDisplayText = Settings.Voice + " - " + FilterCountryComboBox.ComboBoxText;
-
+        
                 // get the index of the last voice
                 int index = VoiceComboBox.FindItemIndexByValue(voiceDisplayText);
-
-                // Set the index
-                VoiceComboBox.SelectedIndex = index;
+        
+                // Set the index if found
+                if (index >= 0)
+                {
+                    // Set the SelectedIndex
+                    VoiceComboBox.SelectedIndex = index;
+                }
             }
-
+    
             // Checking this by default
             AppendVoiceNameCheckBox.Checked = Settings.AppendVoiceName;
-
+    
             // get the value for Emotion
             string emotion = Settings.Emotion;
-
+    
             // If the emotion string exists
             if (TextHelper.Exists(emotion))
             {
                 // Find the Emotion
-                EmotionComboBox.SelectedIndex = FindEmotionIndex(emotion);
+                int index = FindEmotionIndex(emotion);
+        
+                // Set the emotion index if found
+                if (index >= 0)
+                {
+                    // Set the SelectedIndex
+                    EmotionComboBox.SelectedIndex = index;
+                }
             }
-
+    
             // Set the pitch
             string pitch = Settings.Pitch;
-
+    
             // If the pitch string exists
             if (TextHelper.Exists(pitch))
             {
                 // Find the Pitch
-                PitchComboBox.SelectedIndex = FindPitchIndex(pitch);
+                int index = FindPitchIndex(pitch);
+        
+                // Set the pitch index if found
+                if (index >= 0)
+                {
+                    // Set the SelectedIndex
+                    PitchComboBox.SelectedIndex = index;
+                }
             }
-
+    
             // Set the rate
             string rate = Settings.Rate;
-
+    
             // If the rate string exists
             if (TextHelper.Exists(rate))
             {
                 // Find the Rate
-                RateComboBox.SelectedIndex = FindRateIndex(rate);
+                int index = FindRateIndex(rate);
+        
+                // Set the rate index if found
+                if (index >= 0)
+                {
+                    // Set the SelectedIndex
+                    RateComboBox.SelectedIndex = index;
+                }
             }
-
+    
             // Set the value for Degree
             string degree = Settings.Degree;
-
+    
             // If the degree string exists
             if (TextHelper.Exists(degree))
             {
                 // display the value for Degree
                 DegreeTextBox.Text = degree;
             }
-
         }
         #endregion
 
@@ -731,6 +767,37 @@ namespace Simon
         #endregion
 
         #region Methods
+
+        #region DisplayAppVersion()
+        /// <summary>
+        /// Display App Version
+        /// </summary>
+        public void DisplayAppVersion()
+        {
+            try
+            {
+                // Get the assembly version
+                string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+                // Split the version string into parts
+                string[] versionParts = assemblyVersion.Split('.');
+
+                // Join the first three parts to get the desired format
+                string displayVersion = string.Join(".", versionParts.Take(3));
+
+                // Set the Text
+                this.Text = "Simon " + displayVersion;
+            }
+            catch (Exception error)
+            {
+                // Show the title without the version if this ever happens
+                this.Text = "Simon";
+
+                // For debugging only
+                DebugHelper.WriteDebugError("DisplayAppVersion", "MainForm.cs", error);
+            }
+        }
+        #endregion
 
         #region EraseSelections()
         /// <summary>

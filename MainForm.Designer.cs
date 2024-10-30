@@ -107,6 +107,7 @@ namespace Simon
             MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             PitchComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             RateComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
+            FixSettingsButton = new DataJuggler.Win.Controls.Button();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -535,7 +536,7 @@ namespace Simon
             // 
             SubscribeLabel.BackColor = Color.Transparent;
             SubscribeLabel.ForeColor = Color.LemonChiffon;
-            SubscribeLabel.Location = new Point(689, 590);
+            SubscribeLabel.Location = new Point(689, 589);
             SubscribeLabel.Name = "SubscribeLabel";
             SubscribeLabel.Size = new Size(163, 30);
             SubscribeLabel.TabIndex = 18;
@@ -704,12 +705,26 @@ namespace Simon
             RateComboBox.TabIndex = 27;
             RateComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
+            // FixSettingsButton
+            // 
+            FixSettingsButton.BackColor = Color.Transparent;
+            FixSettingsButton.ButtonText = "Fix Settings";
+            FixSettingsButton.FlatStyle = FlatStyle.Flat;
+            FixSettingsButton.ForeColor = Color.LemonChiffon;
+            FixSettingsButton.Location = new Point(725, 521);
+            FixSettingsButton.Margin = new Padding(5);
+            FixSettingsButton.Name = "FixSettingsButton";
+            FixSettingsButton.Size = new Size(127, 55);
+            FixSettingsButton.TabIndex = 28;
+            FixSettingsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;            
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(889, 795);
+            Controls.Add(FixSettingsButton);
             Controls.Add(RateComboBox);
             Controls.Add(PitchComboBox);
             Controls.Add(InfoLabel);
@@ -754,6 +769,7 @@ namespace Simon
 
         #endregion
 
+        private DataJuggler.Win.Controls.Button FixSettingsButton;
     }
     #endregion
 

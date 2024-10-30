@@ -42,7 +42,7 @@ namespace Simon
         private string region;
 
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
-        private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";        
+        private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
         #endregion
 
         #region Constructor
@@ -60,7 +60,7 @@ namespace Simon
         #endregion
 
         #region Events
-
+                    
         #region GetVoicesButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'GetVoicesButton' is clicked.
@@ -133,20 +133,20 @@ namespace Simon
                     //}
                     //else
                     //{
-                        // Do Not Need To Save the existing voice
+                    // Do Not Need To Save the existing voice
 
-                        // Set the Gender
-                        // existingVoice.Gender = gender;
+                    // Set the Gender
+                    // existingVoice.Gender = gender;
 
-                        // Save this existingVoice
-                        // saved = gateway.SaveVoice(ref existingVoice);
+                    // Save this existingVoice
+                    // saved = gateway.SaveVoice(ref existingVoice);
                     // }
 
                     // if the save failed
                     // if (!saved)
                     // {
-                        // For debugging only
-                        // Exception error = gateway.GetLastException();
+                    // For debugging only
+                    // Exception error = gateway.GetLastException();
                     // }
                 }
 
@@ -203,20 +203,20 @@ namespace Simon
 
             // Create a new instance of a 'SecureUserData' object.
             Settings = new SecureUserData();
-    
+
             // Set the OutputFolder
             string outputFolder = Settings.OutputFolder;
             OutputFolderControl.Text = outputFolder;
-    
+
             // Check for a Gender filter
             string gender = Settings.GenderFilter;
-    
+
             // if a Gender was found
             if (TextHelper.Exists(gender))
             {
                 // attempt to find the index
                 int index = GenderComboBox.FindItemIndexByValue(gender);
-        
+
                 // Set the gender index if found
                 if (index >= 0)
                 {
@@ -224,16 +224,16 @@ namespace Simon
                     FilterGenderComboBox.SelectedIndex = index;
                 }
             }
-    
+
             // Check for a Country filter
             string country = Settings.CountryFilter;
-    
+
             // if a Country was found
             if (TextHelper.Exists(country))
             {
                 // attempt to find the index
                 int index = CountryComboBox.FindItemIndexByValue(country);
-        
+
                 // Set the country index if found
                 if (index >= 0)
                 {
@@ -241,16 +241,16 @@ namespace Simon
                     FilterCountryComboBox.SelectedIndex = index;
                 }
             }
-    
+
             // Attempt to select the last voice if the voice is available with the current filters
             if (TextHelper.Exists(Settings.Voice))
             {
                 // get the voice display text
                 string voiceDisplayText = Settings.Voice + " - " + FilterCountryComboBox.ComboBoxText;
-        
+
                 // get the index of the last voice
                 int index = VoiceComboBox.FindItemIndexByValue(voiceDisplayText);
-        
+
                 // Set the index if found
                 if (index >= 0)
                 {
@@ -258,19 +258,19 @@ namespace Simon
                     VoiceComboBox.SelectedIndex = index;
                 }
             }
-    
+
             // Checking this by default
             AppendVoiceNameCheckBox.Checked = Settings.AppendVoiceName;
-    
+
             // get the value for Emotion
             string emotion = Settings.Emotion;
-    
+
             // If the emotion string exists
             if (TextHelper.Exists(emotion))
             {
                 // Find the Emotion
                 int index = FindEmotionIndex(emotion);
-        
+
                 // Set the emotion index if found
                 if (index >= 0)
                 {
@@ -278,16 +278,16 @@ namespace Simon
                     EmotionComboBox.SelectedIndex = index;
                 }
             }
-    
+
             // Set the pitch
             string pitch = Settings.Pitch;
-    
+
             // If the pitch string exists
             if (TextHelper.Exists(pitch))
             {
                 // Find the Pitch
                 int index = FindPitchIndex(pitch);
-        
+
                 // Set the pitch index if found
                 if (index >= 0)
                 {
@@ -295,16 +295,16 @@ namespace Simon
                     PitchComboBox.SelectedIndex = index;
                 }
             }
-    
+
             // Set the rate
             string rate = Settings.Rate;
-    
+
             // If the rate string exists
             if (TextHelper.Exists(rate))
             {
                 // Find the Rate
                 int index = FindRateIndex(rate);
-        
+
                 // Set the rate index if found
                 if (index >= 0)
                 {
@@ -312,10 +312,10 @@ namespace Simon
                     RateComboBox.SelectedIndex = index;
                 }
             }
-    
+
             // Set the value for Degree
             string degree = Settings.Degree;
-    
+
             // If the degree string exists
             if (TextHelper.Exists(degree))
             {
@@ -799,41 +799,17 @@ namespace Simon
         }
         #endregion
 
-        #region EraseSelections()
-        /// <summary>
-        /// Erase Selections
-        /// </summary>
-        public void EraseSelections()
-        {
-            try
-            {
-                CountryComboBox.SelectedIndex = -1;
-                GenderComboBox.SelectedIndex = -1;
-                VoiceComboBox.SelectedIndexListener = null;
-                FullNameControl.Text = "";
-                SelectedVoice = null;
-                VoiceComboBox.SelectedIndex = -1;
-                VoiceComboBox.SelectedIndexListener = this;
-            }
-            catch (Exception error)
-            {
-                // for debugging only
-                DebugHelper.WriteDebugError("EraseSelections", "MainForm", error);
-            }
-        }
-        #endregion
-
         #region FilterLists()
         /// <summary>
         /// Filter Lists
         /// </summary>
         public void FilterLists()
         {
-            // Erase everything currently selected
-            EraseSelections();
-
             // set the country
             string country = FilterCountryComboBox.ComboBoxText;
+
+            // Set the Gender
+            string gender = GenderComboBox.ComboBoxText;
 
             // If All is selected
             if ((FilterCountryComboBox.SelectedIndex == 0) && (FilterGenderComboBox.SelectedIndex == 0))
@@ -863,17 +839,22 @@ namespace Simon
             }
             else
             {
-                // A Gender is selected and a Country is selected
-
+                // if FemaleVoices
                 if (FilterGenderComboBox.SelectedIndex == 1)
                 {
                     // Load All Voices
                     VoiceComboBox.LoadItems(FemaleVoices.Where(x => x.Country == country).ToList());
                 }
+                // if MaleVoices
                 else if (FilterGenderComboBox.SelectedIndex == 2)
                 {
                     // Load All Voices
                     VoiceComboBox.LoadItems(MaleVoices.Where(x => x.Country == country).ToList());
+                }
+                else
+                {
+                    // Load All Voices
+                    VoiceComboBox.LoadItems(Voices);
                 }
             }
         }
@@ -1165,7 +1146,7 @@ namespace Simon
             // if a pitch value was passed in
             if (TextHelper.Exists(pitch))
             {
-                switch(pitch)
+                switch (pitch)
                 {
                     case "XLow":
 
@@ -1216,12 +1197,12 @@ namespace Simon
                         break;
                 }
             }
-                
+
             // return value
             return index;
         }
         #endregion
-            
+
         #region FindRateIndex(string rate)
         /// <summary>
         /// returns the Rate Index
@@ -1234,7 +1215,7 @@ namespace Simon
             // if a rate value was passed in
             if (TextHelper.Exists(rate))
             {
-                switch(rate)
+                switch (rate)
                 {
                     case "XSlow":
 
@@ -1285,12 +1266,12 @@ namespace Simon
                         break;
                 }
             }
-                
+
             // return value
             return index;
         }
         #endregion
-            
+
         #region GetCountry(string locale)
         /// <summary>
         /// returns the Country
@@ -1495,14 +1476,14 @@ namespace Simon
                 }
 
                 // Use the next word if this word starts with the search text
-                useNextWord = word.Text.StartsWith(searchText);                    
+                useNextWord = word.Text.StartsWith(searchText);
             }
-                
+
             // return value
             return nextWord;
         }
         #endregion
-            
+
         #region GetPitchName()
         /// <summary>
         /// returns the Pitch Name
@@ -1533,7 +1514,7 @@ namespace Simon
                     // required
                     break;
             }
-                
+
             // return value
             return pitchName;
         }
@@ -1569,12 +1550,12 @@ namespace Simon
                     // required
                     break;
             }
-                
+
             // return value
             return rateName;
         }
         #endregion
-            
+
         #region GetRole()
         /// <summary>
         /// returns the Role
@@ -1738,17 +1719,13 @@ namespace Simon
             // initial value
             Voices = new List<Voice>();
 
-            // Create the path
+           #if DEBUG
             string path = @"../../../Voices/";
+            #else
+            string path = "Voices";
+            #endif
 
-            // if the directory exists
-            if (!Directory.Exists(path))
-            {
-                // Must be installed version
-                path = "Voices";
-            }
-
-            // try again
+            // If the director exists
             if (Directory.Exists(path))
             {
                 // Create a file
@@ -1756,7 +1733,7 @@ namespace Simon
 
                 // if the file exists
                 if (FileHelper.Exists(filePath))
-                {  
+                {
                     // get the textLines
                     List<TextLine> lines = TextHelper.GetTextLinesFromFile(filePath);
 
@@ -1789,6 +1766,16 @@ namespace Simon
                         }
                     }
                 }
+                else
+                {
+                    // Show a message
+                    MessageBox.Show("The file voices.txt could not be found:" + Environment.NewLine + filePath, "Missing File");
+                }                
+            }
+            else
+            {
+                // Show a message
+                MessageBox.Show("The folder 'Voices' could not be found", "Missing Folder");
             }
         }
         #endregion
@@ -1925,25 +1912,25 @@ namespace Simon
 
             // initial value
             pitch = fileText.Replace("[Pitch]", pitch.Replace("XLow", "x-low").Replace("XHigh", "x-high").ToLower());
-                
+
             // return value
             return pitch;
         }
         #endregion
-            
+
         #region ReplaceRate(string fileText)
         /// <summary>
         /// returns the Rate
         /// </summary>
         public string ReplaceRate(string fileText)
         {
-             // Get the selected value
+            // Get the selected value
             string rateValue = "0%";
 
             // Get the current value
             string rate = RateComboBox.ComboBoxText;
 
-            switch(rate)
+            switch (rate)
             {
                 case "XSlow":
 
@@ -1979,12 +1966,12 @@ namespace Simon
             }
 
             fileText = fileText.Replace("[Rate]", rateValue);
-                
+
             // return value
             return fileText;
         }
         #endregion
-            
+
         #endregion
 
         #region Properties
@@ -2013,7 +2000,7 @@ namespace Simon
             }
         }
         #endregion
-
+            
         #region HasKey
         /// <summary>
         /// This property returns true if the 'Key' exists.
@@ -2082,6 +2069,23 @@ namespace Simon
         }
         #endregion
 
+        #region HasSettings
+        /// <summary>
+        /// This property returns true if this object has a 'Settings'.
+        /// </summary>
+        public bool HasSettings
+        {
+            get
+            {
+                // initial value
+                bool hasSettings = (this.Settings != null);
+                    
+                // return value
+                return hasSettings;
+            }
+        }
+        #endregion
+            
         #region HasVoices
         /// <summary>
         /// This property returns true if this object has a 'Voices'.

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Data.SqlClient;
 using ObjectLibrary.Enumerations;
-
+using DataJuggler.NET9.Enumerations;
 
 #endregion
 
@@ -36,22 +36,11 @@ namespace DataAccessComponent.StoredProcedureManager
         /// </summary>
         public StoredProcedure()
         {
-            // Init
-            Init();
+            
         }
         #endregion
 
         #region Methods
-
-        #region Init()
-        /// <summary>
-        /// Perform Initializations for this object.
-        /// </summary>
-        private void Init()
-        {
-
-        }
-        #endregion
 
         #region ToString()
         /// <summary>

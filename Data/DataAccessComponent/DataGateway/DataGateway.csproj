@@ -3,13 +3,13 @@
   <PropertyGroup>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <TargetFramework>net9.0</TargetFramework>
-    <Version>9.0.7</Version>
-    <PackageId>DataJuggler.DataTier.Net9.DataAccessComponent</PackageId>
+    <TargetFramework>Net9.0</TargetFramework>
+
+    <Version>9.0.0</Version>
+    <PackageId>DataJuggler.DataTier.Net9.DataGateway</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
-    <Description>This is one of the four projects that make up a DataTier.Net9.ProjectTemplate</Description>
-    <PackageProjectUrl>github.com/DataJuggler/DataTier.Net</PackageProjectUrl>
+    <Description>This is one of the four projects that make up a DataTier.Net9. ProjectTemplate</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,22 +21,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="9.0.4" />
+    <Compile Remove="Gateway.backup.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessComponent\DataAccessComponent.csproj" />
     <ProjectReference Include="..\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="StoredProcedureManager\DeleteProcedures\" />
-    <Folder Include="StoredProcedureManager\FetchProcedures\" />
-    <Folder Include="StoredProcedureManager\InsertProcedures\" />
-    <Folder Include="StoredProcedureManager\UpdateProcedures\" />
-  </ItemGroup>
-
 </Project>
-
 
 
 

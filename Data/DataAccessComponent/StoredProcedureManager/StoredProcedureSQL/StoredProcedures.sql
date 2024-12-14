@@ -6,7 +6,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Insert
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   2/13/2024
+-- Create Date:   12/14/2024
 -- Description:    Insert a new Voice
 -- =========================================================
 
@@ -68,7 +68,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Update
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   2/13/2024
+-- Create Date:   12/14/2024
 -- Description:    Update an existing Voice
 -- =========================================================
 
@@ -134,7 +134,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Find
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   2/13/2024
+-- Create Date:   12/14/2024
 -- Description:    Find an existing Voice
 -- =========================================================
 
@@ -191,7 +191,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Delete
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   2/13/2024
+-- Create Date:   12/14/2024
 -- Description:    Delete an existing Voice
 -- =========================================================
 
@@ -245,7 +245,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_FetchAll
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   2/13/2024
+-- Create Date:   12/14/2024
 -- Description:    Returns all Voice objects
 -- =========================================================
 
@@ -297,40 +297,40 @@ set ANSI_NULLS ON
 set QUOTED_IDENTIFIER ON
 Go
 -- =========================================================
--- Procure Name: Voice_FindByName
+-- Procure Name: Voice_FindByFullName
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   2/13/2024
--- Description:    Find an existing Voice for the Name given.
+-- Create Date:   12/14/2024
+-- Description:    Find an existing Voice for the FullName given.
 -- =========================================================
 
 -- Check if the procedure already exists
-IF EXISTS (select * from syscomments where id = object_id ('Voice_FindByName'))
+IF EXISTS (select * from syscomments where id = object_id ('Voice_FindByFullName'))
 
     -- Procedure Does Exist, Drop First
     BEGIN
 
         -- Execute Drop
-        Drop Procedure Voice_FindByName
+        Drop Procedure Voice_FindByFullName
 
         -- Test if procedure was dropped
-        IF OBJECT_ID('dbo.Voice_FindByName') IS NOT NULL
+        IF OBJECT_ID('dbo.Voice_FindByFullName') IS NOT NULL
 
             -- Print Line Drop Failed
-            PRINT '<<< Drop Failed On Procedure Voice_FindByName >>>'
+            PRINT '<<< Drop Failed On Procedure Voice_FindByFullName >>>'
 
         Else
 
             -- Print Line Procedure Dropped
-            PRINT '<<< Drop Suceeded On Procedure Voice_FindByName >>>'
+            PRINT '<<< Drop Suceeded On Procedure Voice_FindByFullName >>>'
 
     End
 
 GO
 
-Create PROCEDURE Voice_FindByName
+Create PROCEDURE Voice_FindByFullName
 
-    -- Create @Name Paramater
-    @Name nvarchar(50)
+    -- Create @FullName Paramater
+    @FullName nvarchar(128)
 
 AS
 BEGIN
@@ -346,7 +346,7 @@ BEGIN
     From [Voice]
 
     -- Find Matching Record
-    Where [Name] = @Name
+    Where [FullName] = @FullName
 
 END
 

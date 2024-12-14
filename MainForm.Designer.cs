@@ -154,7 +154,6 @@ namespace Simon
             GetVoicesButton.Size = new Size(174, 55);
             GetVoicesButton.TabIndex = 1;
             GetVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
-            GetVoicesButton.Visible = false;
             GetVoicesButton.Click += GetVoicesButton_Click;
             // 
             // SpeakButton
@@ -716,7 +715,7 @@ namespace Simon
             FixSettingsButton.Name = "FixSettingsButton";
             FixSettingsButton.Size = new Size(127, 55);
             FixSettingsButton.TabIndex = 28;
-            FixSettingsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;            
+            FixSettingsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // MainForm
             // 

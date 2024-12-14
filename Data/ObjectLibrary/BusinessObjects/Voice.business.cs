@@ -15,7 +15,7 @@ namespace ObjectLibrary.BusinessObjects
     {
 
         #region Private Variables
-        private bool findByName;
+        private bool findByFullName;
         #endregion
 
         #region Constructor
@@ -36,7 +36,7 @@ namespace ObjectLibrary.BusinessObjects
                 // Return Cloned Object
                 return newVoice;
             }
-            #endregion
+        #endregion
 
             #region ToString()
             /// <summary>
@@ -53,28 +53,14 @@ namespace ObjectLibrary.BusinessObjects
 
         #region Properties
 
-        #region FindByName
+        #region FindByFullName
         /// <summary>
-        /// This property gets or sets the value for 'FindByName'.
+        /// This property gets or sets the value for 'FindByFullName'.
         /// </summary>
-        public bool FindByName
-        {
-            get { return findByName; }
-            set { findByName = value; }
-        }
-        #endregion
-
-        #region Info
-        /// <summary>
-        /// This read only property the name + the country
-        /// </summary>
-        public string Info
+        public bool FindByFullName
             {
-                get
-                {
-                    // return the Name
-                    return Name + " - " + Country;
-                }
+                get { return findByFullName; }
+                set { findByFullName = value; }
             }
             #endregion
 

@@ -17,7 +17,8 @@ using System.Diagnostics;
 using System.Media;
 using System.Text;
 using System.Reflection;
-// using DataGateway;
+// using DataAccessComponent.DataGateway;
+// using Connection = DataAccessComponent.Connection.Connection;
 
 #endregion
 
@@ -40,7 +41,6 @@ namespace Simon
         private bool tryVoicesInProgress;
         private string key;
         private string region;
-
         private const string YouTubePath = "https://www.youtube.com/datajuggler";
         private const string SimonOnGitHub = "https://github.com/DataJuggler/Simon";
         #endregion
@@ -91,7 +91,7 @@ namespace Simon
                 Clipboard.SetText(sb.ToString());
 
                 // Create a new instance of a 'Gateway' object.
-                // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
+                // Gateway gateway = new Gateway(Connection.Name);
 
                 // Iterate the collection of VoiceInfo objects
                 foreach (VoiceInfo voiceInfo in voices)
@@ -118,25 +118,25 @@ namespace Simon
                     voice.Gender = gender;
 
                     // Check if this voice exists
-                    // Voice existingVoice = gateway.FindVoiceByName(voice.Name);
+                    // Voice existingVoice = gateway.FindVoiceByFullName(voice.Name);
 
-                    //// Is this a new voice?
-                    //if (NullHelper.IsNull(existingVoice))
+                    // Is this a new voice?
+                    // if (NullHelper.IsNull(existingVoice))
                     //{
-                    //    // Save the new voice
+                        // Save the new voice
 
-                    //    // Set the Gender
-                    //    voice.Gender = gender;
+                        // Set the Gender
+                        // voice.Gender = gender;
 
-                    //    // Save this voice
-                    //    saved = gateway.SaveVoice(ref voice);
+                        // Save this voice
+                        // saved = gateway.SaveVoice(ref voice);
                     //}
-                    //else
-                    //{
-                    // Do Not Need To Save the existing voice
+                    // else
+                    // {
+                        // Do Not Need To Save the existing voice
 
-                    // Set the Gender
-                    // existingVoice.Gender = gender;
+                        // Set the Gender
+                        // existingVoice.Gender = gender;
 
                     // Save this existingVoice
                     // saved = gateway.SaveVoice(ref existingVoice);

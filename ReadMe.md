@@ -5,6 +5,9 @@ Microsoft.CognitiveServices.Speech API. Microsoft gives you half a million
 spoken characters for free per month. This is probably roughly 10 - 15 hours of audio
 per month.
 
+# Update 12.14.2024
+Simon has been updated to .NET 9!
+
 # New Video - All 83 English Language Voices
 https://youtu.be/wi9jAz2kkxE?si=iVw0Mg8QcL5aUaCF
 

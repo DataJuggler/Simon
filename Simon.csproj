@@ -9,7 +9,7 @@
     <PackageIcon>Lips.png</PackageIcon>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
     <ApplicationIcon>Images\Lips.ico</ApplicationIcon>
-    <Version>1.8.0</Version>
+    <Version>1.9.0</Version>
     <Title>Simon</Title>
   </PropertyGroup>
 
@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Win.Controls" Version="9.0.0" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.41.1" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="9.1.9" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.42.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
@@ -53,10 +53,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Voices\" />
   </ItemGroup>
 
   <ItemGroup>

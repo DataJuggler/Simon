@@ -107,7 +107,7 @@ namespace Simon
             MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             PitchComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             RateComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
-            FixSettingsButton = new DataJuggler.Win.Controls.Button();
+            ReseedButton = new DataJuggler.Win.Controls.Button();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -154,6 +154,7 @@ namespace Simon
             GetVoicesButton.Size = new Size(174, 55);
             GetVoicesButton.TabIndex = 1;
             GetVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            GetVoicesButton.Visible = false;
             GetVoicesButton.Click += GetVoicesButton_Click;
             // 
             // SpeakButton
@@ -704,18 +705,20 @@ namespace Simon
             RateComboBox.TabIndex = 27;
             RateComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
-            // FixSettingsButton
+            // ReseedButton
             // 
-            FixSettingsButton.BackColor = Color.Transparent;
-            FixSettingsButton.ButtonText = "Fix Settings";
-            FixSettingsButton.FlatStyle = FlatStyle.Flat;
-            FixSettingsButton.ForeColor = Color.LemonChiffon;
-            FixSettingsButton.Location = new Point(725, 521);
-            FixSettingsButton.Margin = new Padding(5);
-            FixSettingsButton.Name = "FixSettingsButton";
-            FixSettingsButton.Size = new Size(127, 55);
-            FixSettingsButton.TabIndex = 28;
-            FixSettingsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            ReseedButton.BackColor = Color.Transparent;
+            ReseedButton.ButtonText = "Reseed";
+            ReseedButton.FlatStyle = FlatStyle.Flat;
+            ReseedButton.ForeColor = Color.LemonChiffon;
+            ReseedButton.Location = new Point(725, 521);
+            ReseedButton.Margin = new Padding(5);
+            ReseedButton.Name = "ReseedButton";
+            ReseedButton.Size = new Size(127, 55);
+            ReseedButton.TabIndex = 28;
+            ReseedButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            ReseedButton.Visible = false;
+            ReseedButton.Click += ReseedButton_Click;
             // 
             // MainForm
             // 
@@ -723,7 +726,7 @@ namespace Simon
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(889, 795);
-            Controls.Add(FixSettingsButton);
+            Controls.Add(ReseedButton);
             Controls.Add(RateComboBox);
             Controls.Add(PitchComboBox);
             Controls.Add(InfoLabel);
@@ -757,7 +760,7 @@ namespace Simon
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.7.0";
+            Text = "Simon 1.9.0";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
@@ -768,7 +771,7 @@ namespace Simon
 
         #endregion
 
-        private DataJuggler.Win.Controls.Button FixSettingsButton;
+        private DataJuggler.Win.Controls.Button ReseedButton;
     }
     #endregion
 

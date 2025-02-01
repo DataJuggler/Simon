@@ -60,7 +60,7 @@ namespace Simon
         #endregion
 
         #region Events
-                    
+
         #region GetVoicesButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'GetVoicesButton' is clicked.
@@ -68,7 +68,7 @@ namespace Simon
         private async void GetVoicesButton_Click(object sender, EventArgs e)
         {
             // locals
-            // bool saved;
+            bool saved;
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
@@ -97,7 +97,7 @@ namespace Simon
                 foreach (VoiceInfo voiceInfo in voices)
                 {
                     // reset
-                    // saved = true;
+                    saved = true;
 
                     // Create a new instance of a 'Voice' object.
                     Voice voice = new Voice();
@@ -118,36 +118,36 @@ namespace Simon
                     voice.Gender = gender;
 
                     // Check if this voice exists
-                    // Voice existingVoice = gateway.FindVoiceByFullName(voice.Name);
+                    Voice existingVoice = null; // gateway.FindVoiceByFullName(voice.FullName);
 
                     // Is this a new voice?
-                    // if (NullHelper.IsNull(existingVoice))
-                    //{
+                    if (NullHelper.IsNull(existingVoice))
+                    {
                         // Save the new voice
 
                         // Set the Gender
-                        // voice.Gender = gender;
+                        voice.Gender = gender;
 
                         // Save this voice
                         // saved = gateway.SaveVoice(ref voice);
-                    //}
-                    // else
-                    // {
+                    }
+                    else
+                    {
                         // Do Not Need To Save the existing voice
 
                         // Set the Gender
-                        // existingVoice.Gender = gender;
+                        existingVoice.Gender = gender;
 
-                    // Save this existingVoice
-                    // saved = gateway.SaveVoice(ref existingVoice);
-                    // }
+                        // Save this existingVoice
+                        // saved = gateway.SaveVoice(ref existingVoice);
+                    }
 
                     // if the save failed
-                    // if (!saved)
-                    // {
-                    // For debugging only
-                    // Exception error = gateway.GetLastException();
-                    // }
+                    if (!saved)
+                    {
+                        // For debugging only
+                        // Exception error = gateway.GetLastException();
+                    }
                 }
 
                 // Set the text
@@ -337,9 +337,18 @@ namespace Simon
                 // Get the VoiceName
                 string comboBoxText = VoiceComboBox.ComboBoxText;
                 string voiceName = VoiceComboBox.ComboBoxText.Substring(0, VoiceComboBox.ComboBoxText.IndexOf(" - ")).Trim();
+                string countryName = FilterCountryComboBox.ComboBoxText;
 
-                // Set the SelectedVoice
-                SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName);
+                if (TextHelper.Exists(countryName))
+                {
+                    // Set the SelectedVoice
+                    SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName && x.Country == countryName);    
+                }
+                else
+                {
+                    // Set the SelectedVoice
+                    SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName);    
+                }
 
                 // if the value for HasSelectedVoice is true
                 if (HasSelectedVoice)
@@ -375,6 +384,90 @@ namespace Simon
         }
         #endregion
 
+        #region ReseedButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when the 'ReseedButton' is clicked.
+        /// </summary>
+        private void ReseedButton_Click(object sender, EventArgs e)
+        {
+            // Create a new instance of a 'Gateway' object.
+            // Gateway gateway = new Gateway(Connection.Name);
+
+            // Load the Voices
+            // List<Voice> voices = gateway.LoadVoices();
+
+            // If the voices collection exists and has one or more items
+            //if (ListHelper.HasOneOrMoreItems(voices))
+            //{
+            //    // Sort by FirtName
+            //    voices = voices.OrderBy(x => x.Name).ToList();
+
+            //    string newLine = Environment.NewLine;
+            //    string comma = ",";
+            //    string commaAndSingleQuote = ",'";
+            //    string singleQuote = "'";
+            //    string singleQuoteAndComma = singleQuote + comma;
+            //    string singleQuoteAndCommaAndSingleQuote = singleQuote + comma + singleQuote;
+
+            //    StringBuilder sb = new StringBuilder();
+
+
+            //    sb.Append("SET IDENTITY_INSERT [dbo].[Voice] ON;");
+            //    sb.Append(newLine);
+            //    sb.Append(newLine);
+            //    sb.Append("INSERT INTO [Voice] (Id, Name, Locale, FullName, Country, Gender) VALUES");
+            //    sb.Append(newLine);
+            //    sb.Append(newLine);
+
+            //    // local
+            //    int count = 0;
+
+            //    // Delete the Table Now and Rescript
+            //    foreach (Voice voice in voices)
+            //    {
+            //        // Increment the value for count
+            //        count++;
+
+            //        sb.Append("(");
+            //        sb.Append(count);
+            //        sb.Append(commaAndSingleQuote);
+            //        sb.Append(voice.Name);
+            //        sb.Append(singleQuoteAndCommaAndSingleQuote);
+            //        sb.Append(voice.Locale);
+            //        sb.Append(singleQuoteAndCommaAndSingleQuote);
+            //        sb.Append(voice.FullName);
+            //        sb.Append(singleQuoteAndCommaAndSingleQuote);
+            //        sb.Append(voice.Country);
+            //        sb.Append(singleQuoteAndComma);
+            //        sb.Append((int)voice.Gender);
+
+
+            //        if (voice.Name == "Yan")
+            //        {
+            //            sb.Append(")");
+            //        }
+            //        else
+            //        {
+            //            sb.Append("),");
+            //        }
+
+            //        // Add a newLine char
+            //        sb.Append(newLine);
+            //    }
+
+
+            //    sb.Append(newLine);
+            //    sb.Append("SET IDENTITY_INSERT [dbo].[Voice] OFF;");
+
+            //    string result = sb.ToString();
+            //    Clipboard.SetText(result);
+            //}
+
+            //// Show a message
+            //StatusLabel.Text = "Reseed Complete";
+        }
+        #endregion
+        
         #region SpeakButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'SpeakButton' is clicked.
@@ -691,62 +784,63 @@ namespace Simon
             char comma = ',';
 
             // Create a new instance of a 'Gateway' object.
-            // Gateway gateway = new Gateway(ApplicationLogicComponent.Connection.Connection.Name);
+            // Gateway gateway = new Gateway(Connection.Name);
 
-            // Load all the voices
-            // Voices = gateway.LoadVoices();
+            //// Load all the voices
+            //Voices = gateway.LoadVoices();
 
-            // if my machine (database loaded voices)
-            if (ListHelper.HasOneOrMoreItems(Voices))
-            {
-                // Create the path
-                string path = @"../../../Voices/";
+            //// if my machine (database loaded voices)
+            //if (ListHelper.HasOneOrMoreItems(Voices))
+            //{
+            //    // Create the path
+            //    string path = @"../../../Voices/";
 
-                // if the directory exists
-                if (!Directory.Exists(path))
-                {
-                    // Must be installed version
-                    path = "Voices";
-                }
+            //    // if the directory exists
+            //    if (!Directory.Exists(path))
+            //    {
+            //        // Must be installed version
+            //        path = "Voices";
+            //    }
 
-                if (FileHelper.Exists(path))
-                {
-                    // Delete this file
-                    File.Delete(path);
-                }
+            //    // try again
+            //    if (Directory.Exists(path))
+            //    {
+            //        // Create a file
+            //        string filePath = Path.Combine(path, "Voices2.txt");
 
-                // try again
-                if (Directory.Exists(path))
-                {
-                    // Create a file
-                    string filePath = Path.Combine(path, "Voices.txt");
+            //        // If the filePath Exists On Disk
+            //        if (FileHelper.Exists(filePath))
+            //        {
+            //            // Delete this file
+            //            File.Delete(path);
+            //        }
 
-                    // Iterate the collection of Voice objects
-                    foreach (Voice voice in voices)
-                    {
-                        // Append Id
-                        sb.Append(voice.Id);
-                        sb.Append(comma);
-                        sb.Append(voice.Name);
-                        sb.Append(comma);
-                        sb.Append(voice.Locale);
-                        sb.Append(comma);
-                        sb.Append(voice.FullName);
-                        sb.Append(comma);
-                        sb.Append(voice.Country);
-                        sb.Append(comma);
-                        sb.Append(voice.Gender.ToString());
-                        sb.Append(Environment.NewLine);
-                    }
+            //        // Iterate the collection of Voice objects
+            //        foreach (Voice voice in voices)
+            //        {
+            //            // Append Id
+            //            sb.Append(voice.Id);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Name);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Locale);
+            //            sb.Append(comma);
+            //            sb.Append(voice.FullName);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Country);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Gender.ToString());
+            //            sb.Append(Environment.NewLine);
+            //        }
 
-                    // write out the text
-                    string fileText = sb.ToString();
-                    File.WriteAllText(filePath, fileText);
+            //        // write out the text
+            //        string fileText = sb.ToString();
+            //        File.WriteAllText(filePath, fileText);
 
-                    // Show that we are done
-                    StatusLabel.Text = "Status: Voices have been exported to " + filePath;
-                }
-            }
+            //        // Show that we are done
+            //        StatusLabel.Text = "Status: Voices have been exported to " + filePath;
+            //    }
+            //}
         }
         #endregion
 
@@ -1719,11 +1813,11 @@ namespace Simon
             // initial value
             Voices = new List<Voice>();
 
-           #if DEBUG
+#if DEBUG
             string path = @"../../../Voices/";
-            #else
+#else
             string path = "Voices";
-            #endif
+#endif
 
             // If the director exists
             if (Directory.Exists(path))
@@ -1770,7 +1864,7 @@ namespace Simon
                 {
                     // Show a message
                     MessageBox.Show("The file voices.txt could not be found:" + Environment.NewLine + filePath, "Missing File");
-                }                
+                }
             }
             else
             {
@@ -2000,7 +2094,7 @@ namespace Simon
             }
         }
         #endregion
-            
+
         #region HasKey
         /// <summary>
         /// This property returns true if the 'Key' exists.
@@ -2079,13 +2173,13 @@ namespace Simon
             {
                 // initial value
                 bool hasSettings = (this.Settings != null);
-                    
+
                 // return value
                 return hasSettings;
             }
         }
         #endregion
-            
+
         #region HasVoices
         /// <summary>
         /// This property returns true if this object has a 'Voices'.

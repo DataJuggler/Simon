@@ -154,7 +154,7 @@ namespace Simon
             GetVoicesButton.Size = new Size(174, 55);
             GetVoicesButton.TabIndex = 1;
             GetVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
-            GetVoicesButton.Visible = false;
+            GetVoicesButton.UseMnemonic = true;
             GetVoicesButton.Click += GetVoicesButton_Click;
             // 
             // SpeakButton
@@ -169,6 +169,7 @@ namespace Simon
             SpeakButton.Size = new Size(127, 55);
             SpeakButton.TabIndex = 2;
             SpeakButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            SpeakButton.UseMnemonic = true;
             SpeakButton.Click += SpeakButton_Click;
             // 
             // StatusLabel
@@ -222,6 +223,7 @@ namespace Simon
             WriteVoicesButton.Size = new Size(174, 55);
             WriteVoicesButton.TabIndex = 5;
             WriteVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            WriteVoicesButton.UseMnemonic = true;
             WriteVoicesButton.Visible = false;
             WriteVoicesButton.Click += WriteVoicesButton_Click;
             // 
@@ -302,6 +304,7 @@ namespace Simon
             HiddenButton.Size = new Size(174, 55);
             HiddenButton.TabIndex = 8;
             HiddenButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            HiddenButton.UseMnemonic = true;
             // 
             // VoicesTimer
             // 
@@ -320,6 +323,7 @@ namespace Simon
             TryVoicesButton.Size = new Size(127, 55);
             TryVoicesButton.TabIndex = 9;
             TryVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            TryVoicesButton.UseMnemonic = true;
             TryVoicesButton.Click += TryVoicesButton_Click;
             // 
             // AppendVoiceNameCheckBox
@@ -555,6 +559,7 @@ namespace Simon
             StopButton.Size = new Size(127, 55);
             StopButton.TabIndex = 19;
             StopButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            StopButton.UseMnemonic = true;
             StopButton.Click += StopButton_Click;
             // 
             // EmotionComboBox
@@ -717,6 +722,7 @@ namespace Simon
             ReseedButton.Size = new Size(127, 55);
             ReseedButton.TabIndex = 28;
             ReseedButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            ReseedButton.UseMnemonic = true;
             ReseedButton.Visible = false;
             ReseedButton.Click += ReseedButton_Click;
             // 

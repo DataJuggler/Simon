@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DataJuggler.Excelerate" Version="9.1.0" />
     <PackageReference Include="DataJuggler.Win.Controls" Version="9.1.15" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.44.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
@@ -57,6 +58,7 @@
 
   <ItemGroup>
     <ProjectReference Include="DataJuggler.Speech\DataJuggler.Speech.csproj" />
+    <ProjectReference Include="Data\DataAccessComponent\DataAccessComponent.csproj" />
     <ProjectReference Include="Data\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 

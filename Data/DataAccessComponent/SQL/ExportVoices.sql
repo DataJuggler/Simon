@@ -11,5 +11,3 @@ SELECT
     END AS VoiceTextLine
 FROM 
     [dbo].[Voice]
-ORDER BY 
-    Id;

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObjectLibrary", "Data\Objec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataJuggler.Speech", "DataJuggler.Speech\DataJuggler.Speech.csproj", "{D0C47082-E268-40A2-8160-318D7146B7B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessComponent", "Data\DataAccessComponent\DataAccessComponent.csproj", "{E99F6C33-19FD-6A31-3130-691F5B68D28D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{D0C47082-E268-40A2-8160-318D7146B7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0C47082-E268-40A2-8160-318D7146B7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0C47082-E268-40A2-8160-318D7146B7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E99F6C33-19FD-6A31-3130-691F5B68D28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E99F6C33-19FD-6A31-3130-691F5B68D28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E99F6C33-19FD-6A31-3130-691F5B68D28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E99F6C33-19FD-6A31-3130-691F5B68D28D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2DAFE48E-9011-4D60-AD2C-2EADE92B5094} = {E467C69A-647D-47EB-B43B-CB6B96CF7A5C}
+		{E99F6C33-19FD-6A31-3130-691F5B68D28D} = {E467C69A-647D-47EB-B43B-CB6B96CF7A5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D1403170-84DE-4939-B4BD-9A749C9DE71E}

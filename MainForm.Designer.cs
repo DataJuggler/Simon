@@ -108,6 +108,7 @@ namespace Simon
             PitchComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             RateComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             ReseedButton = new DataJuggler.Win.Controls.Button();
+            ImportVoicesButton = new DataJuggler.Win.Controls.Button();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -726,12 +727,28 @@ namespace Simon
             ReseedButton.Visible = false;
             ReseedButton.Click += ReseedButton_Click;
             // 
+            // ImportVoicesButton
+            // 
+            ImportVoicesButton.BackColor = Color.Transparent;
+            ImportVoicesButton.ButtonText = "Import Excel";
+            ImportVoicesButton.FlatStyle = FlatStyle.Flat;
+            ImportVoicesButton.ForeColor = Color.LemonChiffon;
+            ImportVoicesButton.Location = new Point(18, 517);
+            ImportVoicesButton.Margin = new Padding(5);
+            ImportVoicesButton.Name = "ImportVoicesButton";
+            ImportVoicesButton.Size = new Size(127, 55);
+            ImportVoicesButton.TabIndex = 29;
+            ImportVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            ImportVoicesButton.UseMnemonic = true;
+            ImportVoicesButton.Click += ImportVoicesButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(889, 795);
+            Controls.Add(ImportVoicesButton);
             Controls.Add(ReseedButton);
             Controls.Add(RateComboBox);
             Controls.Add(PitchComboBox);
@@ -778,6 +795,7 @@ namespace Simon
         #endregion
 
         private DataJuggler.Win.Controls.Button ReseedButton;
+        private DataJuggler.Win.Controls.Button ImportVoicesButton;
     }
     #endregion
 

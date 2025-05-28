@@ -17,8 +17,11 @@ using System.Diagnostics;
 using System.Media;
 using System.Text;
 using System.Reflection;
-// using DataAccessComponent.DataGateway;
-// using Connection = DataAccessComponent.Connection.Connection;
+using ExcelVoice = Simon.Objects.Voice;
+using DataJuggler.Excelerate;
+using DataAccessComponent.DataGateway;
+using DataAccessComponent.DataGateway;
+using Connection = DataAccessComponent.Connection.Connection;
 
 #endregion
 
@@ -192,6 +195,56 @@ namespace Simon
         }
         #endregion
 
+        #region ImportVoicesButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// event is fired when the 'ImportVoicesButton' is clicked.
+        /// </summary>
+        private void ImportVoicesButton_Click(object sender, EventArgs e)
+        {
+            WorksheetInfo worksheetInfo = new WorksheetInfo();
+            worksheetInfo.Path = @"C:\Projects\GitHub\Simon\Excel\Voices.xlsx";
+            worksheetInfo.SheetName = "Voice";
+            worksheetInfo.LoadColumnOptions = LoadColumnOptionsEnum.LoadAllColumnsExceptExcluded;
+            worksheetInfo.ColumnsToLoad = 6;
+
+            // Load the worksheet
+            Worksheet worksheet = ExcelDataLoader.LoadWorksheet(worksheetInfo);
+
+            // If the worksheet object exists
+            if (NullHelper.Exists(worksheet))
+            {
+                // local
+                int count = 0;
+
+                // Create a new instance of a 'Gateway' object.
+                Gateway gateway = new Gateway(Connection.Name);
+
+                // load the voices
+                List<ExcelVoice> voices = ExcelVoice.Load(worksheet); 
+
+                // if the voices exist
+                if (ListHelper.HasOneOrMoreItems(voices))
+                {
+                    // Iterate the collection of ExcelVoice objects
+                    foreach (ExcelVoice ExcelVoice in voices)
+                    {
+                        // Increment the value for count
+                        count++;
+
+                        // Convert to ExcelVoice
+                        Voice voice = ExcelVoice.MapToDataObject();
+
+                        // Save this Force
+                        bool saved = gateway.SaveVoice(ref voice);
+                    }
+
+                    // Show done
+                    StatusLabel.Text = "Finished";
+                }
+            }
+        }
+        #endregion
+        
         #region MainForm_Load(object sender, EventArgs e)
         /// <summary>
         /// event is fired when Main Form _ Load
@@ -342,12 +395,12 @@ namespace Simon
                 if (TextHelper.Exists(countryName))
                 {
                     // Set the SelectedVoice
-                    SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName && x.Country == countryName);    
+                    SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName && x.Country == countryName);
                 }
                 else
                 {
                     // Set the SelectedVoice
-                    SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName);    
+                    SelectedVoice = Voices.FirstOrDefault(x => x.Name == voiceName);
                 }
 
                 // if the value for HasSelectedVoice is true
@@ -467,7 +520,7 @@ namespace Simon
             //StatusLabel.Text = "Reseed Complete";
         }
         #endregion
-        
+
         #region SpeakButton_Click(object sender, EventArgs e)
         /// <summary>
         /// event is fired when the 'SpeakButton' is clicked.
@@ -784,63 +837,63 @@ namespace Simon
             char comma = ',';
 
             // Create a new instance of a 'Gateway' object.
-            // Gateway gateway = new Gateway(Connection.Name);
+            Gateway gateway = new Gateway(Connection.Name);
 
-            //// Load all the voices
-            //Voices = gateway.LoadVoices();
+            // Load all the voices
+            Voices = gateway.LoadVoices();
 
-            //// if my machine (database loaded voices)
-            //if (ListHelper.HasOneOrMoreItems(Voices))
-            //{
-            //    // Create the path
-            //    string path = @"../../../Voices/";
+            // if my machine (database loaded voices)
+            if (ListHelper.HasOneOrMoreItems(Voices))
+            {
+                // Create the path
+                string path = @"../../../Voices/";
 
-            //    // if the directory exists
-            //    if (!Directory.Exists(path))
-            //    {
-            //        // Must be installed version
-            //        path = "Voices";
-            //    }
+                // if the directory exists
+                if (!Directory.Exists(path))
+                {
+                    // Must be installed version
+                    path = "Voices";
+                }
 
-            //    // try again
-            //    if (Directory.Exists(path))
-            //    {
-            //        // Create a file
-            //        string filePath = Path.Combine(path, "Voices2.txt");
+                // try again
+                if (Directory.Exists(path))
+                {
+                    // Create a file
+                    string filePath = Path.Combine(path, "Voices2.txt");
 
-            //        // If the filePath Exists On Disk
-            //        if (FileHelper.Exists(filePath))
-            //        {
-            //            // Delete this file
-            //            File.Delete(path);
-            //        }
+                    // If the filePath Exists On Disk
+                    if (FileHelper.Exists(filePath))
+                    {
+                        // Delete this file
+                        File.Delete(path);
+                    }
 
-            //        // Iterate the collection of Voice objects
-            //        foreach (Voice voice in voices)
-            //        {
-            //            // Append Id
-            //            sb.Append(voice.Id);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Name);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Locale);
-            //            sb.Append(comma);
-            //            sb.Append(voice.FullName);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Country);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Gender.ToString());
-            //            sb.Append(Environment.NewLine);
-            //        }
+                    // Iterate the collection of Voice objects
+                    foreach (Voice voice in voices)
+                    {
+                        // Append Id
+                        sb.Append(voice.Id);
+                        sb.Append(comma);
+                        sb.Append(voice.Name);
+                        sb.Append(comma);
+                        sb.Append(voice.Locale);
+                        sb.Append(comma);
+                        sb.Append(voice.FullName);
+                        sb.Append(comma);
+                        sb.Append(voice.Country);
+                        sb.Append(comma);
+                        sb.Append(voice.Gender.ToString());
+                        sb.Append(Environment.NewLine);
+                    }
 
-            //        // write out the text
-            //        string fileText = sb.ToString();
-            //        File.WriteAllText(filePath, fileText);
+                    // write out the text
+                    string fileText = sb.ToString();
+                    File.WriteAllText(filePath, fileText);
 
-            //        // Show that we are done
-            //        StatusLabel.Text = "Status: Voices have been exported to " + filePath;
-            //    }
-            //}
+                    // Show that we are done
+                    StatusLabel.Text = "Status: Voices have been exported to " + filePath;
+                }
+            }
         }
         #endregion
 

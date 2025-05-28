@@ -1,4 +1,5 @@
--- Step 1: Create a temporary copy of the data without the Id column
+-- Step 1: Create a temporary copy of the data without the Id column,
+-- ordered alphabetically by [Name] (assumed to be the first name)
 SELECT 
     [Name], [Locale], [FullName], [Country], [Gender]
 INTO 
@@ -6,7 +7,7 @@ INTO
 FROM 
     [dbo].[Voice]
 ORDER BY 
-    Id; -- maintain current order if important
+    [Name];  -- Alphabetical by first name
 
 -- Step 2: Clear the original table
 DELETE FROM [dbo].[Voice];

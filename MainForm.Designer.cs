@@ -156,6 +156,7 @@ namespace Simon
             GetVoicesButton.TabIndex = 1;
             GetVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             GetVoicesButton.UseMnemonic = true;
+            GetVoicesButton.Visible = false;
             GetVoicesButton.Click += GetVoicesButton_Click;
             // 
             // SpeakButton
@@ -740,6 +741,7 @@ namespace Simon
             ImportVoicesButton.TabIndex = 29;
             ImportVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             ImportVoicesButton.UseMnemonic = true;
+            ImportVoicesButton.Visible = false;
             ImportVoicesButton.Click += ImportVoicesButton_Click;
             // 
             // MainForm

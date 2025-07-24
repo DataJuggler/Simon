@@ -9,7 +9,7 @@
     <PackageIcon>Lips.png</PackageIcon>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
     <ApplicationIcon>Images\Lips.ico</ApplicationIcon>
-    <Version>1.10.0</Version>
+    <Version>1.10.1</Version>
     <Title>Simon</Title>
   </PropertyGroup>
 
@@ -35,9 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Excelerate" Version="9.1.0" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="9.1.15" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.44.0" />
+    <PackageReference Include="DataJuggler.Excelerate" Version="9.1.1" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="9.1.16" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.45.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
@@ -58,7 +58,6 @@
 
   <ItemGroup>
     <ProjectReference Include="DataJuggler.Speech\DataJuggler.Speech.csproj" />
-    <ProjectReference Include="Data\DataAccessComponent\DataAccessComponent.csproj" />
     <ProjectReference Include="Data\ObjectLibrary\ObjectLibrary.csproj" />
   </ItemGroup>
 

@@ -19,9 +19,8 @@ using System.Text;
 using System.Reflection;
 using ExcelVoice = Simon.Objects.Voice;
 using DataJuggler.Excelerate;
-using DataAccessComponent.DataGateway;
-using DataAccessComponent.DataGateway;
-using Connection = DataAccessComponent.Connection.Connection;
+// using DataAccessComponent.DataGateway;
+// using Connection = DataAccessComponent.Connection.Connection;
 
 #endregion
 
@@ -217,7 +216,7 @@ namespace Simon
                 int count = 0;
 
                 // Create a new instance of a 'Gateway' object.
-                Gateway gateway = new Gateway(Connection.Name);
+                // Gateway gateway = new Gateway(Connection.Name);
 
                 // load the voices
                 List<ExcelVoice> voices = ExcelVoice.Load(worksheet); 
@@ -235,7 +234,7 @@ namespace Simon
                         Voice voice = ExcelVoice.MapToDataObject();
 
                         // Save this Force
-                        bool saved = gateway.SaveVoice(ref voice);
+                        // bool saved = gateway.SaveVoice(ref voice);
                     }
 
                     // Show done
@@ -837,63 +836,63 @@ namespace Simon
             char comma = ',';
 
             // Create a new instance of a 'Gateway' object.
-            Gateway gateway = new Gateway(Connection.Name);
+            // Gateway gateway = new Gateway(Connection.Name);
 
             // Load all the voices
-            Voices = gateway.LoadVoices();
+            // Voices = gateway.LoadVoices();
 
-            // if my machine (database loaded voices)
-            if (ListHelper.HasOneOrMoreItems(Voices))
-            {
-                // Create the path
-                string path = @"../../../Voices/";
+            //// if my machine (database loaded voices)
+            //if (ListHelper.HasOneOrMoreItems(Voices))
+            //{
+            //    // Create the path
+            //    string path = @"../../../Voices/";
 
-                // if the directory exists
-                if (!Directory.Exists(path))
-                {
-                    // Must be installed version
-                    path = "Voices";
-                }
+            //    // if the directory exists
+            //    if (!Directory.Exists(path))
+            //    {
+            //        // Must be installed version
+            //        path = "Voices";
+            //    }
 
-                // try again
-                if (Directory.Exists(path))
-                {
-                    // Create a file
-                    string filePath = Path.Combine(path, "Voices2.txt");
+            //    // try again
+            //    if (Directory.Exists(path))
+            //    {
+            //        // Create a file
+            //        string filePath = Path.Combine(path, "Voices2.txt");
 
-                    // If the filePath Exists On Disk
-                    if (FileHelper.Exists(filePath))
-                    {
-                        // Delete this file
-                        File.Delete(path);
-                    }
+            //        // If the filePath Exists On Disk
+            //        if (FileHelper.Exists(filePath))
+            //        {
+            //            // Delete this file
+            //            File.Delete(path);
+            //        }
 
-                    // Iterate the collection of Voice objects
-                    foreach (Voice voice in voices)
-                    {
-                        // Append Id
-                        sb.Append(voice.Id);
-                        sb.Append(comma);
-                        sb.Append(voice.Name);
-                        sb.Append(comma);
-                        sb.Append(voice.Locale);
-                        sb.Append(comma);
-                        sb.Append(voice.FullName);
-                        sb.Append(comma);
-                        sb.Append(voice.Country);
-                        sb.Append(comma);
-                        sb.Append(voice.Gender.ToString());
-                        sb.Append(Environment.NewLine);
-                    }
+            //        // Iterate the collection of Voice objects
+            //        foreach (Voice voice in voices)
+            //        {
+            //            // Append Id
+            //            sb.Append(voice.Id);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Name);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Locale);
+            //            sb.Append(comma);
+            //            sb.Append(voice.FullName);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Country);
+            //            sb.Append(comma);
+            //            sb.Append(voice.Gender.ToString());
+            //            sb.Append(Environment.NewLine);
+            //        }
 
-                    // write out the text
-                    string fileText = sb.ToString();
-                    File.WriteAllText(filePath, fileText);
+            //        // write out the text
+            //        string fileText = sb.ToString();
+            //        File.WriteAllText(filePath, fileText);
 
-                    // Show that we are done
-                    StatusLabel.Text = "Status: Voices have been exported to " + filePath;
-                }
-            }
+            //        // Show that we are done
+            //        StatusLabel.Text = "Status: Voices have been exported to " + filePath;
+            //    }
+            //}
         }
         #endregion
 

@@ -785,7 +785,7 @@ namespace Simon
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Simon 1.9.0";
+            Text = "Simon 1.10.2";
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();

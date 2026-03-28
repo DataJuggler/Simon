@@ -2,8 +2,8 @@
 
 #region using statements
 
-using ObjectLibrary.Enumerations;
 using System;
+using ObjectLibrary.Enumerations;
 
 #endregion
 
@@ -20,6 +20,7 @@ namespace ObjectLibrary.BusinessObjects
         private string fullName;
         private GenderEnum gender;
         private int id;
+        private bool isDragon;
         private string locale;
         private string name;
         #endregion
@@ -90,6 +91,20 @@ namespace ObjectLibrary.BusinessObjects
                 get
                 {
                     return id;
+                }
+            }
+            #endregion
+
+            #region bool IsDragon
+            public bool IsDragon
+            {
+                get
+                {
+                    return isDragon;
+                }
+                set
+                {
+                    isDragon = value;
                 }
             }
             #endregion

@@ -101,6 +101,36 @@ namespace Simon.Security
             }
             #endregion
 
+            #region DragonFilter
+            /// <summary>
+            /// This property gets or sets the value for DragonFilter
+            /// </summary>
+            [UserScopedSetting()]
+            public bool DragonFilter
+            {
+                get
+                {
+                    // initial value
+                    bool filterForDragon = false;
+
+                    // if the CountryFilter exists
+                    if (this["DragonFilter"] != null)
+                    {
+                        // set the return value
+                        filterForDragon = BooleanHelper.ParseBoolean(this["DragonFilter"].ToString(), false, false);
+                    }
+
+                    // return the value for countryFilter
+                    return filterForDragon;
+                }
+                set
+                {
+                    // set the value for DragonFilter
+                    this["DragonFilter"]  = value;
+                }   
+            }
+            #endregion
+
             #region Emotion
             /// <summary>
             /// This property gets or sets the value for Emotion

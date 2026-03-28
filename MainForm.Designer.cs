@@ -107,8 +107,7 @@ namespace Simon
             MakeDefaultDirectory = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             PitchComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             RateComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
-            ReseedButton = new DataJuggler.Win.Controls.Button();
-            ImportVoicesButton = new DataJuggler.Win.Controls.Button();
+            DragonCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GitHubButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).BeginInit();
@@ -128,7 +127,7 @@ namespace Simon
             TextToSpeakTextBox.LabelText = "Text To Speak:";
             TextToSpeakTextBox.LabelTopMargin = 0;
             TextToSpeakTextBox.LabelWidth = 160;
-            TextToSpeakTextBox.Location = new Point(31, 160);
+            TextToSpeakTextBox.Location = new Point(31, 184);
             TextToSpeakTextBox.MultiLine = true;
             TextToSpeakTextBox.Name = "TextToSpeakTextBox";
             TextToSpeakTextBox.OnTextChangedListener = null;
@@ -149,7 +148,7 @@ namespace Simon
             GetVoicesButton.ButtonText = "Get Voices";
             GetVoicesButton.FlatStyle = FlatStyle.Flat;
             GetVoicesButton.ForeColor = Color.LemonChiffon;
-            GetVoicesButton.Location = new Point(215, 589);
+            GetVoicesButton.Location = new Point(215, 613);
             GetVoicesButton.Margin = new Padding(5);
             GetVoicesButton.Name = "GetVoicesButton";
             GetVoicesButton.Size = new Size(174, 55);
@@ -165,7 +164,7 @@ namespace Simon
             SpeakButton.ButtonText = "Speak";
             SpeakButton.FlatStyle = FlatStyle.Flat;
             SpeakButton.ForeColor = Color.LemonChiffon;
-            SpeakButton.Location = new Point(379, 654);
+            SpeakButton.Location = new Point(379, 678);
             SpeakButton.Margin = new Padding(5);
             SpeakButton.Name = "SpeakButton";
             SpeakButton.Size = new Size(127, 55);
@@ -203,7 +202,7 @@ namespace Simon
             VoiceComboBox.LabelTopMargin = 0;
             VoiceComboBox.LabelWidth = 160;
             VoiceComboBox.List = null;
-            VoiceComboBox.Location = new Point(31, 67);
+            VoiceComboBox.Location = new Point(31, 91);
             VoiceComboBox.Name = "VoiceComboBox";
             VoiceComboBox.SelectedIndex = -1;
             VoiceComboBox.SelectedIndexListener = null;
@@ -219,7 +218,7 @@ namespace Simon
             WriteVoicesButton.ButtonText = "Write Voices";
             WriteVoicesButton.FlatStyle = FlatStyle.Flat;
             WriteVoicesButton.ForeColor = Color.LemonChiffon;
-            WriteVoicesButton.Location = new Point(494, 590);
+            WriteVoicesButton.Location = new Point(494, 614);
             WriteVoicesButton.Margin = new Padding(5);
             WriteVoicesButton.Name = "WriteVoicesButton";
             WriteVoicesButton.Size = new Size(174, 55);
@@ -243,7 +242,7 @@ namespace Simon
             OutputFileControl.LabelText = "File Name:";
             OutputFileControl.LabelTopMargin = 0;
             OutputFileControl.LabelWidth = 160;
-            OutputFileControl.Location = new Point(31, 442);
+            OutputFileControl.Location = new Point(31, 466);
             OutputFileControl.MultiLine = false;
             OutputFileControl.Name = "OutputFileControl";
             OutputFileControl.OnTextChangedListener = null;
@@ -278,7 +277,7 @@ namespace Simon
             OutputFolderControl.LabelText = "Output Folder:";
             OutputFolderControl.LabelTopMargin = 0;
             OutputFolderControl.LabelWidth = 160;
-            OutputFolderControl.Location = new Point(31, 371);
+            OutputFolderControl.Location = new Point(31, 395);
             OutputFolderControl.Name = "OutputFolderControl";
             OutputFolderControl.OnTextChangedListener = null;
             OutputFolderControl.OpenCallback = null;
@@ -319,7 +318,7 @@ namespace Simon
             TryVoicesButton.ButtonText = "Try Voices";
             TryVoicesButton.FlatStyle = FlatStyle.Flat;
             TryVoicesButton.ForeColor = Color.LemonChiffon;
-            TryVoicesButton.Location = new Point(215, 654);
+            TryVoicesButton.Location = new Point(215, 678);
             TryVoicesButton.Margin = new Padding(5);
             TryVoicesButton.Name = "TryVoicesButton";
             TryVoicesButton.Size = new Size(127, 55);
@@ -341,7 +340,7 @@ namespace Simon
             AppendVoiceNameCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             AppendVoiceNameCheckBox.LabelText = "Append Voice:";
             AppendVoiceNameCheckBox.LabelWidth = 144;
-            AppendVoiceNameCheckBox.Location = new Point(689, 480);
+            AppendVoiceNameCheckBox.Location = new Point(689, 500);
             AppendVoiceNameCheckBox.Name = "AppendVoiceNameCheckBox";
             AppendVoiceNameCheckBox.Size = new Size(163, 28);
             AppendVoiceNameCheckBox.TabIndex = 10;
@@ -361,7 +360,7 @@ namespace Simon
             FullNameControl.LabelText = "Full Name:";
             FullNameControl.LabelTopMargin = 0;
             FullNameControl.LabelWidth = 160;
-            FullNameControl.Location = new Point(31, 111);
+            FullNameControl.Location = new Point(31, 135);
             FullNameControl.MultiLine = false;
             FullNameControl.Name = "FullNameControl";
             FullNameControl.OnTextChangedListener = null;
@@ -392,7 +391,7 @@ namespace Simon
             GenderComboBox.LabelTopMargin = 0;
             GenderComboBox.LabelWidth = 100;
             GenderComboBox.List = null;
-            GenderComboBox.Location = new Point(539, 67);
+            GenderComboBox.Location = new Point(539, 91);
             GenderComboBox.Name = "GenderComboBox";
             GenderComboBox.SelectedIndex = -1;
             GenderComboBox.SelectedIndexListener = null;
@@ -418,7 +417,7 @@ namespace Simon
             CountryComboBox.LabelTopMargin = 0;
             CountryComboBox.LabelWidth = 100;
             CountryComboBox.List = null;
-            CountryComboBox.Location = new Point(539, 114);
+            CountryComboBox.Location = new Point(539, 138);
             CountryComboBox.Name = "CountryComboBox";
             CountryComboBox.SelectedIndex = -1;
             CountryComboBox.SelectedIndexListener = null;
@@ -507,7 +506,7 @@ namespace Simon
             // 
             GitHubButton.BackgroundImage = Properties.Resources.GitHub;
             GitHubButton.BackgroundImageLayout = ImageLayout.Stretch;
-            GitHubButton.Location = new Point(31, 623);
+            GitHubButton.Location = new Point(31, 647);
             GitHubButton.Name = "GitHubButton";
             GitHubButton.Size = new Size(150, 83);
             GitHubButton.TabIndex = 15;
@@ -520,7 +519,7 @@ namespace Simon
             // 
             YouTubeButton.BackgroundImage = Properties.Resources.YouTubeBlue;
             YouTubeButton.BackgroundImageLayout = ImageLayout.Stretch;
-            YouTubeButton.Location = new Point(702, 623);
+            YouTubeButton.Location = new Point(702, 647);
             YouTubeButton.Name = "YouTubeButton";
             YouTubeButton.Size = new Size(150, 83);
             YouTubeButton.TabIndex = 16;
@@ -531,7 +530,7 @@ namespace Simon
             // 
             LeaveAStarPleaseLabel.BackColor = Color.Transparent;
             LeaveAStarPleaseLabel.ForeColor = Color.LemonChiffon;
-            LeaveAStarPleaseLabel.Location = new Point(18, 590);
+            LeaveAStarPleaseLabel.Location = new Point(18, 614);
             LeaveAStarPleaseLabel.Name = "LeaveAStarPleaseLabel";
             LeaveAStarPleaseLabel.Size = new Size(177, 30);
             LeaveAStarPleaseLabel.TabIndex = 17;
@@ -542,7 +541,7 @@ namespace Simon
             // 
             SubscribeLabel.BackColor = Color.Transparent;
             SubscribeLabel.ForeColor = Color.LemonChiffon;
-            SubscribeLabel.Location = new Point(689, 589);
+            SubscribeLabel.Location = new Point(689, 613);
             SubscribeLabel.Name = "SubscribeLabel";
             SubscribeLabel.Size = new Size(163, 30);
             SubscribeLabel.TabIndex = 18;
@@ -555,7 +554,7 @@ namespace Simon
             StopButton.ButtonText = "Stop";
             StopButton.FlatStyle = FlatStyle.Flat;
             StopButton.ForeColor = Color.LemonChiffon;
-            StopButton.Location = new Point(541, 654);
+            StopButton.Location = new Point(541, 678);
             StopButton.Margin = new Padding(5);
             StopButton.Name = "StopButton";
             StopButton.Size = new Size(127, 55);
@@ -580,7 +579,7 @@ namespace Simon
             EmotionComboBox.LabelTopMargin = 8;
             EmotionComboBox.LabelWidth = 96;
             EmotionComboBox.List = null;
-            EmotionComboBox.Location = new Point(328, 496);
+            EmotionComboBox.Location = new Point(328, 520);
             EmotionComboBox.Name = "EmotionComboBox";
             EmotionComboBox.SelectedIndex = -1;
             EmotionComboBox.SelectedIndexListener = null;
@@ -604,7 +603,7 @@ namespace Simon
             DegreeTextBox.LabelText = "Degree:";
             DegreeTextBox.LabelTopMargin = 0;
             DegreeTextBox.LabelWidth = 96;
-            DegreeTextBox.Location = new Point(328, 544);
+            DegreeTextBox.Location = new Point(328, 568);
             DegreeTextBox.MultiLine = false;
             DegreeTextBox.Name = "DegreeTextBox";
             DegreeTextBox.OnTextChangedListener = null;
@@ -623,7 +622,7 @@ namespace Simon
             // 
             RangeLabel.BackColor = Color.Transparent;
             RangeLabel.ForeColor = Color.LemonChiffon;
-            RangeLabel.Location = new Point(517, 542);
+            RangeLabel.Location = new Point(517, 566);
             RangeLabel.Name = "RangeLabel";
             RangeLabel.Size = new Size(151, 30);
             RangeLabel.TabIndex = 24;
@@ -634,7 +633,7 @@ namespace Simon
             // 
             InfoLabel.BackColor = Color.Transparent;
             InfoLabel.ForeColor = Color.LemonChiffon;
-            InfoLabel.Location = new Point(12, 177);
+            InfoLabel.Location = new Point(12, 201);
             InfoLabel.Name = "InfoLabel";
             InfoLabel.Size = new Size(169, 172);
             InfoLabel.TabIndex = 25;
@@ -654,7 +653,7 @@ namespace Simon
             MakeDefaultDirectory.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
             MakeDefaultDirectory.LabelText = "Make Default Directory:";
             MakeDefaultDirectory.LabelWidth = 224;
-            MakeDefaultDirectory.Location = new Point(604, 409);
+            MakeDefaultDirectory.Location = new Point(604, 433);
             MakeDefaultDirectory.Name = "MakeDefaultDirectory";
             MakeDefaultDirectory.Size = new Size(248, 28);
             MakeDefaultDirectory.TabIndex = 20;
@@ -676,7 +675,7 @@ namespace Simon
             PitchComboBox.LabelTopMargin = 8;
             PitchComboBox.LabelWidth = 96;
             PitchComboBox.List = null;
-            PitchComboBox.Location = new Point(94, 496);
+            PitchComboBox.Location = new Point(94, 520);
             PitchComboBox.Name = "PitchComboBox";
             PitchComboBox.SelectedIndex = -1;
             PitchComboBox.SelectedIndexListener = null;
@@ -702,7 +701,7 @@ namespace Simon
             RateComboBox.LabelTopMargin = 8;
             RateComboBox.LabelWidth = 96;
             RateComboBox.List = null;
-            RateComboBox.Location = new Point(94, 544);
+            RateComboBox.Location = new Point(94, 568);
             RateComboBox.Name = "RateComboBox";
             RateComboBox.SelectedIndex = -1;
             RateComboBox.SelectedIndexListener = null;
@@ -712,37 +711,24 @@ namespace Simon
             RateComboBox.TabIndex = 27;
             RateComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
-            // ReseedButton
+            // DragonCheckBox
             // 
-            ReseedButton.BackColor = Color.Transparent;
-            ReseedButton.ButtonText = "Reseed";
-            ReseedButton.FlatStyle = FlatStyle.Flat;
-            ReseedButton.ForeColor = Color.LemonChiffon;
-            ReseedButton.Location = new Point(725, 521);
-            ReseedButton.Margin = new Padding(5);
-            ReseedButton.Name = "ReseedButton";
-            ReseedButton.Size = new Size(127, 55);
-            ReseedButton.TabIndex = 28;
-            ReseedButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
-            ReseedButton.UseMnemonic = true;
-            ReseedButton.Visible = false;
-            ReseedButton.Click += ReseedButton_Click;
-            // 
-            // ImportVoicesButton
-            // 
-            ImportVoicesButton.BackColor = Color.Transparent;
-            ImportVoicesButton.ButtonText = "Import Excel";
-            ImportVoicesButton.FlatStyle = FlatStyle.Flat;
-            ImportVoicesButton.ForeColor = Color.LemonChiffon;
-            ImportVoicesButton.Location = new Point(18, 517);
-            ImportVoicesButton.Margin = new Padding(5);
-            ImportVoicesButton.Name = "ImportVoicesButton";
-            ImportVoicesButton.Size = new Size(127, 55);
-            ImportVoicesButton.TabIndex = 29;
-            ImportVoicesButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
-            ImportVoicesButton.UseMnemonic = true;
-            ImportVoicesButton.Visible = false;
-            ImportVoicesButton.Click += ImportVoicesButton_Click;
+            DragonCheckBox.BackColor = Color.Transparent;
+            DragonCheckBox.CheckBoxHorizontalOffSet = 0;
+            DragonCheckBox.CheckBoxVerticalOffSet = 3;
+            DragonCheckBox.CheckChangedListener = null;
+            DragonCheckBox.Checked = false;
+            DragonCheckBox.Editable = true;
+            DragonCheckBox.Font = new Font("Verdana", 12F);
+            DragonCheckBox.LabelColor = Color.LemonChiffon;
+            DragonCheckBox.LabelFont = new Font("Verdana", 12F, FontStyle.Bold);
+            DragonCheckBox.LabelText = "Only Dragon Voices:";
+            DragonCheckBox.LabelWidth = 220;
+            DragonCheckBox.Location = new Point(186, 57);
+            DragonCheckBox.Name = "DragonCheckBox";
+            DragonCheckBox.Size = new Size(244, 28);
+            DragonCheckBox.TabIndex = 28;
+            DragonCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // MainForm
             // 
@@ -750,8 +736,7 @@ namespace Simon
             BackgroundImage = Properties.Resources.BlackImage;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(889, 795);
-            Controls.Add(ImportVoicesButton);
-            Controls.Add(ReseedButton);
+            Controls.Add(DragonCheckBox);
             Controls.Add(RateComboBox);
             Controls.Add(PitchComboBox);
             Controls.Add(InfoLabel);
@@ -786,18 +771,18 @@ namespace Simon
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Simon 1.10.2";
+            FormClosed += MainForm_FormClosed;
             Load += MainForm_Load;
             FilterPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)GitHubButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)YouTubeButton).EndInit();
             ResumeLayout(false);
         }
-        #endregion
 
         #endregion
+        #endregion
 
-        private DataJuggler.Win.Controls.Button ReseedButton;
-        private DataJuggler.Win.Controls.Button ImportVoicesButton;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl DragonCheckBox;
     }
     #endregion
 

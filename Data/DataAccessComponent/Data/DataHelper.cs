@@ -4,7 +4,7 @@
 using System;
 using System.Data;
 using DataAccessComponent.StoredProcedureManager;
-using DataJuggler.NET9.Sql;
+using DataJuggler.NET.Data.Sql;
 
 #endregion
 

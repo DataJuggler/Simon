@@ -19,8 +19,9 @@ using System.Text;
 using System.Reflection;
 using ExcelVoice = Simon.Objects.Voice;
 using DataJuggler.Excelerate;
-// using DataAccessComponent.DataGateway;
-// using Connection = DataAccessComponent.Connection.Connection;
+//using DataAccessComponent.DataGateway;
+//using Connection = DataAccessComponent.Connection;
+//using DataAccessComponent.Connection;
 
 #endregion
 
@@ -31,7 +32,7 @@ namespace Simon
     /// <summary>
     /// This class is the main form of this app.
     /// </summary>
-    public partial class MainForm : Form, ISelectedIndexListener
+    public partial class MainForm : Form, ISelectedIndexListener, ICheckChangedListener
     {
 
         #region Private Variables
@@ -93,7 +94,7 @@ namespace Simon
                 Clipboard.SetText(sb.ToString());
 
                 // Create a new instance of a 'Gateway' object.
-                // Gateway gateway = new Gateway(Connection.Name);
+                // Gateway gateway = new Gateway(ConnectionConstants.Name);
 
                 // Iterate the collection of VoiceInfo objects
                 foreach (VoiceInfo voiceInfo in voices)
@@ -108,13 +109,7 @@ namespace Simon
                     voice.Locale = voiceInfo.Locale;
                     voice.FullName = voiceInfo.ShortName;
                     voice.Country = GetCountry(voiceInfo.Locale);
-                    var gender = ParseGender(voiceInfo.Gender.ToString());
-
-                    if (gender == GenderEnum.Both)
-                    {
-                        // Breakpoint only
-                        gender = GenderEnum.Male;
-                    }
+                    GenderEnum gender = ParseGender(voiceInfo.Gender.ToString());
 
                     // Set the Gender
                     voice.Gender = gender;
@@ -130,6 +125,9 @@ namespace Simon
                         // Set the Gender
                         voice.Gender = gender;
 
+                        // Is this voice a Dragon
+                        voice.IsDragon = voice.Name.Contains("Dragon");
+
                         // Save this voice
                         // saved = gateway.SaveVoice(ref voice);
                     }
@@ -139,6 +137,9 @@ namespace Simon
 
                         // Set the Gender
                         existingVoice.Gender = gender;
+
+                        // Is this voice a Dragon
+                        voice.IsDragon = voice.Name.Contains("Dragon");
 
                         // Save this existingVoice
                         // saved = gateway.SaveVoice(ref existingVoice);
@@ -194,53 +195,15 @@ namespace Simon
         }
         #endregion
 
-        #region ImportVoicesButton_Click(object sender, EventArgs e)
+        #region MainForm_FormClosed(object sender, FormClosedEventArgs e)
         /// <summary>
-        /// event is fired when the 'ImportVoicesButton' is clicked.
+        /// event is fired when Main Form _ Form Closed
         /// </summary>
-        private void ImportVoicesButton_Click(object sender, EventArgs e)
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            WorksheetInfo worksheetInfo = new WorksheetInfo();
-            worksheetInfo.Path = @"C:\Projects\GitHub\Simon\Excel\Voices.xlsx";
-            worksheetInfo.SheetName = "Voice";
-            worksheetInfo.LoadColumnOptions = LoadColumnOptionsEnum.LoadAllColumnsExceptExcluded;
-            worksheetInfo.ColumnsToLoad = 6;
-
-            // Load the worksheet
-            Worksheet worksheet = ExcelDataLoader.LoadWorksheet(worksheetInfo);
-
-            // If the worksheet object exists
-            if (NullHelper.Exists(worksheet))
-            {
-                // local
-                int count = 0;
-
-                // Create a new instance of a 'Gateway' object.
-                // Gateway gateway = new Gateway(Connection.Name);
-
-                // load the voices
-                List<ExcelVoice> voices = ExcelVoice.Load(worksheet); 
-
-                // if the voices exist
-                if (ListHelper.HasOneOrMoreItems(voices))
-                {
-                    // Iterate the collection of ExcelVoice objects
-                    foreach (ExcelVoice ExcelVoice in voices)
-                    {
-                        // Increment the value for count
-                        count++;
-
-                        // Convert to ExcelVoice
-                        Voice voice = ExcelVoice.MapToDataObject();
-
-                        // Save this Force
-                        // bool saved = gateway.SaveVoice(ref voice);
-                    }
-
-                    // Show done
-                    StatusLabel.Text = "Finished";
-                }
-            }
+            // End the program
+            Application.Exit();
+            Application.DoEvents();
         }
         #endregion
         
@@ -293,6 +256,9 @@ namespace Simon
                     FilterCountryComboBox.SelectedIndex = index;
                 }
             }
+
+             // Filter By Dragon or not
+            DragonCheckBox.Checked = Settings.DragonFilter;
 
             // Attempt to select the last voice if the voice is available with the current filters
             if (TextHelper.Exists(Settings.Voice))
@@ -377,6 +343,25 @@ namespace Simon
         }
         #endregion
 
+        #region OnCheckChanged(LabelCheckBoxControl sender, bool isChecked)
+        /// <summary>
+        /// event is fired when On Check Changed
+        /// </summary>
+        public void OnCheckChanged(LabelCheckBoxControl sender, bool isChecked)
+        {
+            // if Dragon was checked
+            if (sender.Name == DragonCheckBox.Name)
+            {
+                // erase
+                VoiceComboBox.SelectedIndex = -1;
+                FullNameControl.Text = "";
+
+                // Change the filter
+                FilterLists();
+            }
+        }
+        #endregion
+
         #region OnSelectedIndexChanged(LabelComboBoxControl control, int selectedIndex, object selectedItem)
         /// <summary>
         /// event is fired when a selection is made in the 'On'.
@@ -388,7 +373,15 @@ namespace Simon
             {
                 // Get the VoiceName
                 string comboBoxText = VoiceComboBox.ComboBoxText;
-                string voiceName = VoiceComboBox.ComboBoxText.Substring(0, VoiceComboBox.ComboBoxText.IndexOf(" - ")).Trim();
+                string voiceName = "";
+
+                // if there is Text
+                if (TextHelper.Exists(VoiceComboBox.ComboBoxText))
+                {
+                    // set the voiceName
+                    voiceName = VoiceComboBox.ComboBoxText.Substring(0, VoiceComboBox.ComboBoxText.IndexOf(" - ")).Trim();
+                }
+
                 string countryName = FilterCountryComboBox.ComboBoxText;
 
                 if (TextHelper.Exists(countryName))
@@ -423,6 +416,11 @@ namespace Simon
                     // Display the Full Name
                     FullNameControl.Text = SelectedVoice.FullName;
                 }
+                else
+                {
+                    // Display the Full Name
+                    FullNameControl.Text = "";
+                }
             }
             else
             {
@@ -433,90 +431,6 @@ namespace Simon
                     FilterLists();
                 }
             }
-        }
-        #endregion
-
-        #region ReseedButton_Click(object sender, EventArgs e)
-        /// <summary>
-        /// event is fired when the 'ReseedButton' is clicked.
-        /// </summary>
-        private void ReseedButton_Click(object sender, EventArgs e)
-        {
-            // Create a new instance of a 'Gateway' object.
-            // Gateway gateway = new Gateway(Connection.Name);
-
-            // Load the Voices
-            // List<Voice> voices = gateway.LoadVoices();
-
-            // If the voices collection exists and has one or more items
-            //if (ListHelper.HasOneOrMoreItems(voices))
-            //{
-            //    // Sort by FirtName
-            //    voices = voices.OrderBy(x => x.Name).ToList();
-
-            //    string newLine = Environment.NewLine;
-            //    string comma = ",";
-            //    string commaAndSingleQuote = ",'";
-            //    string singleQuote = "'";
-            //    string singleQuoteAndComma = singleQuote + comma;
-            //    string singleQuoteAndCommaAndSingleQuote = singleQuote + comma + singleQuote;
-
-            //    StringBuilder sb = new StringBuilder();
-
-
-            //    sb.Append("SET IDENTITY_INSERT [dbo].[Voice] ON;");
-            //    sb.Append(newLine);
-            //    sb.Append(newLine);
-            //    sb.Append("INSERT INTO [Voice] (Id, Name, Locale, FullName, Country, Gender) VALUES");
-            //    sb.Append(newLine);
-            //    sb.Append(newLine);
-
-            //    // local
-            //    int count = 0;
-
-            //    // Delete the Table Now and Rescript
-            //    foreach (Voice voice in voices)
-            //    {
-            //        // Increment the value for count
-            //        count++;
-
-            //        sb.Append("(");
-            //        sb.Append(count);
-            //        sb.Append(commaAndSingleQuote);
-            //        sb.Append(voice.Name);
-            //        sb.Append(singleQuoteAndCommaAndSingleQuote);
-            //        sb.Append(voice.Locale);
-            //        sb.Append(singleQuoteAndCommaAndSingleQuote);
-            //        sb.Append(voice.FullName);
-            //        sb.Append(singleQuoteAndCommaAndSingleQuote);
-            //        sb.Append(voice.Country);
-            //        sb.Append(singleQuoteAndComma);
-            //        sb.Append((int)voice.Gender);
-
-
-            //        if (voice.Name == "Yan")
-            //        {
-            //            sb.Append(")");
-            //        }
-            //        else
-            //        {
-            //            sb.Append("),");
-            //        }
-
-            //        // Add a newLine char
-            //        sb.Append(newLine);
-            //    }
-
-
-            //    sb.Append(newLine);
-            //    sb.Append("SET IDENTITY_INSERT [dbo].[Voice] OFF;");
-
-            //    string result = sb.ToString();
-            //    Clipboard.SetText(result);
-            //}
-
-            //// Show a message
-            //StatusLabel.Text = "Reseed Complete";
         }
         #endregion
 
@@ -557,6 +471,7 @@ namespace Simon
                     Settings.Degree = DegreeTextBox.Text;
                     Settings.Pitch = PitchComboBox.ComboBoxText;
                     Settings.Rate = RateComboBox.ComboBoxText;
+                    Settings.DragonFilter = DragonCheckBox.Checked;
 
                     // if the MakeDefaultDirectory checkbox is checked
                     if (MakeDefaultDirectory.Checked)
@@ -832,8 +747,8 @@ namespace Simon
         private void WriteVoicesButton_Click(object sender, EventArgs e)
         {
             // locals
-            StringBuilder sb = new StringBuilder();
-            char comma = ',';
+            // StringBuilder sb = new StringBuilder();
+            // char comma = ',';
 
             // Create a new instance of a 'Gateway' object.
             // Gateway gateway = new Gateway(Connection.Name);
@@ -951,6 +866,9 @@ namespace Simon
         /// </summary>
         public void FilterLists()
         {
+            // local
+            List<Voice> voicesList = null;
+
             // set the country
             string country = FilterCountryComboBox.ComboBoxText;
 
@@ -961,12 +879,12 @@ namespace Simon
             if ((FilterCountryComboBox.SelectedIndex == 0) && (FilterGenderComboBox.SelectedIndex == 0))
             {
                 // Load All Voices
-                VoiceComboBox.LoadItems(Voices);
+                voicesList = Voices;
             }
             else if (FilterGenderComboBox.SelectedIndex == 0)
             {
                 // All Genders by Country
-                VoiceComboBox.LoadItems(Voices.Where(x => x.Country == country).ToList());
+                voicesList = Voices.Where(x => x.Country == country).ToList();
             }
             else if (FilterCountryComboBox.SelectedIndex == 0)
             {
@@ -974,13 +892,13 @@ namespace Simon
 
                 if (FilterGenderComboBox.SelectedIndex == 1)
                 {
-                    // Load All Voices
-                    VoiceComboBox.LoadItems(FemaleVoices);
+                    // Use only Female Voices
+                    voicesList = FemaleVoices;
                 }
                 else if (FilterGenderComboBox.SelectedIndex == 2)
                 {
-                    // Load All Voices
-                    VoiceComboBox.LoadItems(MaleVoices);
+                    // Use only male voices
+                    voicesList = MaleVoices;
                 }
             }
             else
@@ -988,21 +906,31 @@ namespace Simon
                 // if FemaleVoices
                 if (FilterGenderComboBox.SelectedIndex == 1)
                 {
-                    // Load All Voices
-                    VoiceComboBox.LoadItems(FemaleVoices.Where(x => x.Country == country).ToList());
+                    // use female voices
+                    voicesList = FemaleVoices.Where(x => x.Country == country).ToList();
                 }
                 // if MaleVoices
                 else if (FilterGenderComboBox.SelectedIndex == 2)
                 {
-                    // Load All Voices
-                    VoiceComboBox.LoadItems(MaleVoices.Where(x => x.Country == country).ToList());
+                    // use male voices for the selected country
+                    voicesList = MaleVoices.Where(x => x.Country == country).ToList();
                 }
                 else
                 {
                     // Load All Voices
-                    VoiceComboBox.LoadItems(Voices);
+                    voicesList = Voices;
                 }
             }
+
+            // if IsDragon is selected
+            if (DragonCheckBox.Checked)
+            {
+                // narrow down further by only using Dragon voices
+                voicesList = voicesList.Where(x => x.IsDragon).ToList();
+            }
+
+            // load the voices based on this filter
+            VoiceComboBox.LoadItems(voicesList);
         }
         #endregion
 
@@ -1806,6 +1734,7 @@ namespace Simon
             // Setup the Listeners for the Filters
             FilterGenderComboBox.SelectedIndexListener = this;
             FilterCountryComboBox.SelectedIndexListener = this;
+            DragonCheckBox.CheckChangedListener = this;
             VoiceComboBox.SelectedIndexListener = this;
 
             // Set the OutputFile
@@ -1828,6 +1757,9 @@ namespace Simon
 
             // Default Text, so people know how to use the [VoiceName] feature, and leave stars on Git Hub and subscribe.
             TextToSpeakTextBox.Text = "Hello, my name is [VoiceName]. If you think Simon is worth the price of free, [Pause1.1] please leave a star on GitHub, and subscribe to my YouTube channel.";
+
+            // Set the width of the DropDown
+            VoiceComboBox.ComboBoxControl.DropDownWidth = 448;
         }
         #endregion
 
@@ -1905,6 +1837,7 @@ namespace Simon
                                 voice.FullName = words[3].Text;
                                 voice.Country = words[4].Text;
                                 voice.Gender = ParseGender(words[5].Text);
+                                voice.IsDragon = BooleanHelper.ParseBoolean(words[6].Text, false, false);
 
                                 // Add this voice
                                 voices.Add(voice);

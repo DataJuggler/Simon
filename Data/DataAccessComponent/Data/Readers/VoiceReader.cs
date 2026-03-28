@@ -2,11 +2,11 @@
 
 #region using statements
 
-using ObjectLibrary.BusinessObjects;
-using ObjectLibrary.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using ObjectLibrary.BusinessObjects;
+using ObjectLibrary.Enumerations;
 
 #endregion
 
@@ -40,8 +40,9 @@ namespace DataAccessComponent.Data.Readers
                 int fullNamefield = 1;
                 int genderfield = 2;
                 int idfield = 3;
-                int localefield = 4;
-                int namefield = 5;
+                int isDragonfield = 4;
+                int localefield = 5;
+                int namefield = 6;
 
                 try
                 {
@@ -50,6 +51,7 @@ namespace DataAccessComponent.Data.Readers
                     voice.FullName = DataHelper.ParseString(dataRow.ItemArray[fullNamefield]);
                     voice.Gender = (GenderEnum) DataHelper.ParseInteger(dataRow.ItemArray[genderfield], 0);
                     voice.UpdateIdentity(DataHelper.ParseInteger(dataRow.ItemArray[idfield], 0));
+                    voice.IsDragon = DataHelper.ParseBoolean(dataRow.ItemArray[isDragonfield], false);
                     voice.Locale = DataHelper.ParseString(dataRow.ItemArray[localefield]);
                     voice.Name = DataHelper.ParseString(dataRow.ItemArray[namefield]);
                 }

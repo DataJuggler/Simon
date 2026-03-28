@@ -6,7 +6,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Insert
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   12/14/2024
+-- Create Date:   3/27/2026
 -- Description:    Insert a new Voice
 -- =========================================================
 
@@ -40,6 +40,7 @@ Create PROCEDURE Voice_Insert
     @Country nvarchar(50),
     @FullName nvarchar(128),
     @Gender int,
+    @IsDragon bit,
     @Locale nvarchar(20),
     @Name nvarchar(50)
 
@@ -52,10 +53,10 @@ BEGIN
 
     -- Begin Insert Statement
     Insert Into [Voice]
-    ([Country],[FullName],[Gender],[Locale],[Name])
+    ([Country],[FullName],[Gender],[IsDragon],[Locale],[Name])
 
     -- Begin Values List
-    Values(@Country, @FullName, @Gender, @Locale, @Name)
+    Values(@Country, @FullName, @Gender, @IsDragon, @Locale, @Name)
 
     -- Return ID of new record
     SELECT SCOPE_IDENTITY()
@@ -68,7 +69,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Update
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   12/14/2024
+-- Create Date:   3/27/2026
 -- Description:    Update an existing Voice
 -- =========================================================
 
@@ -103,6 +104,7 @@ Create PROCEDURE Voice_Update
     @FullName nvarchar(128),
     @Gender int,
     @Id int,
+    @IsDragon bit,
     @Locale nvarchar(20),
     @Name nvarchar(50)
 
@@ -120,6 +122,7 @@ BEGIN
     Set [Country] = @Country,
     [FullName] = @FullName,
     [Gender] = @Gender,
+    [IsDragon] = @IsDragon,
     [Locale] = @Locale,
     [Name] = @Name
 
@@ -134,7 +137,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Find
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   12/14/2024
+-- Create Date:   3/27/2026
 -- Description:    Find an existing Voice
 -- =========================================================
 
@@ -175,7 +178,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Begin Select Statement
-    Select [Country],[FullName],[Gender],[Id],[Locale],[Name]
+    Select [Country],[FullName],[Gender],[Id],[IsDragon],[Locale],[Name]
 
     -- From tableName
     From [Voice]
@@ -191,7 +194,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_Delete
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   12/14/2024
+-- Create Date:   3/27/2026
 -- Description:    Delete an existing Voice
 -- =========================================================
 
@@ -245,7 +248,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_FetchAll
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   12/14/2024
+-- Create Date:   3/27/2026
 -- Description:    Returns all Voice objects
 -- =========================================================
 
@@ -283,7 +286,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Begin Select Statement
-    Select [Country],[FullName],[Gender],[Id],[Locale],[Name]
+    Select [Country],[FullName],[Gender],[Id],[IsDragon],[Locale],[Name]
 
     -- From tableName
     From [Voice]
@@ -299,7 +302,7 @@ Go
 -- =========================================================
 -- Procure Name: Voice_FindByFullName
 -- Author:           Data Juggler - Data Tier.Net Procedure Generator
--- Create Date:   12/14/2024
+-- Create Date:   3/27/2026
 -- Description:    Find an existing Voice for the FullName given.
 -- =========================================================
 
@@ -340,7 +343,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Begin Select Statement
-    Select [Country],[FullName],[Gender],[Id],[Locale],[Name]
+    Select [Country],[FullName],[Gender],[Id],[IsDragon],[Locale],[Name]
 
     -- From tableName
     From [Voice]

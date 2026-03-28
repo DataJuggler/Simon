@@ -3,12 +3,12 @@
   <PropertyGroup>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <TargetFramework>net9.0</TargetFramework>
-    <PackageId>DataJuggler.DataTier.Net9.ObjectLibrary</PackageId>
-    <Version>9.0.7</Version>
+    <TargetFramework>net10.0</TargetFramework>
+    <PackageId>DataJuggler.DataTier.Net10.ObjectLibrary</PackageId>
+    <Version>2.0.0</Version>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
-    <Description>This is one of four projects that make up a DataTier.Net9 DataTier</Description>
+    <Description>This is one of two projects that make up a DataTier.Net10 DataTier</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net9" Version="9.0.4" />
+    <PackageReference Include="DataJuggler.NET.Data" Version="10.0.2" />
   </ItemGroup>
   
 </Project>

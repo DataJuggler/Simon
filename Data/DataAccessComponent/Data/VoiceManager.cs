@@ -2,15 +2,15 @@
 
 #region using statements
 
-using DataAccessComponent.Data.Readers;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using DataAccessComponent.StoredProcedureManager.DeleteProcedures;
 using DataAccessComponent.StoredProcedureManager.FetchProcedures;
 using DataAccessComponent.StoredProcedureManager.InsertProcedures;
 using DataAccessComponent.StoredProcedureManager.UpdateProcedures;
 using ObjectLibrary.BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Data;
+using DataAccessComponent.Data.Readers;
 
 #endregion
 

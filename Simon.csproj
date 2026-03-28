@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageIcon>Lips.png</PackageIcon>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
     <ApplicationIcon>Images\Lips.ico</ApplicationIcon>
-    <Version>1.10.2</Version>
+    <Version>2.0.0</Version>
     <Title>Simon</Title>
   </PropertyGroup>
 
@@ -35,10 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Excelerate" Version="9.1.1" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="9.1.16" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.45.0" />
-    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="DataJuggler.Excelerate" Version="10.0.14" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="10.0.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.48.2" />
+    <PackageReference Include="NAudio" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>

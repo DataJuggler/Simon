@@ -2,16 +2,16 @@
 
 #region using statements
 
-using DataAccessComponent.Data;
-using DataAccessComponent.Data.Writers;
-using DataAccessComponent.DataBridge;
+using System;
+using System.Collections.Generic;
 using DataAccessComponent.StoredProcedureManager.DeleteProcedures;
 using DataAccessComponent.StoredProcedureManager.FetchProcedures;
 using DataAccessComponent.StoredProcedureManager.InsertProcedures;
 using DataAccessComponent.StoredProcedureManager.UpdateProcedures;
 using ObjectLibrary.BusinessObjects;
-using System;
-using System.Collections.Generic;
+using DataAccessComponent.Data.Writers;
+using DataAccessComponent.Data;
+using DataAccessComponent.DataBridge;
 
 #endregion
 
@@ -23,23 +23,8 @@ namespace DataAccessComponent.DataOperations
     /// <summary>
     /// This class contains methods for modifying a 'Voice' object.
     /// </summary>
-    public class VoiceMethods
+    public static class VoiceMethods
     {
-
-        #region Private Variables
-        private DataManager dataManager;
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a new Creates a new 'VoiceMethods' object.
-        /// </summary>
-        public VoiceMethods(DataManager dataManagerArg)
-        {
-            // Save Argument
-            this.DataManager = dataManagerArg;
-        }
-        #endregion
 
         #region Methods
 
@@ -49,10 +34,10 @@ namespace DataAccessComponent.DataOperations
             /// </summary>
             /// <param name='List<PolymorphicObject>'>The 'Voice' to delete.
             /// <returns>A PolymorphicObject object with a Boolean value.
-            internal PolymorphicObject DeleteVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
+            internal static PolymorphicObject DeleteVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
             {
                 // Initial Value
-                PolymorphicObject returnObject = new PolymorphicObject();
+                PolymorphicObject result = new PolymorphicObject();
 
                 // If the data connection is connected
                 if ((dataConnector != null) && (dataConnector.Connected == true))
@@ -80,22 +65,7 @@ namespace DataAccessComponent.DataOperations
                     if(deleteVoiceProc != null)
                     {
                         // Execute Delete Stored Procedure
-                        bool deleted = VoiceManager.DeleteVoice(deleteVoiceProc, dataConnector);
-
-                        // Create returnObject.Boolean
-                        returnObject.Boolean = new NullableBoolean();
-
-                        // If delete was successful
-                        if(deleted)
-                        {
-                            // Set returnObject.Boolean.Value to true
-                            returnObject.Boolean.Value = NullableBooleanEnum.True;
-                        }
-                        else
-                        {
-                            // Set returnObject.Boolean.Value to false
-                            returnObject.Boolean.Value = NullableBooleanEnum.False;
-                        }
+                        result.Success = VoiceManager.DeleteVoice(deleteVoiceProc, dataConnector);
                     }
                 }
                 else
@@ -105,7 +75,7 @@ namespace DataAccessComponent.DataOperations
                 }
 
                 // return value
-                return returnObject;
+                return result;
             }
             #endregion
 
@@ -115,10 +85,10 @@ namespace DataAccessComponent.DataOperations
             /// </summary>
             /// <param name='List<PolymorphicObject>'>The 'Voice' to delete.
             /// <returns>A PolymorphicObject object with all  'Voices' objects.
-            internal PolymorphicObject FetchAll(List<PolymorphicObject> parameters, DataConnector dataConnector)
+            internal static PolymorphicObject FetchAll(List<PolymorphicObject> parameters, DataConnector dataConnector)
             {
                 // Initial Value
-                PolymorphicObject returnObject = new PolymorphicObject();
+                PolymorphicObject result = new PolymorphicObject();
 
                 // locals
                 List<Voice> voiceListCollection =  null;
@@ -153,8 +123,8 @@ namespace DataAccessComponent.DataOperations
                     // if dataObjectCollection exists
                     if(voiceListCollection != null)
                     {
-                        // set returnObject.ObjectValue
-                        returnObject.ObjectValue = voiceListCollection;
+                        // set result.ObjectValue
+                        result.ObjectValue = voiceListCollection;
                     }
                 }
                 else
@@ -164,7 +134,7 @@ namespace DataAccessComponent.DataOperations
                 }
 
                 // return value
-                return returnObject;
+                return result;
             }
             #endregion
 
@@ -174,10 +144,10 @@ namespace DataAccessComponent.DataOperations
             /// </summary>
             /// <param name='List<PolymorphicObject>'>The 'Voice' to delete.
             /// <returns>A PolymorphicObject object with a Boolean value.
-            internal PolymorphicObject FindVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
+            internal static PolymorphicObject FindVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
             {
                 // Initial Value
-                PolymorphicObject returnObject = new PolymorphicObject();
+                PolymorphicObject result = new PolymorphicObject();
 
                 // locals
                 Voice voice = null;
@@ -212,8 +182,8 @@ namespace DataAccessComponent.DataOperations
                             // if dataObject exists
                             if(voice != null)
                             {
-                                // set returnObject.ObjectValue
-                                returnObject.ObjectValue = voice;
+                                // set result.ObjectValue
+                                result.ObjectValue = voice;
                             }
                         }
                     }
@@ -225,7 +195,7 @@ namespace DataAccessComponent.DataOperations
                 }
 
                 // return value
-                return returnObject;
+                return result;
             }
             #endregion
 
@@ -235,10 +205,10 @@ namespace DataAccessComponent.DataOperations
             /// </summary>
             /// <param name='List<PolymorphicObject>'>The 'Voice' to insert.
             /// <returns>A PolymorphicObject object with a Boolean value.
-            internal PolymorphicObject InsertVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
+            internal static PolymorphicObject InsertVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
             {
                 // Initial Value
-                PolymorphicObject returnObject = new PolymorphicObject();
+                PolymorphicObject result = new PolymorphicObject();
 
                 // locals
                 Voice voice = null;
@@ -268,7 +238,12 @@ namespace DataAccessComponent.DataOperations
                         if(insertVoiceProc != null)
                         {
                             // Execute Insert Stored Procedure
-                            returnObject.IntegerValue = VoiceManager.InsertVoice(insertVoiceProc, dataConnector);
+                            result.IntegerValue = VoiceManager.InsertVoice(insertVoiceProc, dataConnector);
+
+                            {
+                                // Set Success to true if result.IntegerValue is greater than zero
+                                result.Success = result.HasIntegerValue;
+                            }
                         }
 
                     }
@@ -280,7 +255,7 @@ namespace DataAccessComponent.DataOperations
                 }
 
                 // return value
-                return returnObject;
+                return result;
             }
             #endregion
 
@@ -290,10 +265,10 @@ namespace DataAccessComponent.DataOperations
             /// </summary>
             /// <param name='List<PolymorphicObject>'>The 'Voice' to update.
             /// <returns>A PolymorphicObject object with a value.
-            internal PolymorphicObject UpdateVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
+            internal static PolymorphicObject UpdateVoice(List<PolymorphicObject> parameters, DataConnector dataConnector)
             {
                 // Initial Value
-                PolymorphicObject returnObject = new PolymorphicObject();
+                PolymorphicObject result = new PolymorphicObject();
 
                 // locals
                 Voice voice = null;
@@ -323,22 +298,7 @@ namespace DataAccessComponent.DataOperations
                         if(updateVoiceProc != null)
                         {
                             // Execute Update Stored Procedure
-                            bool saved = VoiceManager.UpdateVoice(updateVoiceProc, dataConnector);
-
-                            // Create returnObject.Boolean
-                            returnObject.Boolean = new NullableBoolean();
-
-                            // If save was successful
-                            if(saved)
-                            {
-                                // Set returnObject.Boolean.Value to true
-                                returnObject.Boolean.Value = NullableBooleanEnum.True;
-                            }
-                            else
-                            {
-                                // Set returnObject.Boolean.Value to false
-                                returnObject.Boolean.Value = NullableBooleanEnum.False;
-                            }
+                            result.Success = VoiceManager.UpdateVoice(updateVoiceProc, dataConnector);
                         }
                         else
                         {
@@ -349,19 +309,7 @@ namespace DataAccessComponent.DataOperations
                 }
 
                 // return value
-                return returnObject;
-            }
-            #endregion
-
-        #endregion
-
-        #region Properties
-
-            #region DataManager 
-            public DataManager DataManager 
-            {
-                get { return dataManager; }
-                set { dataManager = value; }
+                return result;
             }
             #endregion
 

@@ -11,6 +11,7 @@ using ObjectLibrary.BusinessObjects;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using DataAccessComponent.Logging;
 
 #endregion
 
@@ -28,6 +29,7 @@ namespace DataAccessComponent.Data
         #region Private Variables
         private DataConnector dataConnector;
         private string connectionName;
+        private List<Exception> exceptions;
         #endregion
 
         #region Constructor
@@ -55,6 +57,9 @@ namespace DataAccessComponent.Data
             {
                 // Create New DataConnector
                 this.DataConnector = new DataConnector();
+
+                // Create the ErrorHandler
+                Exceptions = new List<Exception>();
             }
             #endregion
 
@@ -78,6 +83,34 @@ namespace DataAccessComponent.Data
             }
             #endregion
 
+            #region Exceptions
+            /// <summary>
+            /// This property gets or sets the value for 'Exceptions'.
+            /// </summary>
+            public List<Exception> Exceptions
+            {
+                get { return exceptions; }
+                set { exceptions = value; }
+            }
+            #endregion
+            
+            #region HasExceptions
+            /// <summary>
+            /// This property returns true if this object has an 'Exceptions'.
+            /// </summary>
+            public bool HasExceptions
+            {
+                get
+                {
+                    // initial value
+                    bool hasExceptions = (Exceptions != null);
+
+                    // return value
+                    return hasExceptions;
+                }
+            }
+            #endregion
+            
         #endregion
 
     }

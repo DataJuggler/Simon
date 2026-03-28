@@ -2,12 +2,15 @@
 #region using statements
 
 using DataAccessComponent.Controllers;
-using DataAccessComponent.DataOperations;
 using DataAccessComponent.Data;
+using DataAccessComponent.DataOperations;
+using DataAccessComponent.Logging;
+using DataJuggler.UltimateHelper;
 using ObjectLibrary.BusinessObjects;
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
+using System.Linq;
 
 #endregion
 
@@ -21,25 +24,24 @@ namespace DataAccessComponent.DataGateway
     /// Do not change the method name or the parameters for the
     /// code generated methods or they will be recreated the next 
     /// time you code generate with DataTier.Net. If you need additional
-    /// parameters passed to a method either create an override or
-    /// add or set properties to the temp object that is passed in.
+    /// parameters passed to a method, create a custom method
     /// </summary>
     public class Gateway
     {
 
         #region Private Variables
         private ApplicationController appController;
-        private string connectionName;
+        private string connectionName;        
         #endregion
 
         #region Constructor
         /// <summary>
         /// Create a new instance of a Gateway object.
         /// </summary>
-        public Gateway(string connectionName = "")
+        public Gateway(string connectionName)
         {
             // store the ConnectionName
-            this.ConnectionName = connectionName;
+            ConnectionName = connectionName;
 
             // Perform Initializations for this object
             Init();
@@ -57,10 +59,10 @@ namespace DataAccessComponent.DataGateway
             public bool DeleteVoice(int id, Voice tempVoice = null)
             {
                 // initial value
-                bool deleted = false;
+                PolymorphicObject result = new PolymorphicObject();
         
                 // if the AppController exists
-                if (this.HasAppController)
+                if (HasAppController)
                 {
                     // if the tempVoice does not exist
                     if (tempVoice == null)
@@ -77,11 +79,11 @@ namespace DataAccessComponent.DataGateway
                     }
         
                     // perform the delete
-                    deleted = this.AppController.ControllerManager.VoiceController.Delete(tempVoice);
+                    result = VoiceController.Delete(tempVoice, DataManager);
                 }
         
                 // return value
-                return deleted;
+                return result.Success;
             }
             #endregion
         
@@ -143,7 +145,7 @@ namespace DataAccessComponent.DataGateway
                 Voice voice = null;
 
                 // if the AppController exists
-                if (this.HasAppController)
+                if (HasAppController)
                 {
                     // if the tempVoice does not exist
                     if (tempVoice == null)
@@ -160,7 +162,7 @@ namespace DataAccessComponent.DataGateway
                     }
 
                     // perform the find
-                    voice = this.AppController.ControllerManager.VoiceController.Find(tempVoice);
+                    voice = VoiceController.Find(tempVoice, DataManager);
                 }
 
                 // return value
@@ -168,32 +170,32 @@ namespace DataAccessComponent.DataGateway
             }
             #endregion
 
-                #region FindVoiceByFullName(string fullName)
-                /// <summary>
-                /// This method is used to find 'Voice' objects for the FullName given.
-                /// </summary>
-                public Voice FindVoiceByFullName(string fullName)
-                {
-                    // initial value
-                    Voice voice = null;
-                    
-                    // Create a temp Voice object
-                    Voice tempVoice = new Voice();
-                    
-                    // Set the value for FindByFullName to true
-                    tempVoice.FindByFullName = true;
-                    
-                    // Set the value for FullName
-                    tempVoice.FullName = fullName;
-                    
-                    // Perform the find
-                    voice = FindVoice(0, tempVoice);
-                    
-                    // return value
-                    return voice;
-                }
-                #endregion
+            #region FindVoiceByFullName(string fullName)
+            /// <summary>
+            /// This method is used to find 'Voice' objects for the FullName given.
+            /// </summary>
+            public Voice FindVoiceByFullName(string fullName)
+            {
+                // initial value
+                Voice voice = null;
                 
+                // Create a temp Voice object
+                Voice tempVoice = new Voice();
+                
+                // Set the value for FindByFullName to true
+                tempVoice.FindByFullName = true;
+                
+                // Using FullName As fullName
+                tempVoice.FullName = fullName;
+                
+                // Perform the find
+                voice = FindVoice(0, tempVoice);
+                
+                // return value
+                return voice;
+            }
+            #endregion
+            
             #region GetDataConnector()
             /// <summary>
             /// This method (safely) returns the Data Connector from the
@@ -205,10 +207,10 @@ namespace DataAccessComponent.DataGateway
                 DataConnector dataConnector = null;
 
                 // if the AppController exists
-                if (this.AppController != null)
+                if (AppController != null)
                 {
                     // return the DataConnector from the AppController
-                    dataConnector = this.AppController.GetDataConnector();
+                    dataConnector = AppController.GetDataConnector();
                 }
 
                 // return value
@@ -218,28 +220,22 @@ namespace DataAccessComponent.DataGateway
 
             #region GetLastException()
             /// <summary>
-            /// This method returns the last Exception from the AppController if one exists.
-            /// Always test for null before refeferencing the Exception returned as it will be null 
-            /// if no errors were encountered.
+            /// returns the Last Exception
             /// </summary>
-            /// <returns></returns>
             public Exception GetLastException()
             {
                 // initial value
-                Exception exception = null;
+                Exception lastException = null;
 
-                // If the AppController object exists
-                if (this.HasAppController)
+                // if the value for HasDataManager is true and DataManager.HasExceptions is true
+                if ((HasDataManager) && (DataManager.HasExceptions))
                 {
-                    // return the Exception from the AppController
-                    exception = this.AppController.Exception;
-
-                    // Set to null after the exception is retrieved so it does not return again
-                    this.AppController.Exception = null;
+                    // set the return value
+                    lastException = DataManager.Exceptions.LastOrDefault();
                 }
 
                 // return value
-                return exception;
+                return lastException;
             }
             #endregion
 
@@ -250,7 +246,7 @@ namespace DataAccessComponent.DataGateway
             private void Init()
             {
                 // Create Application Controller
-                this.AppController = new ApplicationController(ConnectionName);
+                AppController = new ApplicationController(ConnectionName);
             }
             #endregion
 
@@ -264,10 +260,10 @@ namespace DataAccessComponent.DataGateway
                 List<Voice> voices = null;
 
                 // if the AppController exists
-                if (this.HasAppController)
+                if (HasAppController)
                 {
                     // perform the load
-                    voices = this.AppController.ControllerManager.VoiceController.FetchAll(tempVoice);
+                    voices = VoiceController.FetchAll(tempVoice, DataManager);
                 }
 
                 // return value
@@ -283,20 +279,51 @@ namespace DataAccessComponent.DataGateway
             public bool SaveVoice(ref Voice voice)
             {
                 // initial value
-                bool saved = false;
+                PolymorphicObject result = new PolymorphicObject();
 
                 // if the AppController exists
-                if (this.HasAppController)
+                if (HasAppController)
                 {
                     // perform the save
-                    saved = this.AppController.ControllerManager.VoiceController.Save(ref voice);
+                    result = VoiceController.Save(ref voice, DataManager);
                 }
 
                 // return value
-                return saved;
+                return result.Success;
             }
             #endregion
 
+            #region TestDatabaseConnection(ref Exception error)
+            /// <summary>
+            /// returns the Database Connection
+            /// </summary>
+            public bool TestDatabaseConnection(ref Exception error)
+            {
+                // initial value
+                bool connected = false;
+
+                // If the this object does not have a HasAppController property
+                if (!this.HasAppController)
+                {
+                    // Create the Controller
+                    this.AppController = new ApplicationController(this.ConnectionName);
+                }
+
+                // If the AppController object exists
+                if ((this.HasAppController) && (!this.AppController.HasConnectionName))
+                {
+                    // Set the ConnectionName
+                    this.AppController.ConnectionName = this.ConnectionName;
+                }
+
+                // perform the test
+                connected = this.AppController.TestDatabaseConnection(ref error, this.DataManager);
+
+                // return value
+                return connected;
+            }
+            #endregion
+            
         #endregion
 
         #region Properties
@@ -323,6 +350,31 @@ namespace DataAccessComponent.DataGateway
             }
             #endregion
             
+            #region DataManager
+            /// <summary>
+            /// This read only property returns the value of DataManager from the object AppController.
+            /// </summary>
+            public DataManager DataManager
+            {
+
+                get
+                {
+                    // initial value
+                    DataManager dataManager = null;
+
+                    // if AppController exists
+                    if (HasAppController)
+                    {
+                        // set the return value
+                        dataManager = AppController.DataManager;
+                    }
+
+                    // return value
+                    return dataManager;
+                }
+            }
+            #endregion
+
             #region HasAppController
             /// <summary>
             /// This property returns true if this object has an 'AppController'.
@@ -353,6 +405,23 @@ namespace DataAccessComponent.DataGateway
                     
                     // return value
                     return hasConnectionName;
+                }
+            }
+            #endregion
+            
+            #region HasDataManager
+            /// <summary>
+            /// This property returns true if this object has a 'DataManager'.
+            /// </summary>
+            public bool HasDataManager
+            {
+                get
+                {
+                    // initial value
+                    bool hasDataManager = (DataManager != null);
+
+                    // return value
+                    return hasDataManager;
                 }
             }
             #endregion

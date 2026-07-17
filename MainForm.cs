@@ -19,9 +19,9 @@ using System.Text;
 using System.Reflection;
 using ExcelVoice = Simon.Objects.Voice;
 using DataJuggler.Excelerate;
-//using DataAccessComponent.DataGateway;
-//using Connection = DataAccessComponent.Connection;
-//using DataAccessComponent.Connection;
+// using DataAccessComponent.DataGateway;
+// using Connection = DataAccessComponent.Connection;
+// using DataAccessComponent.Connection;
 
 #endregion
 
@@ -75,6 +75,10 @@ namespace Simon
             string key = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechKey", EnvironmentVariableTarget.Machine);
             string region = EnvironmentVariableHelper.GetEnvironmentVariableValue("SpeechRegion", EnvironmentVariableTarget.Machine);
 
+            // Clear
+            StatusLabel.Text = "";
+            Refresh();
+
             var config = SpeechConfig.FromSubscription(key, region);
             using var synthesizer = new SpeechSynthesizer(config, null as AudioConfig);
             using var result = await synthesizer.GetVoicesAsync();
@@ -115,42 +119,42 @@ namespace Simon
                     voice.Gender = gender;
 
                     // Check if this voice exists
-                    Voice existingVoice = null; // gateway.FindVoiceByFullName(voice.FullName);
+                    // Voice existingVoice = gateway.FindVoiceByFullName(voice.FullName);
 
                     // Is this a new voice?
-                    if (NullHelper.IsNull(existingVoice))
-                    {
+                    // if (NullHelper.IsNull(existingVoice))
+                    // {
                         // Save the new voice
 
                         // Set the Gender
-                        voice.Gender = gender;
+                        // voice.Gender = gender;
 
                         // Is this voice a Dragon
-                        voice.IsDragon = voice.Name.Contains("Dragon");
+                        // voice.IsDragon = voice.Name.Contains("Dragon");
 
                         // Save this voice
                         // saved = gateway.SaveVoice(ref voice);
-                    }
-                    else
-                    {
-                        // Do Not Need To Save the existing voice
+                    // }
+                    // else
+                    // {
+                        // Save the existing voice for IsDragon
 
                         // Set the Gender
-                        existingVoice.Gender = gender;
+                        // existingVoice.Gender = gender;
 
                         // Is this voice a Dragon
-                        voice.IsDragon = voice.Name.Contains("Dragon");
+                        // voice.IsDragon = voice.Name.Contains("Dragon");
 
                         // Save this existingVoice
                         // saved = gateway.SaveVoice(ref existingVoice);
-                    }
+                    // }
 
                     // if the save failed
-                    if (!saved)
-                    {
+                    // if (!saved)
+                    // {
                         // For debugging only
                         // Exception error = gateway.GetLastException();
-                    }
+                    // }
                 }
 
                 // Set the text
@@ -747,67 +751,69 @@ namespace Simon
         private void WriteVoicesButton_Click(object sender, EventArgs e)
         {
             // locals
-            // StringBuilder sb = new StringBuilder();
-            // char comma = ',';
+            StringBuilder sb = new StringBuilder();
+            char comma = ',';
 
             // Create a new instance of a 'Gateway' object.
-            // Gateway gateway = new Gateway(Connection.Name);
+            // Gateway gateway = new Gateway(ConnectionConstants.Name);
 
             // Load all the voices
             // Voices = gateway.LoadVoices();
 
-            //// if my machine (database loaded voices)
-            //if (ListHelper.HasOneOrMoreItems(Voices))
-            //{
-            //    // Create the path
-            //    string path = @"../../../Voices/";
+            // if my machine (database loaded voices)
+            if (ListHelper.HasOneOrMoreItems(Voices))
+            {
+                // Create the path
+                string path = @"../../../Voices/";
 
-            //    // if the directory exists
-            //    if (!Directory.Exists(path))
-            //    {
-            //        // Must be installed version
-            //        path = "Voices";
-            //    }
+                // if the directory exists
+                if (!Directory.Exists(path))
+                {
+                    // Must be installed version
+                    path = "Voices";
+                }
 
-            //    // try again
-            //    if (Directory.Exists(path))
-            //    {
-            //        // Create a file
-            //        string filePath = Path.Combine(path, "Voices2.txt");
+                // try again
+                if (Directory.Exists(path))
+                {
+                    // Create a file
+                    string filePath = Path.Combine(path, "Voices2.txt");
 
-            //        // If the filePath Exists On Disk
-            //        if (FileHelper.Exists(filePath))
-            //        {
-            //            // Delete this file
-            //            File.Delete(path);
-            //        }
+                    // If the filePath Exists On Disk
+                    if (FileHelper.Exists(filePath))
+                    {
+                        // Delete this file
+                        File.Delete(path);
+                    }
 
-            //        // Iterate the collection of Voice objects
-            //        foreach (Voice voice in voices)
-            //        {
-            //            // Append Id
-            //            sb.Append(voice.Id);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Name);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Locale);
-            //            sb.Append(comma);
-            //            sb.Append(voice.FullName);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Country);
-            //            sb.Append(comma);
-            //            sb.Append(voice.Gender.ToString());
-            //            sb.Append(Environment.NewLine);
-            //        }
+                    // Iterate the collection of Voice objects
+                    foreach (Voice voice in voices)
+                    {
+                        // Append Id
+                        sb.Append(voice.Id);
+                        sb.Append(comma);
+                        sb.Append(voice.Name);
+                        sb.Append(comma);
+                        sb.Append(voice.Locale);
+                        sb.Append(comma);
+                        sb.Append(voice.FullName);
+                        sb.Append(comma);
+                        sb.Append(voice.Country);
+                        sb.Append(comma);
+                        sb.Append(voice.Gender.ToString());
+                        sb.Append(comma);
+                        sb.Append(voice.IsDragon.ToString().ToLower());
+                        sb.Append(Environment.NewLine);
+                    }
 
-            //        // write out the text
-            //        string fileText = sb.ToString();
-            //        File.WriteAllText(filePath, fileText);
+                    // write out the text
+                    string fileText = sb.ToString();
+                    File.WriteAllText(filePath, fileText);
 
-            //        // Show that we are done
-            //        StatusLabel.Text = "Status: Voices have been exported to " + filePath;
-            //    }
-            //}
+                    // Show that we are done
+                    StatusLabel.Text = "Status: Voices have been exported to " + filePath;
+                }
+            }
         }
         #endregion
 
@@ -1376,7 +1382,7 @@ namespace Simon
 
                     case "en-GB":
 
-                        country = "Breat Britain";
+                        country = "Great Britain";
 
                         // required
                         break;
